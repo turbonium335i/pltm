@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" type="image/png"
+        href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .scrolly {
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #a9a9a9;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: white;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+
+
+<body class="bg-dark text-light">
+
+
+    <div class="container  ">
+        <div class="d-flex justify-content-end text-danger pe-4">
+
+            <span class="text-light" onclick="timerFunction()" style="cursor: pointer;">
+                <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
+            </span>
+
+            <span id="demo">00h 00m 00s </span>
+        </div>
+        <div class="fw-bold mb-1 mx-0">PASSAGE I</div>
+
+
+        <div class="row">
+            <div class="col-sm-8  scrolly border-end border-info">
+                <!--            <iframe-->
+                <!--                    src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
+                <!--                    width="100%"-->
+                <!--                    height="100%"-->
+                <!--            ></iframe>-->
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document or
+                a typeface without relying on meaningful content. Lorem ipsum may
+                be used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available. In
+                publishing and graphic design, Lorem ipsum is a placeholder text
+                commonly used to demonstrate the visual form of a document or a
+                typeface without relying on meaningful content. Lorem ipsum may be
+                used as a placeholder before the final copy is available.
+            </div>
+
+
+            <div class="col-sm-4 scrolly mt-5 mt-md-0  ps-5 text-light">
+                <form action="/action_page.php">
+                    <h4 class="text-light">Question <span id="questionNo"
+                            class="text-light border border-danger px-2">1</span></h4>
+                      <input type="radio" id="A" name="fav_language" value="A">
+                      <label for="A">A</label><br>
+                      <input type="radio" id="B" name="fav_language" value="B">
+                      <label for="B">B</label><br>
+                      <input type="radio" id="C" name="fav_language" value="C">
+                      <label for="C">C</label><br>
+                      <input type="radio" id="D" name="fav_language" value="D">
+                      <label for="D">D</label>
+                </form>
+                <br>
+                <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i
+                        class="bi bi-save"></i></button>
+                <button type="button" class="btn btn-outline-warning " id="flagBtn" onclick="flagFunction()"><i
+                        class="bi bi-flag"></i></button>
+                <br><br> <br><br>
+                <button type="button" class="btn btn-outline-light" id="backBtn" onclick="prevFunction()"><i
+                        class="bi bi-arrow-left-circle"></i>
+                    Prev</button>
+                <button type="button" class="btn btn-outline-light" id="nextBtn" onclick="nextFunction()">Next <i
+                        class="bi bi-arrow-right-circle"></i></button>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+
+    <nav class="navbar navbar-light bg-light mt-5">
+        <div class="ms-2 d-inline btn-group" style="letter-spacing: 0px;" id="questionBox">
+            <!--         for button in buttons -->
+            <!--        <button type="button" class="btn btn-outline-dark btn-sm" > button </button>-->
+            <!--          endfor -->
+
+        </div>
+    </nav>
+
+    <script>
+
+        var countDownDate = (Date.now() + 3610000)
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (hours < 10) {
+                hours = "0" + hours
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds
+            }
+
+            document.getElementById("demo").innerHTML = hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "TIME UP";
+            }
+        }, 1000);
+
+        function timerFunction() {
+
+            var timer = document.getElementById("timer");
+            var demo = document.getElementById("demo");
+
+            if (timer.classList.contains('timerOn')) {
+
+                demo.style.display = "none";
+                timer.classList.remove("timerOn");
+
+
+            } else {
+                demo.style.display = "block";
+                timer.classList.add("timerOn");
+
+            }
+
+
+
+        }
+
+
+    </script>
+
+    <script>
+
+        var doneList = { "1": "A", "2": "B", "12": "C" }
+        var flagList = { "4": "A", "5": "B", "6": "C" }
+
+
+        var currentQuestion = 1;
+        var lastQuestion = 1;
+
+
+
+        var qCount = 45;
+        var qArray = [];
+        for (let i = 1; i < qCount; i++) {
+            qArray.push({ [i]: '' })
+        }
+
+        console.log(qArray)
+
+        var questionBox = document.getElementById("questionBox");
+
+        for (let i = 1; i < qArray.length + 1; i++) {
+
+            if (i === 1) {
+                var qBtn = `
+<button type="button" class="btn btn-outline-dark btn-sm notDone border-danger border-2" id=b${i} onclick="btnFunction(${i})">${i}</button>`
+
+
+            } else {
+
+                var qBtn = `
+<button type="button" class="btn btn-outline-dark btn-sm notDone border-dark  " id=b${i} onclick="btnFunction(${i})">${i}</button>`
+
+            }
+
+
+
+            questionBox.innerHTML += qBtn;
+        }
+
+
+
+        function nextFunction() {
+
+            currentQuestion += 1;
+            btnFunction(currentQuestion)
+
+        }
+        function prevFunction() {
+
+            currentQuestion -= 1;
+            btnFunction(currentQuestion)
+
+
+        }
+
+
+
+
+
+
+
+
+        function btnFunction(id) {
+
+
+            var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
+            lastClickedBtn.classList.remove("border-danger", "border-2");
+            lastClickedBtn.classList.add("border-dark");
+
+            currentQuestion = id
+
+
+            var clickedBtn = document.getElementById('b' + (id.toString()));
+            clickedBtn.classList.remove("border-dark");
+            clickedBtn.classList.add("border-danger", "border-2");
+
+
+            document.getElementById('questionNo').innerHTML = id
+            $("#questionNo").fadeOut(300).fadeIn(300)
+
+
+            console.log(doneList[id.toString()])
+
+
+
+            lastQuestion = currentQuestion
+
+
+
+            try {
+
+                document.getElementById(doneList[id.toString()]).checked = true;
+            }
+            catch (err) {
+                console.log('error')
+                var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                // console.log(document.querySelector('input[name="fav_language"]:checked'));
+
+                if (checkRadio != null) {
+                    document.querySelector('input[name="fav_language"]:checked').checked = false;
+
+                }
+
+            }
+
+
+        }
+
+
+
+        function saveFunction() {
+
+            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+            if (checkRadio != null) {
+                // document.querySelector('input[name="fav_language"]:checked').checked = false;
+                var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+                clickedBtn.classList.remove("btn-outline-dark", "btn-warning", "btn-dark");
+                clickedBtn.classList.add("btn-primary");
+                // var localcheck = document.querySelector('input[name="fav_language"]:checked').id;
+                doneList[currentQuestion] = checkRadio.id;
+                console.log(doneList)
+
+                // try {
+                //     var savedAnswer = document.querySelector('input[name="fav_language"]:checked').value;
+
+                //     // clearAnswers();
+                // }
+                // catch (err) {
+                //     var savedAnswer = "not selected";
+                // }
+
+                // console.log('saved: ', currentQuestion, savedAnswer);
+
+                localStorage.setItem('doneList', JSON.stringify(doneList));
+
+            }
+        }
+
+
+        function flagFunction() {
+
+            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+
+            if (checkRadio != null) {
+
+                var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+                clickedBtn.classList.remove("btn-outline-dark", "btn-outline-primary", "btn-dark");
+                clickedBtn.classList.add("btn-warning");
+                doneList[currentQuestion] = checkRadio.id;
+
+            }
+
+
+        }
+
+
+
+        function clearAnswers() {
+
+            console.log('clear answers')
+            // document.querySelector('input[name="fav_language"]:checked').checked = false;
+
+        }
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+
+        var localuserid = localStorage.getItem('userid')
+        // localStorage.setItem('etype', "idiom");
+        // localStorage.removeItem("name of localStorage variable you want to remove");
+    </script>
+</body>
+
+</html>
