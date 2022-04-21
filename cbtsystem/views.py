@@ -42,3 +42,7 @@ def logoutpage(request):
     logout(request)
     messages.info(request, "Logged Out")
     return redirect('loginpage')
+
+def breakPage(request):
+
+    return render(request, 'cbtsystem/break.html' )

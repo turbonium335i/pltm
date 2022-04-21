@@ -1,0 +1,88 @@
+{% extends 'cbtsystem/index.html' %}
+
+{% block content %}
+
+<div class="container">
+
+
+    <div class="d-flex justify-content-start text-primary pe-4 mb-3">
+        <h3>
+            <span class="text-light" onclick="timerFunction()" style="cursor: pointer;">
+                <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining Break Time &nbsp;
+            </span>
+
+            <span id="demo">00h 00m 00s </span></h3>
+    </div>
+    <div class="ms-3">
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+        <li>use local storage to start of break time</li>
+    </div>
+
+    <div class="text-center py-5">
+
+        <a href="{% url 'demo' %}" class="btn btn-secondary btn-lg">Start Next Section <i
+                class="bi bi-arrow-right-circle"></i></a>
+    </div>
+</div>
+
+<script>
+
+        var countDownDate = (Date.now() + 600000)
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (hours < 10) {
+                hours = "0" + hours
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds
+            }
+
+            document.getElementById("demo").innerHTML = hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "TIME'S UP";
+            }
+        }, 1000);
+
+        function timerFunction() {
+
+            var timer = document.getElementById("timer");
+            var demo = document.getElementById("demo");
+
+            if (timer.classList.contains('timerOn')) {
+
+                demo.style.display = "none";
+                timer.classList.remove("timerOn");
+
+
+            } else {
+                demo.style.display = "block";
+                timer.classList.add("timerOn");
+
+            }
+
+
+
+        }
+
+
+
+
+</script>
+{% endblock %}
