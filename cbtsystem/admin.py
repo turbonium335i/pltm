@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+
+admin.site.register(testSpec)
+admin.site.register(testInProgress)
+admin.site.register(testRecord)

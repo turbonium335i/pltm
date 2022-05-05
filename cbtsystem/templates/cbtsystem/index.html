@@ -30,8 +30,10 @@
 
     <a href="{% url 'index' %}">index</a>
     <a href="{% url 'breakpage' %}">breakPage</a>
+  <a href="{% url 'directions' %}">directions</a>
     <a href="{% url 'loginpage' %}">login</a>
     <a href="{% url 'demo' %}">cbt demo</a>
+     <a href="{% url 'processtest' %}">processtest</a>
     <a href="http://127.0.0.1:8000/admin">admin</a>
 
     <hr class="bg-danger">
@@ -89,7 +91,32 @@
         </tbody>
     </table>
 
-</div>
+    <br>
+
+    <li class="text-warning pb-2">
+        This site is optimized for chromium based browsers such as Google Chrome, Brave, and Edge Browsers. Using Safari and/or deprecated browsers may lead to errors.
+    </li>
+
+
+
+
+<a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}" role="button">{{firstTest.name}}</a>
+
+
+<p>{{firstTest.pdfLink}}</p>
+
+
+<!--<div style="height: 85vh;-->
+<!--        overflow-y: auto;"  >-->
+<!--                            <iframe-->
+<!--                                src={{firstTest.pdfLink}}-->
+<!--                                width="100%"-->
+<!--                                height="100%"-->
+<!--                        ></iframe></div>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--</div>-->
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
