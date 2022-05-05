@@ -142,7 +142,7 @@
             <div class="text-end">
                 <br>   <br>   <br>
                 <br> <br> <br> <br> <br>
-     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>
+<!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
                 <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()"> 	&#10006; End Section</button>
 
             </div>
@@ -455,6 +455,7 @@ var timeLeft = localStorage.getItem("timeLeft");
         console.log("response: ", data);
         if (data === "progress saved"){
 <!--        alert('data sent success')-->
+location.replace("http://127.0.0.1:8000/breakpage")
         }
       });
   }

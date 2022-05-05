@@ -28,6 +28,14 @@
         <a href="{% url 'demo' %}" class="btn btn-secondary btn-lg">Start Next Section <i
                 class="bi bi-arrow-right-circle"></i></a>
     </div>
+
+    <script>
+        console.log(localStorage.getItem('currentSection'))
+        localStorage.setItem('currentSection', "reading");
+        console.log(localStorage.getItem('currentSection'))
+    </script>
+
+
 </div>
 
 

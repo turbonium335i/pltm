@@ -74,7 +74,7 @@ def endsection(request):
     print(data['section'])
     print(data['user_id'])
 
-    progressRecord, created= testInProgress.objects.get_or_create(studentId="1")
+    progressRecord, created= testInProgress.objects.get_or_create(studentId="2")
 
     print(progressRecord)
 
