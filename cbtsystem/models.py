@@ -16,6 +16,9 @@ class testSpec(models.Model):
     questionTypeWriting = JSONField(null=True, default={})
     pdfLink = models.URLField(max_length=250, null=True, blank=True,
                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
+    pdfLink2 = models.URLField(max_length=250, null=True, blank=True,
+                              default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
+
 
     def __str__(self):
         return '{0} {1}'.format(self.id, self.name)
@@ -45,8 +48,12 @@ class testRecord(models.Model):
     studentAnswersReading = JSONField(null=True, default={})
     studentAnswersWriting = JSONField(null=True, default={})
     numberCorrect = models.CharField(max_length=10, null=True, default='0')
+    numberInCorrect = models.CharField(max_length=10, null=True, default='0')
     scoreReading = models.CharField(max_length=3, null=True, default='200')
     scoreWriting = models.CharField(max_length=3, null=True, default='200')
+    jsonWrongQtypeR = JSONField(null=True, default={})
+    jsonWrongQtypeW = JSONField(null=True, default={})
+
 
     def __str__(self):
         return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_finished.strftime("%m/%d/%Y %H:%M:%S"),  self.studentUsername, self.studentName)

@@ -33,13 +33,14 @@
     </div>
     <div class="text-center py-5">
 <!--        <button type="button" class="btn btn-outline-danger btn-lg" onclick="upDateTimer()">Update Timer</button>-->
-         <a href="{% url 'directions' %}" class="btn btn-secondary btn-lg">Start Next Section <i
+         <a href="{% url 'directions2' %}" class="btn btn-secondary btn-lg">Start Section <i
                 class="bi bi-arrow-right-circle"></i></a>
 
 
     </div>
 
     <script>
+
 
 <!--        function upDateTimer() {-->
 <!--            document-->
@@ -50,9 +51,9 @@
 
 
 
-        var breakTime = 6000
-        var currentSeconds = 6000
-        var countDownDate = (Date.now() + 6000)
+        var breakTime = 60000
+        var currentSeconds = 60000
+        var countDownDate = (Date.now() + 60000)
         var x = setInterval(function () {
             var now = new Date().getTime();
             var distance = countDownDate - now;

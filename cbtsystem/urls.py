@@ -9,9 +9,12 @@ urlpatterns = [
     path('logoutpage', views.logoutpage, name='logoutpage'),
     path('breakpage', views.breakPage, name='breakpage'),
     path('directions', views.directions, name='directions'),
+    path('directions2', views.directions2, name='directions2'),
     path('results', views.results, name='results'),
     path('endsection', views.endsection, name='endsection'),
     path('processtest', views.processtest, name='processtest'),
+    path('cbtwriting', views.cbtwriting, name='cbtwriting'),
+    path('history', views.history, name='history'),
 
 
 

@@ -22,12 +22,16 @@ body {
 
 
 
+
     </style>
 </head>
 <body style="background-color:black; color:#33ff00">
 <hr class="bg-danger">
 
 <div class="container">
+<div class="text-end">    <a href="{% url 'results' %}" class="btn btn-secondary btn-lg">Results <i
+            class="bi bi-arrow-right-circle"></i></a></div>
+
 
 
     <p>process data here</p> <span>TimeLeft: {{testData.timeLeftReading}}, {{testData.timeLeftWriting}}</span>
@@ -42,6 +46,14 @@ body {
         <div class="col">
             <p>studentAnswersReading</p>
             {% for key, value in testData.studentAnswersReading.items %}
+
+            <p>{{key}} - {{value}}</p>
+
+            {% endfor %}
+        </div>
+                <div class="col">
+            <p>studentAnswersWriting</p>
+            {% for key, value in testData.studentAnswersWriting.items %}
 
             <p>{{key}} - {{value}}</p>
 

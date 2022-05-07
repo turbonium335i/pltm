@@ -6,14 +6,16 @@ from django.contrib.auth import authenticate, login, logout
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+import collections
 
 # fix origin django 4.0 csrf error
 
 def index(request):
 
     firstTest = testSpec.objects.all().first()
+    inProgress = testInProgress.objects.all().last()
 
-    return render(request, 'cbtsystem/index.html', {"firstTest" : firstTest} )
+    return render(request, 'cbtsystem/index.html', {"firstTest" : firstTest, "inProgress" : inProgress} )
 
 def demo(request):
 
@@ -58,11 +60,21 @@ def directions(request):
 
     return render(request, 'cbtsystem/directions.html' )
 
+def directions2(request):
+
+    return render(request, 'cbtsystem/directions2.html' )
+
 def results(request):
 
     return render(request, 'cbtsystem/results.html' )
 
+def cbtwriting(request):
 
+    return render(request, 'cbtsystem/cbtwriting.html' )
+
+def history(request):
+
+    return render(request, 'cbtsystem/history.html' )
 
 
 @csrf_exempt
@@ -74,14 +86,24 @@ def endsection(request):
     print(data['section'])
     print(data['user_id'])
 
-    progressRecord, created= testInProgress.objects.get_or_create(studentId="2")
+    progressRecord, created = testInProgress.objects.get_or_create(studentId="2")
 
     print(progressRecord)
 
     rAnswers = json.loads(data['ls'])
-    rTimeLeft = json.loads(data['timeLeft'])
-    progressRecord.studentAnswersReading = rAnswers
-    progressRecord.timeLeftReading = rTimeLeft
+
+    if data['section'] == 'reading':
+
+        rTimeLeft = json.loads(data['timeLeft'])
+        progressRecord.studentAnswersReading = rAnswers
+        progressRecord.timeLeftReading = rTimeLeft
+
+    else:
+
+        rTimeLeft = json.loads(data['timeLeft'])
+        progressRecord.studentAnswersWriting = rAnswers
+        progressRecord.timeLeftWriting = rTimeLeft
+
     progressRecord.save(force_insert=False)
 
     #                                           (studentUsername="bobUsername",
@@ -104,6 +126,28 @@ def endsection(request):
 
 
 def processtest(request):
+
+    testData = testInProgress.objects.all().first()
+    testQuery = testSpec.objects.all().first()
+
+    inCorrect = []
+    wrongQtype = []
+
+    print(testData.statusReading, testData.statusWriting)
+
+    for x, y in testData.studentAnswersReading.items():
+        # print(x, y, testQuery.answerKeyReading[x])
+        if y != testQuery.answerKeyReading[x]:
+            inCorrect.append(x)
+            wrongQtype.append(testQuery.questionTypeReading[x])
+
+    wrongQ = dict(collections.Counter(wrongQtype))
+    wrongSort = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+    print(len(inCorrect), wrongSort)
+
+    return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+
+def processtestOG(request):
 
     testData = testInProgress.objects.all().first()
     testQuery = testSpec.objects.all().first()

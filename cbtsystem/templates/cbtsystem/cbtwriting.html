@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>CBT Demo</title>
+    <title>Writing</title>
     <link rel="shortcut icon" type="image/png"
           href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">
     <!-- Bootstrap icons-->
@@ -47,7 +47,7 @@
 <!--#f0ead6;-->
 
 <body class="" style="background-color:white">
-<nav class="navbar navbar-dark" style="background-color: rgba(55,53,53,255)">
+<nav class="navbar navbar-dark " style="background-color: rgba(55,53,53,255)">
     <div class="ms-2 d-inline btn-group" style="letter-spacing: 0px;" id="questionBox">
         <!--         for button in buttons -->
         <!--        <button type="button" class="btn btn-outline-dark btn-sm" > button </button>-->
@@ -217,13 +217,11 @@
 <script>
 
         const user_id = JSON.parse(document.getElementById('user_id').textContent);
-
-        console.log(localStorage.getItem('currentSection'))
         console.log("user_id", user_id)
 
 
         var doneList = {  }
-        var flagList = {   }
+        var flagList = { }
 
 
         var currentQuestion = 1;
@@ -231,7 +229,7 @@
 
 
 
-        var qCount = 53;
+        var qCount = 45;
         var qArray = [];
         for (let i = 1; i < qCount; i++) {
             qArray.push({ [i]: '' })
@@ -395,8 +393,8 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
 
                 // console.log('saved: ', currentQuestion, savedAnswer);
 
-                console.log(doneList);
                 localStorage.setItem('doneList', JSON.stringify(doneList));
+                console.log(doneList);
                 $("#submitCheck").fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(100)
 
             }
@@ -448,7 +446,7 @@ var timeLeft = localStorage.getItem("timeLeft");
 
       },
 
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading', 'user_id': user_id }),
+      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'writing', 'user_id': user_id }),
     })
       .then((response) => {
         return response.json();
@@ -457,12 +455,13 @@ var timeLeft = localStorage.getItem("timeLeft");
         console.log("response: ", data);
         if (data === "progress saved"){
 <!--        alert('data sent success')-->
+
 localStorage.clear();
-location.replace("http://127.0.0.1:8000/breakpage")
+
+location.replace("http://127.0.0.1:8000/processtest")
         }
       });
   }
-
 
 
 
@@ -477,7 +476,8 @@ location.replace("http://127.0.0.1:8000/breakpage")
 <script>
 
         var localuserid = localStorage.getItem('userid')
-
+        // localStorage.setItem('etype', "idiom");
+        // localStorage.removeItem("name of localStorage variable you want to remove");
 
 </script>
 </body>

@@ -15,15 +15,15 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
-<body class=" bg-light text-dark">
+<body class=" bg-dark text-secondary">
 <div class="container">
     <br>
     <div class="d-flex bd-highlight">
         <div class="p-2 flex-grow-1 bd-highlight">
-            <h3 class="text-dark">Digital SAT Data: <span class="text-primary"> Student Name</span></h3>
+            <h3 class="text-warning">Digital SAT Data: <span class="text-primary"> Student Name</span></h3>
         </div>
 
-        <div class="p-2 bd-highlight"><a href="/login.html" type="button" class="btn btn-outline-dark">
+        <div class="p-2 bd-highlight"><a href="{% url 'index' %}" type="button" class="btn btn-outline-light">
             <i class="bi bi-arrow-90deg-left"></i></a></div>
     </div>
 
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col">
                 <h5 class="text-primary">Reading</h5>
-                <table class="table table-striped  table-hover">
+                <table class="table table-striped  table-hover table-dark">
                     <thead>
                     <tr>
                         <th class="col-1">No</th>
@@ -51,7 +51,7 @@
             </div>
             <div class="col">
                 <h5 class="text-primary">Writing</h5>
-                <table class="table table-striped  table-hover">
+                <table class="table table-striped  table-hover table-dark">
                     <thead>
                     <tr>
                         <th class="col-1">No</th>
