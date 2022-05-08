@@ -133,6 +133,9 @@ def processtest(request):
     inCorrect = []
     wrongQtype = []
 
+    studentAnswersR = testData.studentAnswersReading
+    studentAnswersW = testData.studentAnswersWriting
+
     print(testData.statusReading, testData.statusWriting)
 
     for x, y in testData.studentAnswersReading.items():
@@ -142,8 +145,36 @@ def processtest(request):
             wrongQtype.append(testQuery.questionTypeReading[x])
 
     wrongQ = dict(collections.Counter(wrongQtype))
-    wrongSort = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-    print(len(inCorrect), wrongSort)
+    wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+    numberInCorrectR = str(len(inCorrect))
+    print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
+
+    inCorrect = []
+    wrongQtype = []
+
+    for x, y in testData.studentAnswersWriting.items():
+        # print(x, y, testQuery.answerKeyReading[x])
+        if y != testQuery.answerKeyWriting[x]:
+            inCorrect.append(x)
+            wrongQtype.append(testQuery.questionTypeWriting[x])
+
+    wrongQ = dict(collections.Counter(wrongQtype))
+    wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+    numberInCorrectW = str(len(inCorrect))
+    print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
+
+    r = testRecord.objects.create(studentUsername='bobcatUser',
+                                  studentName='bobcat kim',
+                                  testName='bobcat testName',
+                                  studentAnswersReading=studentAnswersR,
+                                  studentAnswersWriting=studentAnswersW,
+                                  numberInCorrectR=numberInCorrectR,
+                                  numberInCorrectW=numberInCorrectW,
+                                  jsonWrongQtypeR=wrongSortR,
+                                  jsonWrongQtypeW=wrongSortW
+                                  )
+
+    print(testRecord.objects.all().last())
 
     return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
 
