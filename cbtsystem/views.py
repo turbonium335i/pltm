@@ -8,18 +8,19 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import collections
 
+
 # fix origin django 4.0 csrf error
 
 def index(request):
-
     firstTest = testSpec.objects.all().first()
     inProgress = testInProgress.objects.all().last()
 
-    return render(request, 'cbtsystem/index.html', {"firstTest" : firstTest, "inProgress" : inProgress} )
+    return render(request, 'cbtsystem/index.html', {"firstTest": firstTest, "inProgress": inProgress})
+
 
 def demo(request):
+    return render(request, 'cbtsystem/demo.html')
 
-    return render(request, 'cbtsystem/demo.html' )
 
 def loginpage(request):
     if request.user.is_authenticated:
@@ -44,7 +45,7 @@ def loginpage(request):
         else:
             messages.info(request, "USERNAME and/or PASSWORD is incorrect.")
 
-    return render(request, 'cbtsystem/loginpage.html' )
+    return render(request, 'cbtsystem/loginpage.html')
 
 
 def logoutpage(request):
@@ -52,34 +53,73 @@ def logoutpage(request):
     messages.info(request, "Logged Out")
     return redirect('loginpage')
 
-def breakPage(request):
 
-    return render(request, 'cbtsystem/break.html' )
+def breakPage(request):
+    return render(request, 'cbtsystem/break.html')
+
 
 def directions(request):
+    return render(request, 'cbtsystem/directions.html')
 
-    return render(request, 'cbtsystem/directions.html' )
 
 def directions2(request):
+    return render(request, 'cbtsystem/directions2.html')
 
-    return render(request, 'cbtsystem/directions2.html' )
 
 def results(request):
 
-    return render(request, 'cbtsystem/results.html' )
+    qNo = []
+    qMarked = []
+    qAnswer = []
+    qType = []
+
+    record = testRecord.objects.all().last()
+    testQuery = testSpec.objects.all().first()
+
+    for n, a in record.studentAnswersReading.items():
+        qNo.append(n)
+        qMarked.append(a)
+
+    for n, a in testQuery.answerKeyReading.items():
+        qAnswer.append(a)
+
+    for n, a in testQuery.questionTypeReading.items():
+        qType.append(a)
+
+    zipRecord = zip(qNo, qMarked, qAnswer, qType)
+
+    qNo = []
+    qMarked = []
+    qAnswer = []
+    qType = []
+
+    for n, a in record.studentAnswersWriting.items():
+        qNo.append(n)
+        qMarked.append(a)
+
+    for n, a in testQuery.answerKeyWriting.items():
+        qAnswer.append(a)
+
+    for n, a in testQuery.questionTypeWriting.items():
+        qType.append(a)
+
+    zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+
+
+
+    return render(request, 'cbtsystem/results.html', {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+
 
 def cbtwriting(request):
+    return render(request, 'cbtsystem/cbtwriting.html')
 
-    return render(request, 'cbtsystem/cbtwriting.html' )
 
 def history(request):
-
-    return render(request, 'cbtsystem/history.html' )
+    return render(request, 'cbtsystem/history.html')
 
 
 @csrf_exempt
 def endsection(request):
-
     data = json.loads(request.body)
     print(data['ls'])
     print(data['timeLeft'])
@@ -113,10 +153,7 @@ def endsection(request):
     #                                           studentAnswersWriting=data,
     #                                           )
 
-
-
     # save progress every 5 questions?
-
 
     # multiqsetName, created = groupmulti.objects.get_or_create(multiqsetName=makegroupsetname)
     # multiqsetName.multiq.add(toadd)
@@ -126,7 +163,6 @@ def endsection(request):
 
 
 def processtest(request):
-
     testData = testInProgress.objects.all().first()
     testQuery = testSpec.objects.all().first()
 
@@ -163,30 +199,17 @@ def processtest(request):
     numberInCorrectW = str(len(inCorrect))
     print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
 
-    r = testRecord.objects.create(studentUsername='bobcatUser',
-                                  studentName='bobcat kim',
-                                  testName='bobcat testName',
-                                  studentAnswersReading=studentAnswersR,
-                                  studentAnswersWriting=studentAnswersW,
-                                  numberInCorrectR=numberInCorrectR,
-                                  numberInCorrectW=numberInCorrectW,
-                                  jsonWrongQtypeR=wrongSortR,
-                                  jsonWrongQtypeW=wrongSortW
-                                  )
+    # r = testRecord.objects.create(studentUsername='bobcatUser',
+    #                               studentName='bobcat kim',
+    #                               testName='bobcat testName',
+    #                               studentAnswersReading=studentAnswersR,
+    #                               studentAnswersWriting=studentAnswersW,
+    #                               numberInCorrectR=numberInCorrectR,
+    #                               numberInCorrectW=numberInCorrectW,
+    #                               jsonWrongQtypeR=wrongSortR,
+    #                               jsonWrongQtypeW=wrongSortW
+    #                               )
 
     print(testRecord.objects.all().last())
 
     return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
-
-def processtestOG(request):
-
-    testData = testInProgress.objects.all().first()
-    testQuery = testSpec.objects.all().first()
-
-    # print(testQuery.questionType)
-    # for x, y in testQuery.questionType.items():
-    #     print(x, y)
-    # testQuery = (testData[0].studentAnswersReading)
-
-    return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
-
