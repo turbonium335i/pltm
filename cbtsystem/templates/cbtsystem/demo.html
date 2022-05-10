@@ -13,7 +13,6 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 
-
 </head>
 
 <style>
@@ -43,6 +42,8 @@
         background: #555;
     }
 
+
+
 </style>
 <!--#f0ead6;-->
 
@@ -56,27 +57,30 @@
     </div>
 
 </nav>
-  <hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
-   <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
+<hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
+<div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
+    {{ request.user.id|json_script:"user_id" }}
+    <div class="d-flex justify-content-end text-danger pe-4"><i class="bi bi-window-fullscreen"
+                                                                onclick="fullscreen()"></i> &nbsp;F11
+        &nbsp;
 
-    <div class="d-flex justify-content-end text-danger pe-4">
-{{ request.user.id|json_script:"user_id" }}
-            <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
+
+        <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
                 <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
             </span>
 
         <span id="demo">00h 00m 00s </span>
     </div>
-<!--    <div class="fw-bold mb-1 mx-0">PASSAGE I</div>-->
+    <!--    <div class="fw-bold mb-1 mx-0">PASSAGE I</div>-->
 
 
     <div class="row pt-2">
         <div class="col-sm-9  scrolly border-end border-none">
-<!--                        <iframe-->
-<!--                                src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
-<!--                                width="100%"-->
-<!--                                height="100%"-->
-<!--                        ></iframe>-->
+            <!--                        <iframe-->
+            <!--                                src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
+            <!--                                width="100%"-->
+            <!--                                height="100%"-->
+            <!--                        ></iframe>-->
             In publishing and graphic design, Lorem ipsum is a placeholder
             text commonly used to demonstrate the visual form of a document or
             a typeface without relying on meaningful content. Lorem ipsum may
@@ -140,10 +144,11 @@
                     class="bi bi-arrow-right-circle"></i></button>
 
             <div class="text-end">
-                <br>   <br>   <br>
+                <br> <br> <br>
                 <br> <br> <br> <br> <br>
-<!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
-                <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()"> 	&#10006; End Section</button>
+                <!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
+                <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()"> &#10006; End Section
+                </button>
 
             </div>
         </div>
@@ -151,7 +156,6 @@
 
     </div>
 </div>
-
 
 
 <script>
@@ -212,6 +216,8 @@
 
 
 
+
+
 </script>
 
 <script>
@@ -237,7 +243,7 @@
             qArray.push({ [i]: '' })
         }
 
-        console.log(qArray)
+
 
         var questionBox = document.getElementById("questionBox");
 
@@ -470,13 +476,34 @@ location.replace("http://127.0.0.1:8000/breakpage")
 
 
 
-    </script>
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+
 <script>
 
-        var localuserid = localStorage.getItem('userid')
+        function fullscreen() {
+            if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+                (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                if (document.documentElement.requestFullScreen) {
+                    document.documentElement.requestFullScreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullScreen) {
+                    document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+            }
+        }
 
 
 </script>

@@ -44,9 +44,9 @@
 {% block content %}
 <div class="container">
     <div class="card-group ">
-        <div class="card">
+        <div class="card text-white bg-dark">
 
-            <div class="card-body bg-dark">
+            <div class="card-body ">
                 <h5 class="card-title">Select Test <i class="bi bi-arrow-right-circle"></i></h5>
                 <br>
                 <a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}"
@@ -59,14 +59,14 @@
 
             </div>
         </div>
-        <div class="card">
+        <div class="text-white bg-dark">
 
-            <div class="card-body bg-dark">
+            <div class="card-body  ">
                 <h5 class="card-title">Test Trend / History</h5>
 
 <canvas id="myChart"  ></canvas>
-
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <br>
+                <p class="card-text text-end"><small class="text-muted">Last updated 3 mins ago</small></p>
             </div>
         </div>
     </div>

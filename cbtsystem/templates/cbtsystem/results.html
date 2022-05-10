@@ -194,7 +194,7 @@ const myChart = new Chart(ctx, {
     data: {
         labels: [{% for x, y in record.jsonWrongQtypeR.items %}  '{{x}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
+            label: 'Incorrect',
             data: [{% for x, y in record.jsonWrongQtypeR.items %}  '{{y}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -233,7 +233,7 @@ const myChart2 = new Chart(ctx2, {
     data: {
         labels: [{% for x, y in record.jsonWrongQtypeW.items %}  '{{x}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
+            label: 'Incorrect',
             data: [{% for x, y in record.jsonWrongQtypeW.items %}  '{{y}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

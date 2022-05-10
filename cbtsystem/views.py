@@ -73,7 +73,7 @@ def results(request):
     qAnswer = []
     qType = []
 
-    record = testRecord.objects.all().last()
+    record = testRecord.objects.all().first()
     testQuery = testSpec.objects.all().first()
 
     for n, a in record.studentAnswersReading.items():

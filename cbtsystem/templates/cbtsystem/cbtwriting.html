@@ -61,6 +61,10 @@
 
     <div class="d-flex justify-content-end text-danger pe-4">
 {{ request.user.id|json_script:"user_id" }}
+
+        <i class="bi bi-window-fullscreen"
+                                                                onclick="fullscreen()"></i> &nbsp;F11
+        &nbsp;
             <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
                 <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
             </span>
@@ -478,6 +482,32 @@ location.replace("http://127.0.0.1:8000/processtest")
         var localuserid = localStorage.getItem('userid')
         // localStorage.setItem('etype', "idiom");
         // localStorage.removeItem("name of localStorage variable you want to remove");
+
+</script>
+
+<script>
+
+        function fullscreen() {
+            if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+                (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                if (document.documentElement.requestFullScreen) {
+                    document.documentElement.requestFullScreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullScreen) {
+                    document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+            }
+        }
+
 
 </script>
 </body>
