@@ -15,6 +15,7 @@ urlpatterns = [
     path('processtest', views.processtest, name='processtest'),
     path('cbtwriting', views.cbtwriting, name='cbtwriting'),
     path('history', views.history, name='history'),
+    path('results_pk/<str:pk>', views.results_pk, name='results_pk'),
 
 
 

@@ -14,8 +14,14 @@ import collections
 def index(request):
     firstTest = testSpec.objects.all().first()
     inProgress = testInProgress.objects.all().last()
+    testQ = groupTest.objects.all()
+    # query manytomany relationship
+    testGroup = testQ[0].showTest.all()
 
-    return render(request, 'cbtsystem/index.html', {"firstTest": firstTest, "inProgress": inProgress})
+    return render(request, 'cbtsystem/index.html', {"firstTest": firstTest,
+                                                    "inProgress": inProgress,
+                                                    "testGroup": testGroup,
+                                                    })
 
 
 def demo(request):
@@ -67,7 +73,6 @@ def directions2(request):
 
 
 def results(request):
-
     qNo = []
     qMarked = []
     qAnswer = []
@@ -105,9 +110,56 @@ def results(request):
 
     zipRecordW = zip(qNo, qMarked, qAnswer, qType)
 
+    return render(request, 'cbtsystem/results.html',
+                  {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
 
 
-    return render(request, 'cbtsystem/results.html', {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+def results_pk(request, pk):
+    qNo = []
+    qMarked = []
+    qAnswer = []
+    qType = []
+
+    try:
+
+        record = testRecord.objects.get(id=pk)
+        testQuery = testSpec.objects.all().first()
+
+        for n, a in record.studentAnswersReading.items():
+            qNo.append(n)
+            qMarked.append(a)
+
+        for n, a in testQuery.answerKeyReading.items():
+            qAnswer.append(a)
+
+        for n, a in testQuery.questionTypeReading.items():
+            qType.append(a)
+
+        zipRecord = zip(qNo, qMarked, qAnswer, qType)
+
+        qNo = []
+        qMarked = []
+        qAnswer = []
+        qType = []
+
+        for n, a in record.studentAnswersWriting.items():
+            qNo.append(n)
+            qMarked.append(a)
+
+        for n, a in testQuery.answerKeyWriting.items():
+            qAnswer.append(a)
+
+        for n, a in testQuery.questionTypeWriting.items():
+            qType.append(a)
+
+        zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+
+        return render(request, 'cbtsystem/results.html',
+                      {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+
+    except:
+
+        return redirect("index")
 
 
 def cbtwriting(request):
@@ -115,7 +167,13 @@ def cbtwriting(request):
 
 
 def history(request):
-    return render(request, 'cbtsystem/history.html')
+
+    username = request.user.username
+    record = testRecord.objects.filter(studentUsername=username)
+    return render(request, 'cbtsystem/history.html', {'record': record})
+
+
+
 
 
 @csrf_exempt

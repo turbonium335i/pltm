@@ -462,7 +462,7 @@ var timeLeft = localStorage.getItem("timeLeft");
 
 localStorage.clear();
 
-location.replace("http://127.0.0.1:8000/processtest")
+location.replace("{% url 'processtest' %}")
         }
       });
   }

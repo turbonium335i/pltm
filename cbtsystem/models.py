@@ -57,3 +57,11 @@ class testRecord(models.Model):
 
     def __str__(self):
         return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_finished.strftime("%m/%d/%Y %H:%M:%S"),  self.studentUsername, self.studentName)
+
+
+class groupTest(models.Model):
+
+    showTest = models.ManyToManyField(testSpec, blank=True)
+
+    def __str__(self):
+        return "Test Group"

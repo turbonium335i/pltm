@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -41,6 +43,17 @@
     <hr class="bg-danger">
 </div>
 
+<script>
+function showDetails(clicked) {
+  var testType = clicked.getAttribute("data-test");
+  localStorage.setItem("selectedTest", testType);
+  console.log(localStorage.getItem("selectedTest"))
+  window.location.href = "{% url 'directions' %}";
+
+}
+
+</script>
+
 {% block content %}
 <div class="container">
     <div class="card-group ">
@@ -49,8 +62,17 @@
             <div class="card-body ">
                 <h5 class="card-title">Select Test <i class="bi bi-arrow-right-circle"></i></h5>
                 <br>
-                <a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}"
-                   role="button">{{firstTest.name}}</a>
+<!--                <a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}"-->
+<!--                   role="button" data-test="{{firstTest.name}}">{{firstTest.name}}</a>-->
+
+                {% for t in testGroup|slice:":3" %}
+
+                <button class="btn btn-outline-primary btn-lg" onclick="showDetails(this)"
+                        data-test="{{t.name}} - {{t.id}}"> {{t.id}} {{t.name}}
+
+                </button>
+
+                {% endfor %}
 
                 <br> <br>
 
@@ -64,7 +86,7 @@
             <div class="card-body  ">
                 <h5 class="card-title">Test Trend / History</h5>
 
-<canvas id="myChart"  ></canvas>
+                <canvas id="myChart"></canvas>
                 <br>
                 <p class="card-text text-end"><small class="text-muted">Last updated 3 mins ago</small></p>
             </div>
@@ -143,7 +165,7 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['1', '2', '3', '4', '5', '6'],
         datasets: [{
             label: 'Reading',
             data: [12, 19, 3, 5, 2, 30],
@@ -194,6 +216,8 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

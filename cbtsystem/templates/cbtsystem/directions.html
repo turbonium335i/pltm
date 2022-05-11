@@ -4,13 +4,14 @@
 
 <div class="container">
 
-
+    <h5 id="testName" class="text-center text-warning">SAT: </h5>
+    <br>
     <div class="d-flex justify-content-start text-danger pe-4 mb-3">
         <h3>
             <span class="text-light" onclick="timerFunction()" style="cursor: pointer;">Reading Directions Page &nbsp;
             </span>
 
-             </h3>
+        </h3>
     </div>
     <div class="ms-3">
         <li>use local storage to start of break time</li>
@@ -30,7 +31,16 @@
     </div>
 
 
+    <script>
 
+var selectedTest = localStorage.getItem("selectedTest")
+        function myTest() {
+  document.getElementById("testName").innerHTML = "SAT: " + selectedTest;
+}
+
+myTest()
+
+    </script>
 
 </div>
 

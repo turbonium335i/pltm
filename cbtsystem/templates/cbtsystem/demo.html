@@ -463,8 +463,10 @@ var timeLeft = localStorage.getItem("timeLeft");
         console.log("response: ", data);
         if (data === "progress saved"){
 <!--        alert('data sent success')-->
-localStorage.clear();
-location.replace("http://127.0.0.1:8000/breakpage")
+<!--localStorage.clear();-->
+localStorage.removeItem("doneList");
+localStorage.removeItem("timeLeft");
+location.replace("{% url 'breakpage' %}")
         }
       });
   }

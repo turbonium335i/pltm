@@ -2,12 +2,17 @@
 
 {% block content %}
 
-<div class="container border border-secondary border border-3 rounded-3 px-3" id="timebox">
-
- test history
-
-
-    </div>
+<div class="container  px-3">
+    link to /results/pk
+    <br>
+    <ul>
+        {% for r in record %}
+        <a href="{% url 'results' %}" style="text-decoration:none;">
+            <li> {{r}}</li>
+        </a>
+        {% endfor %}
+    </ul>
+</div>
 
 
 {% endblock %}

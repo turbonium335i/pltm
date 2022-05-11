@@ -3,7 +3,8 @@
 {% block content %}
 
 <div class="container">
-
+    <h5 id="testName" class="text-center text-warning">SAT: </h5>
+    <br>
 
     <div class="d-flex justify-content-start text-danger pe-4 mb-3">
         <h3>
@@ -31,7 +32,16 @@
 
 
 
+    <script>
 
+var selectedTest = localStorage.getItem("selectedTest")
+        function myTest() {
+  document.getElementById("testName").innerHTML = "SAT: " + selectedTest;
+}
+
+myTest()
+
+    </script>
 </div>
 
 
