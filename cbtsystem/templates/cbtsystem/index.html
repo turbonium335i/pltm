@@ -52,6 +52,7 @@ function showDetails(clicked) {
 
 }
 
+
 </script>
 
 {% block content %}
@@ -62,8 +63,8 @@ function showDetails(clicked) {
             <div class="card-body ">
                 <h5 class="card-title">Select Test <i class="bi bi-arrow-right-circle"></i></h5>
                 <br>
-<!--                <a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}"-->
-<!--                   role="button" data-test="{{firstTest.name}}">{{firstTest.name}}</a>-->
+                <!--                <a class="btn btn-outline-primary btn-lg" href="{% url 'directions' %}"-->
+                <!--                   role="button" data-test="{{firstTest.name}}">{{firstTest.name}}</a>-->
 
                 {% for t in testGroup|slice:":3" %}
 
@@ -88,7 +89,7 @@ function showDetails(clicked) {
 
                 <canvas id="myChart"></canvas>
                 <br>
-                <p class="card-text text-end"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <p class="card-text text-end"><small class="text-muted">Last Test: {{inProgress.date_started}}</small></p>
             </div>
         </div>
     </div>
@@ -157,6 +158,12 @@ function showDetails(clicked) {
     <!--    <br>-->
     <!--</div>-->
 
+    {% for t in testGroup|slice:":3" %}
+
+    <p>{{t.pdfLink}}</p>
+
+    {% endfor %}
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -216,6 +223,7 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+
 
 
 </script>

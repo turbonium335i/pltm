@@ -10,9 +10,10 @@ import collections
 from django.contrib.auth.decorators import login_required
 
 
-
 # fix origin django 4.0 csrf error
 
+
+# @login_required(login_url='loginpage')
 def index(request):
     firstTest = testSpec.objects.all().first()
     inProgress = testInProgress.objects.all().last()
@@ -125,39 +126,44 @@ def results_pk(request, pk):
     try:
 
         record = testRecord.objects.get(id=pk)
-        testQuery = testSpec.objects.all().first()
 
-        for n, a in record.studentAnswersReading.items():
-            qNo.append(n)
-            qMarked.append(a)
+        if request.user.username == record.studentUsername:
 
-        for n, a in testQuery.answerKeyReading.items():
-            qAnswer.append(a)
+            testQuery = testSpec.objects.all().first()
 
-        for n, a in testQuery.questionTypeReading.items():
-            qType.append(a)
+            for n, a in record.studentAnswersReading.items():
+                qNo.append(n)
+                qMarked.append(a)
 
-        zipRecord = zip(qNo, qMarked, qAnswer, qType)
+            for n, a in testQuery.answerKeyReading.items():
+                qAnswer.append(a)
 
-        qNo = []
-        qMarked = []
-        qAnswer = []
-        qType = []
+            for n, a in testQuery.questionTypeReading.items():
+                qType.append(a)
 
-        for n, a in record.studentAnswersWriting.items():
-            qNo.append(n)
-            qMarked.append(a)
+            zipRecord = zip(qNo, qMarked, qAnswer, qType)
 
-        for n, a in testQuery.answerKeyWriting.items():
-            qAnswer.append(a)
+            qNo = []
+            qMarked = []
+            qAnswer = []
+            qType = []
 
-        for n, a in testQuery.questionTypeWriting.items():
-            qType.append(a)
+            for n, a in record.studentAnswersWriting.items():
+                qNo.append(n)
+                qMarked.append(a)
 
-        zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+            for n, a in testQuery.answerKeyWriting.items():
+                qAnswer.append(a)
 
-        return render(request, 'cbtsystem/results.html',
-                      {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+            for n, a in testQuery.questionTypeWriting.items():
+                qType.append(a)
+
+            zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+
+            return render(request, 'cbtsystem/results.html',
+                          {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+        else:
+            return redirect("index")
 
     except:
 
@@ -167,14 +173,12 @@ def results_pk(request, pk):
 def cbtwriting(request):
     return render(request, 'cbtsystem/cbtwriting.html')
 
+
 # @login_required(login_url='index')
 def history(request):
     username = request.user.username
     record = testRecord.objects.filter(studentUsername=username)
     return render(request, 'cbtsystem/history.html', {'record': record})
-
-
-
 
 
 @csrf_exempt
@@ -223,8 +227,6 @@ def endsection(request):
 
     except:
         return JsonResponse('data incomplete', safe=False)
-
-
 
 
 def processtest(request):

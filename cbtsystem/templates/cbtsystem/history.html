@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="container  px-3">
-    link to /results/pk
+    history >>> /results_pk/pk
     <br>
     <ul>
         {% for r in record %}
-        <a href="{% url 'results' %}" style="text-decoration:none;">
+        <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">
             <li> {{r}}</li>
         </a>
         {% endfor %}
