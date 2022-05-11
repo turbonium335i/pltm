@@ -477,6 +477,49 @@ location.replace("{% url 'breakpage' %}")
         btnFunction(1)
 
 
+function doneBackup() {
+  console.log(doneList);
+  var ls = localStorage.getItem("doneList");
+  var timeLeft = localStorage.getItem("timeLeft");
+
+  var url = "/endsection";
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      ls: ls,
+      timeLeft: timeLeft,
+      section: "reading",
+      user_id: user_id,
+    }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log("response: ", data);
+      if (data === "progress saved") {
+        console.log("data saved");
+      }
+    });
+}
+
+var elapsed = 0;
+var x = setInterval(function () {
+  doneBackup();
+  elapsed += 30000;
+  console.log(elapsed);
+
+  if (elapsed > 3600000) {
+    clearInterval();
+  }
+}, 30000);
+
+
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

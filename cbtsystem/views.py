@@ -7,6 +7,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import collections
+from django.contrib.auth.decorators import login_required
+
 
 
 # fix origin django 4.0 csrf error
@@ -165,9 +167,8 @@ def results_pk(request, pk):
 def cbtwriting(request):
     return render(request, 'cbtsystem/cbtwriting.html')
 
-
+# @login_required(login_url='index')
 def history(request):
-
     username = request.user.username
     record = testRecord.objects.filter(studentUsername=username)
     return render(request, 'cbtsystem/history.html', {'record': record})
@@ -178,46 +179,52 @@ def history(request):
 
 @csrf_exempt
 def endsection(request):
-    data = json.loads(request.body)
-    print(data['ls'])
-    print(data['timeLeft'])
-    print(data['section'])
-    print(data['user_id'])
+    try:
+        data = json.loads(request.body)
+        print(data['ls'])
+        print(data['timeLeft'])
+        print(data['section'])
+        print(data['user_id'])
 
-    progressRecord, created = testInProgress.objects.get_or_create(studentId="2")
+        progressRecord, created = testInProgress.objects.get_or_create(studentId="2")
 
-    print(progressRecord)
+        print(progressRecord)
 
-    rAnswers = json.loads(data['ls'])
+        rAnswers = json.loads(data['ls'])
 
-    if data['section'] == 'reading':
+        if data['section'] == 'reading':
 
-        rTimeLeft = json.loads(data['timeLeft'])
-        progressRecord.studentAnswersReading = rAnswers
-        progressRecord.timeLeftReading = rTimeLeft
+            rTimeLeft = json.loads(data['timeLeft'])
+            progressRecord.studentAnswersReading = rAnswers
+            progressRecord.timeLeftReading = rTimeLeft
 
-    else:
+        else:
 
-        rTimeLeft = json.loads(data['timeLeft'])
-        progressRecord.studentAnswersWriting = rAnswers
-        progressRecord.timeLeftWriting = rTimeLeft
+            rTimeLeft = json.loads(data['timeLeft'])
+            progressRecord.studentAnswersWriting = rAnswers
+            progressRecord.timeLeftWriting = rTimeLeft
 
-    progressRecord.save(force_insert=False)
+        progressRecord.save(force_insert=False)
 
-    #                                           (studentUsername="bobUsername",
-    #                                           studentName="bobName",
-    #                                           testName="bobTest",
-    #                                           studentAnswersReading=data,
-    #                                           studentAnswersWriting=data,
-    #                                           )
+        #                                           (studentUsername="bobUsername",
+        #                                           studentName="bobName",
+        #                                           testName="bobTest",
+        #                                           studentAnswersReading=data,
+        #                                           studentAnswersWriting=data,
+        #                                           )
 
-    # save progress every 5 questions?
+        # save progress every 5 questions?
 
-    # multiqsetName, created = groupmulti.objects.get_or_create(multiqsetName=makegroupsetname)
-    # multiqsetName.multiq.add(toadd)
-    # multiqsetName.save(force_insert=False)
+        # multiqsetName, created = groupmulti.objects.get_or_create(multiqsetName=makegroupsetname)
+        # multiqsetName.multiq.add(toadd)
+        # multiqsetName.save(force_insert=False)
 
-    return JsonResponse('progress saved', safe=False)
+        return JsonResponse('progress saved', safe=False)
+
+    except:
+        return JsonResponse('data incomplete', safe=False)
+
+
 
 
 def processtest(request):
