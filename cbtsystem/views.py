@@ -15,14 +15,13 @@ from django.contrib.auth.decorators import login_required
 
 # @login_required(login_url='loginpage')
 def index(request):
-    firstTest = testSpec.objects.all().first()
+
     inProgress = testInProgress.objects.all().last()
     testQ = groupTest.objects.all()
     # query manytomany relationship
     testGroup = testQ[0].showTest.all()
 
-    return render(request, 'cbtsystem/index.html', {"firstTest": firstTest,
-                                                    "inProgress": inProgress,
+    return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
                                                     })
 
