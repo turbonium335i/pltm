@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import login_required
 # @login_required(login_url='loginpage')
 def index(request):
 
+    username = request.user.username
+    record = testRecord.objects.filter(studentUsername=username)
+
     inProgress = testInProgress.objects.all().last()
     testQ = groupTest.objects.all()
     # query manytomany relationship
@@ -23,6 +26,7 @@ def index(request):
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
+                                                    "record":record,
                                                     })
 
 

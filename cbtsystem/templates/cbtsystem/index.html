@@ -101,6 +101,22 @@ function showDetails(clicked) {
         </div>
     </div>
     <br>
+
+
+        Student Test History:
+
+    <br>
+    <ul>
+        {% for r in record %}
+        <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">
+            <li> {{r}}</li>
+        </a>
+        {% endfor %}
+    </ul>
+
+
+
+
     <table class="table table-dark table-striped table-hover table-sm">
         <thead>
         <tr>
