@@ -31,6 +31,8 @@ class testInProgress(models.Model):
     date_started = models.DateTimeField(auto_now_add=True)
     studentAnswersReading = JSONField(null=True, default={})
     studentAnswersWriting = JSONField(null=True, default={})
+    studentFlagReading = JSONField(null=True, default={})
+    studentFlagWriting = JSONField(null=True, default={})
     statusReading = models.CharField(max_length=3, null=True, blank=True, default='NO')
     statusWriting = models.CharField(max_length=3, null=True, blank=True, default='NO')
     timeLeftReading = models.CharField(max_length=200, null=True, blank=True, default='60')

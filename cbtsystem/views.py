@@ -9,17 +9,21 @@ from .models import *
 import collections
 from django.contrib.auth.decorators import login_required
 
+from .serializers import *
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 # fix origin django 4.0 csrf error
 
 
-# @login_required(login_url='loginpage')
+@login_required(login_url='loginpage')
 def index(request):
 
     username = request.user.username
     record = testRecord.objects.filter(studentUsername=username)
 
-    inProgress = testInProgress.objects.all().last()
+    inProgress = testInProgress.objects.all().first()
     testQ = groupTest.objects.all()
     # query manytomany relationship
     testGroup = testQ[0].showTest.all()
@@ -29,7 +33,7 @@ def index(request):
                                                     "record":record,
                                                     })
 
-
+@login_required(login_url='loginpage')
 def demo(request):
     return render(request, 'cbtsystem/demo.html')
 
@@ -65,19 +69,19 @@ def logoutpage(request):
     messages.info(request, "Logged Out")
     return redirect('loginpage')
 
-
+@login_required(login_url='loginpage')
 def breakPage(request):
     return render(request, 'cbtsystem/break.html')
 
-
+@login_required(login_url='loginpage')
 def directions(request):
     return render(request, 'cbtsystem/directions.html')
 
-
+@login_required(login_url='loginpage')
 def directions2(request):
     return render(request, 'cbtsystem/directions2.html')
 
-
+@login_required(login_url='loginpage')
 def results(request):
     qNo = []
     qMarked = []
@@ -119,7 +123,7 @@ def results(request):
     return render(request, 'cbtsystem/results.html',
                   {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
 
-
+@login_required(login_url='loginpage')
 def results_pk(request, pk):
     qNo = []
     qMarked = []
@@ -172,12 +176,12 @@ def results_pk(request, pk):
 
         return redirect("index")
 
-
+@login_required(login_url='loginpage')
 def cbtwriting(request):
     return render(request, 'cbtsystem/cbtwriting.html')
 
 
-# @login_required(login_url='index')
+@login_required(login_url='loginpage')
 def history(request):
     username = request.user.username
     record = testRecord.objects.filter(studentUsername=username)
@@ -193,7 +197,7 @@ def endsection(request):
         print(data['section'])
         print(data['user_id'])
 
-        progressRecord, created = testInProgress.objects.get_or_create(studentId="2")
+        progressRecord, created = testInProgress.objects.get_or_create(studentId="1")
 
         print(progressRecord)
 
@@ -245,7 +249,7 @@ def processtest(request):
     print(testData.statusReading, testData.statusWriting)
 
     for x, y in testData.studentAnswersReading.items():
-        # print(x, y, testQuery.answerKeyReading[x])
+        print(x, y, testQuery.answerKeyReading[x])
         if y != testQuery.answerKeyReading[x]:
             inCorrect.append(x)
             wrongQtype.append(testQuery.questionTypeReading[x])
@@ -283,3 +287,11 @@ def processtest(request):
     print(testRecord.objects.all().last())
 
     return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+
+@login_required(login_url='loginpage')
+@api_view(['GET'])
+def pendingTestApi(request):
+    pendingTests = testInProgress.objects.all()
+    serializer = progressSerializer(pendingTests, many=True)
+    return Response(serializer.data)
+

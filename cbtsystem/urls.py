@@ -16,6 +16,9 @@ urlpatterns = [
     path('cbtwriting', views.cbtwriting, name='cbtwriting'),
     path('history', views.history, name='history'),
     path('results_pk/<str:pk>', views.results_pk, name='results_pk'),
+    path('pendingapi', views.pendingTestApi, name='pendingapi'),
+
+
 
 
 
