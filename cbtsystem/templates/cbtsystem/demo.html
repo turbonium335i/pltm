@@ -161,7 +161,21 @@
 
 
 <script>
+
+
+ if (localStorage.getItem('readingApiTime') !== null) {
+    console.log(`readingApiTime exists`);
+} else {
+    console.log(`readingApiTime not found`);
+}
+
+var readingApiTime = parseInt(localStorage.getItem("readingApiTime"))
+ console.log('readingApiTime', readingApiTime)
+
+
+
  var timeLeft = 3610000
+
         var countDownDate = (Date.now() + 3610000)
         var x = setInterval(function () {
             var now = new Date().getTime();
@@ -225,17 +239,20 @@
 
 <script>
 
+    var obj = {}
+
+    const user_id = JSON.parse(document.getElementById('user_id').textContent);
+    console.log("user_id", user_id)
+
     var localAnswers = localStorage.getItem("readingApi");
+    console.log(localAnswers)
+
+    if (localAnswers !== null) {
     var b = localAnswers.replace(/'/g, '"');
-    const obj = JSON.parse(b);
+    obj = JSON.parse(b);
     console.log(obj);
 
-
-        const user_id = JSON.parse(document.getElementById('user_id').textContent);
-        console.log(localStorage.getItem('currentSection'))
-        console.log("user_id", user_id)
-
-
+    }
 
 
         var doneList = obj
@@ -468,9 +485,22 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
 
 
 function doneAnswers() {
-  console.log(doneList);
+
+console.log(doneList);
 var ls = localStorage.getItem("doneList");
+
+console.log(ls)
+
+if(ls === null){
+     location.replace("{% url 'breakpage' %}")
+
+ }
+
+
+
 var timeLeft = localStorage.getItem("timeLeft");
+var selectedTest = localStorage.getItem("selectedTest");
+
 
     var url = "/endsection";
 
@@ -481,7 +511,7 @@ var timeLeft = localStorage.getItem("timeLeft");
 
       },
 
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading', 'user_id': user_id }),
+      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading', 'user_id': user_id, 'selectedTest':selectedTest  }),
     })
       .then((response) => {
         return response.json();
@@ -537,14 +567,14 @@ function doneBackup() {
 
 var elapsed = 0;
 var x = setInterval(function () {
-  doneBackup();
-  elapsed += 30000;
+<!--  doneBackup();-->
+  elapsed += 60000;
   console.log(elapsed);
 
   if (elapsed > 3600000) {
     clearInterval();
   }
-}, 30000);
+}, 60000);
 
 
 

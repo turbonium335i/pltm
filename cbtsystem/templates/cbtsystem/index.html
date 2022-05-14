@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Platinum CBT</title>
 
-<!--    <link rel="shortcut icon" type="image/png"-->
-<!--          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">-->
-<!--    -->
+    <!--    <link rel="shortcut icon" type="image/png"-->
+    <!--          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">-->
+    <!--    -->
 
     <!-- Bootstrap icons-->
 
-        <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/sxXLWRys/logo-plativ2.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/sxXLWRys/logo-plativ2.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -20,12 +20,11 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 
-
-<!--    style="background-color:black;"-->
+    <!--    style="background-color:black;"-->
 
 
 </head>
-<body class="bg-dark text-light" >
+<body class="bg-dark text-light">
 
 
 <div class="container">
@@ -61,6 +60,8 @@ function showDetails(clicked) {
 }
 
 
+
+
 </script>
 
 {% block content %}
@@ -72,13 +73,22 @@ function showDetails(clicked) {
                 <h5 class="card-title">Select Test <i class="bi bi-arrow-right-circle"></i></h5>
                 <br>
 
-
                 {% for t in testGroup|slice:":3" %}
 
-                <button class="btn btn-outline-primary btn-lg" onclick="showDetails(this)"
-                        data-test="{{t.name}} - {{t.id}}"> {{t.id}} {{t.name}}
+                {% if t.id == inProgressTest %}
+                <button class="btn btn-outline-warning btn-lg" onclick="showDetails(this)"
+                        data-test="{{t.id}}"> {{t.id}} {{t.name}}
 
                 </button>
+
+                {% else %}
+
+                <button class="btn btn-outline-primary btn-lg" onclick="showDetails(this)"
+                        data-test="{{t.id}}"> {{t.id}} {{t.name}}
+
+                </button>
+
+                {% endif %}
 
                 {% endfor %}
 
@@ -96,16 +106,18 @@ function showDetails(clicked) {
 
                 <canvas id="myChart"></canvas>
                 <br>
-                <p class="card-text text-end"><small class="text-muted">Last Test: {{inProgress.date_started}}</small></p>
+                <p class="card-text text-end"><small class="text-muted">Last Test: {{inProgress.date_started}}</small>
+                </p>
             </div>
         </div>
     </div>
     <br>
 
 
-        Student Test History:
+    Student Test History:
+    <hr>
 
-    <br>
+
     <ul>
         {% for r in record %}
         <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">
@@ -115,7 +127,12 @@ function showDetails(clicked) {
     </ul>
 
 
+    InProgress:
+    <hr>
 
+    {{inProgress}}
+
+    <hr>
 
     <table class="table table-dark table-striped table-hover table-sm">
         <thead>
@@ -149,31 +166,6 @@ function showDetails(clicked) {
 
     <br>
 
-    <li class="text-warning pb-2">
-        This site is optimized for chromium based browsers such as Google Chrome, Brave, and Edge. Using Safari and/or
-        deprecated browsers may lead to errors.
-    </li>
-
-
-    <p> statusReading: {{inProgress.statusReading}} / statusWriting: {{inProgress.statusWriting}}</p>
-    <li>{{inProgress.studentId}}</li>
-    <li>{{inProgress.studentUsername}}</li>
-    <li>{{inProgress.testName}}</li>
-    <li>{{inProgress.date_started}}</li>
-    <li>{{inProgress.timeLeftWriting}}</li>
-    <li>{{inProgress.timeLeftReading}}</li>
-    <li>{{inProgress.studentAnswersReading}}</li>
-    <li>{{inProgress.studentAnswersWriting}}</li>
-
-    <br>
-
-
-    {% for t in testGroup|slice:":3" %}
-
-    <p>{{t.pdfLink}}</p>
-    <p>{{t.pdfLink2}}</p>
-
-    {% endfor %}
 
 </div>
 
@@ -237,34 +229,10 @@ const myChart = new Chart(ctx, {
 
 
 
-</script>
-
-<script>
-    var apiList = [];
-
-function getPending() {
-  fetch("http://127.0.0.1:8000/pendingapi")
-    .then((resp) => resp.json())
-    .then(function (data) {
-      apiList = data;
-      console.log(data);
-      for (i in apiList) {
-        console.log(apiList[i]);
-      }
-    })
-    .then(function () {
-      console.log("apiList", apiList[0]);
-      localStorage.setItem('readingApi', apiList[0].studentAnswersReading )
-      console.log(localStorage.getItem('readingApi'))
-
-    });
-}
-
-getPending();
-
 
 
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

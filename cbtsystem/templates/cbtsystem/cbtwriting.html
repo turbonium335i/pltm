@@ -442,6 +442,7 @@ function doneAnswers() {
   console.log(doneList);
 var ls = localStorage.getItem("doneList");
 var timeLeft = localStorage.getItem("timeLeft");
+var selectedTest = localStorage.getItem("selectedTest");
 
     var url = "/endsection";
 
@@ -452,7 +453,7 @@ var timeLeft = localStorage.getItem("timeLeft");
 
       },
 
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'writing', 'user_id': user_id }),
+      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'writing', 'user_id': user_id, 'selectedTest':selectedTest }),
     })
       .then((response) => {
         return response.json();

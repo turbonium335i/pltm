@@ -20,17 +20,28 @@ from rest_framework.response import Response
 @login_required(login_url='loginpage')
 def index(request):
 
-    username = request.user.username
-    record = testRecord.objects.filter(studentUsername=username)
+    username = request.user
+    record = testRecord.objects.filter(studentUsername=username.username)
 
-    inProgress = testInProgress.objects.all().first()
+    inProgress = testInProgress.objects.filter(studentId=username.id).first()
     testQ = groupTest.objects.all()
     # query manytomany relationship
     testGroup = testQ[0].showTest.all()
 
+
+    try:
+        inProgressTest = int(inProgress.testName)
+
+    except:
+        inProgressTest = ""
+
+    print(testGroup)
+    print("inProgressTest", inProgressTest)
+
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
-                                                    "record":record,
+                                                    "record": record,
+                                                    "inProgressTest": inProgressTest,
                                                     })
 
 @login_required(login_url='loginpage')
@@ -196,8 +207,9 @@ def endsection(request):
         print(data['timeLeft'])
         print(data['section'])
         print(data['user_id'])
+        print(data['selectedTest'])
 
-        progressRecord, created = testInProgress.objects.get_or_create(studentId="1")
+        progressRecord, created = testInProgress.objects.get_or_create(studentId=request.user.id)
 
         print(progressRecord)
 
@@ -215,14 +227,12 @@ def endsection(request):
             progressRecord.studentAnswersWriting = rAnswers
             progressRecord.timeLeftWriting = rTimeLeft
 
+        progressRecord.studentUsername = request.user.username
+        progressRecord.studentName = request.user.first_name
+        progressRecord.studentId = request.user.id
+        progressRecord.testName = data['selectedTest']
         progressRecord.save(force_insert=False)
 
-        #                                           (studentUsername="bobUsername",
-        #                                           studentName="bobName",
-        #                                           testName="bobTest",
-        #                                           studentAnswersReading=data,
-        #                                           studentAnswersWriting=data,
-        #                                           )
 
         # save progress every 5 questions?
 
