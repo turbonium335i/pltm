@@ -24,24 +24,35 @@ def index(request):
     record = testRecord.objects.filter(studentUsername=username.username)
 
     inProgress = testInProgress.objects.filter(studentId=username.id).first()
+
     testQ = groupTest.objects.all()
     # query manytomany relationship
     testGroup = testQ[0].showTest.all()
 
+    percentR = 0
+    percentW = 0
+
 
     try:
-        inProgressTest = int(inProgress.testName)
+        inProgressTest = int(inProgress.testId)
+        testQuery = testSpec.objects.get(id=inProgress.testId)
+        percentR = (round((len(inProgress.studentAnswersReading)/len(testQuery.answerKeyReading))*100))
+        percentW = (round((len(inProgress.studentAnswersWriting) / len(testQuery.answerKeyWriting)) * 100))
 
     except:
         inProgressTest = ""
 
-    print(testGroup)
     print("inProgressTest", inProgressTest)
+
+    # if inProgressTest != "":
+
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
                                                     "record": record,
                                                     "inProgressTest": inProgressTest,
+                                                    "percentR": percentR,
+                                                    "percentW": percentW,
                                                     })
 
 @login_required(login_url='loginpage')
@@ -185,7 +196,9 @@ def results_pk(request, pk):
 
     except:
 
-        return redirect("index")
+        logout(request)
+        messages.info(request, "Authentication Error")
+        return redirect('loginpage')
 
 @login_required(login_url='loginpage')
 def cbtwriting(request):
@@ -203,11 +216,8 @@ def history(request):
 def endsection(request):
     try:
         data = json.loads(request.body)
-        print(data['ls'])
-        print(data['timeLeft'])
-        print(data['section'])
-        print(data['user_id'])
-        print(data['selectedTest'])
+        print(data['ls'], data['timeLeft'], data['section'], data['section'], data['user_id'], data['selectedTestId'],  data['selectedTest'])
+
 
         progressRecord, created = testInProgress.objects.get_or_create(studentId=request.user.id)
 
@@ -231,6 +241,7 @@ def endsection(request):
         progressRecord.studentName = request.user.first_name
         progressRecord.studentId = request.user.id
         progressRecord.testName = data['selectedTest']
+        progressRecord.testId = data['selectedTestId']
         progressRecord.save(force_insert=False)
 
 
@@ -245,22 +256,46 @@ def endsection(request):
     except:
         return JsonResponse('data incomplete', safe=False)
 
-
+@login_required(login_url='loginpage')
 def processtest(request):
-    testData = testInProgress.objects.all().first()
-    testQuery = testSpec.objects.all().first()
+
+    username = request.user
+    testData = testInProgress.objects.get(studentId=username.id)
+    testQuery = testSpec.objects.get(id=testData.testId)
 
     inCorrect = []
     wrongQtype = []
 
     studentAnswersR = testData.studentAnswersReading
     studentAnswersW = testData.studentAnswersWriting
+    readingAnswerKey = testQuery.answerKeyReading
+    writingAnswerKey = testQuery.answerKeyWriting
+
+    cleanAnswerR = {}
+    cleanAnswerW = {}
+
+    for k, v in readingAnswerKey.items():
+        try:
+            cleanAnswerR[k] = studentAnswersR[k]
+        except:
+            cleanAnswerR[k] = 'X'
+
+    for k, v in writingAnswerKey.items():
+        try:
+            cleanAnswerW[k] = studentAnswersW[k]
+        except:
+            cleanAnswerW[k] = 'X'
+
+    studentAnswersR = cleanAnswerR
+    studentAnswersW = cleanAnswerW
+
+    # return JsonResponse( cleanAnswerW, safe=False)
+
 
     print(testData.statusReading, testData.statusWriting)
 
-    for x, y in testData.studentAnswersReading.items():
-        print(x, y, testQuery.answerKeyReading[x])
-        if y != testQuery.answerKeyReading[x]:
+    for x, y in studentAnswersR.items():
+        if y != readingAnswerKey[x]:
             inCorrect.append(x)
             wrongQtype.append(testQuery.questionTypeReading[x])
 
@@ -272,9 +307,9 @@ def processtest(request):
     inCorrect = []
     wrongQtype = []
 
-    for x, y in testData.studentAnswersWriting.items():
+    for x, y in studentAnswersW.items():
         # print(x, y, testQuery.answerKeyReading[x])
-        if y != testQuery.answerKeyWriting[x]:
+        if y != writingAnswerKey[x]:
             inCorrect.append(x)
             wrongQtype.append(testQuery.questionTypeWriting[x])
 
@@ -283,18 +318,21 @@ def processtest(request):
     numberInCorrectW = str(len(inCorrect))
     print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
 
-    # r = testRecord.objects.create(studentUsername='bobcatUser',
-    #                               studentName='bobcat kim',
-    #                               testName='bobcat testName',
-    #                               studentAnswersReading=studentAnswersR,
-    #                               studentAnswersWriting=studentAnswersW,
-    #                               numberInCorrectR=numberInCorrectR,
-    #                               numberInCorrectW=numberInCorrectW,
-    #                               jsonWrongQtypeR=wrongSortR,
-    #                               jsonWrongQtypeW=wrongSortW
-    #                               )
 
-    print(testRecord.objects.all().last())
+
+    r = testRecord.objects.create(studentUsername=username.username,
+                                  studentName=username.first_name,
+                                  testName=testData.testName,
+                                  testId=testData.testId,
+                                  studentAnswersReading=studentAnswersR,
+                                  studentAnswersWriting=studentAnswersW,
+                                  numberInCorrectR=numberInCorrectR,
+                                  numberInCorrectW=numberInCorrectW,
+                                  jsonWrongQtypeR=wrongSortR,
+                                  jsonWrongQtypeW=wrongSortW
+                                  )
+
+    print('record saved: ', r)
 
     return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
 

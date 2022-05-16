@@ -35,8 +35,9 @@
     <script>
 
 var selectedTest = localStorage.getItem("selectedTest")
+var selectedTestId = localStorage.getItem("selectedTestId")
         function myTest() {
-  document.getElementById("testName").innerHTML = "SAT: " + selectedTest;
+  document.getElementById("testName").innerHTML = `SAT: ${selectedTest} - ${selectedTestId}`
 }
 
 myTest()

@@ -46,6 +46,7 @@
 
 
 
+
 </style>
 <!--#f0ead6;-->
 
@@ -83,6 +84,11 @@
             <!--                                width="100%"-->
             <!--                                height="100%"-->
             <!--                        ></iframe>-->
+
+
+
+
+
             In publishing and graphic design, Lorem ipsum is a placeholder
             text commonly used to demonstrate the visual form of a document or
             a typeface without relying on meaningful content. Lorem ipsum may
@@ -227,6 +233,7 @@ var readingApiTime = parseInt(localStorage.getItem("readingApiTime"))
 
 
         }
+
 
 
 
@@ -489,17 +496,15 @@ function doneAnswers() {
 console.log(doneList);
 var ls = localStorage.getItem("doneList");
 
-console.log(ls)
 
 if(ls === null){
      location.replace("{% url 'breakpage' %}")
-
  }
-
 
 
 var timeLeft = localStorage.getItem("timeLeft");
 var selectedTest = localStorage.getItem("selectedTest");
+var selectedTestId = localStorage.getItem("selectedTestId");
 
 
     var url = "/endsection";
@@ -511,7 +516,8 @@ var selectedTest = localStorage.getItem("selectedTest");
 
       },
 
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading', 'user_id': user_id, 'selectedTest':selectedTest  }),
+      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading',
+      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId   }),
     })
       .then((response) => {
         return response.json();
@@ -579,6 +585,7 @@ var x = setInterval(function () {
 
 
 
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -607,6 +614,7 @@ var x = setInterval(function () {
                 }
             }
         }
+
 
 
 

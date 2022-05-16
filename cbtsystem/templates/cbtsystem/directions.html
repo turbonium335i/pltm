@@ -32,17 +32,19 @@
 
     <hr>
 
-   <div id="jsData"></div>
+    <div id="jsData"></div>
 
 
     <script>
 
 var selectedTest = localStorage.getItem("selectedTest")
+var selectedTestId = localStorage.getItem("selectedTestId")
         function myTest() {
-  document.getElementById("testName").innerHTML = "SAT: " + selectedTest;
+  document.getElementById("testName").innerHTML = `SAT: ${selectedTest} - ${selectedTestId}`
 }
 
 myTest()
+
 
 
 
@@ -69,12 +71,20 @@ function getPending() {
     })
     .then(function () {
       console.log("studentApi", studentApi);
-      document.getElementById("jsData").innerHTML = studentApi.studentAnswersReading;
 
-      if (studentApi.testName === selectedTest) {
+      document.getElementById("jsData").innerHTML =
+       `Reading: ${studentApi.studentAnswersReading} <br> Writing: ${studentApi.studentAnswersWriting}
+        <br>studentApi.testName:  ${studentApi.testName}`;
+
+
+
+      if (studentApi.testId === selectedTestId) {
 
             localStorage.setItem("readingApi", studentApi.studentAnswersReading);
       localStorage.setItem("readingApiTime", studentApi.timeLeftReading);
+
+                  localStorage.setItem("writingApi", studentApi.studentAnswersWriting);
+      localStorage.setItem("writingApiTime", studentApi.timeLeftWriting);
 
 
       document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
@@ -86,6 +96,10 @@ function getPending() {
 
       localStorage.removeItem("readingApi");
         localStorage.removeItem("readingApiTime");
+              localStorage.removeItem("writingApi");
+        localStorage.removeItem("writingApiTime");
+
+
               document.getElementById("startBtn").classList.remove("d-none");
 
       }
@@ -96,7 +110,8 @@ function getPending() {
 
 getPending();
 
-</script>
+
+    </script>
 
 </div>
 
