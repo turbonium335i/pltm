@@ -175,21 +175,19 @@
 
 <script>
 
+ var timeLeft = 3610000
+
 
  if (localStorage.getItem('readingApiTime') !== null) {
     console.log(`readingApiTime exists`);
+    timeLeft = parseInt(localStorage.getItem('readingApiTime'))
+
 } else {
     console.log(`readingApiTime not found`);
 }
 
-var readingApiTime = parseInt(localStorage.getItem("readingApiTime"))
- console.log('readingApiTime', readingApiTime)
 
-
-
- var timeLeft = 3610000
-
-        var countDownDate = (Date.now() + 3610000)
+        var countDownDate = (Date.now() + timeLeft)
         var x = setInterval(function () {
             var now = new Date().getTime();
             var distance = countDownDate - now;
@@ -217,6 +215,7 @@ var readingApiTime = parseInt(localStorage.getItem("readingApiTime"))
 
                         timeLeft -= 1000
             localStorage.setItem('timeLeft', JSON.stringify(timeLeft));
+         localStorage.setItem('readingApiTime', JSON.stringify(timeLeft));
 <!--            console.log(localStorage.getItem('timeLeft'))-->
         }, 1000);
 
@@ -562,6 +561,9 @@ function doneBackup() {
   var ls = localStorage.getItem("doneList");
   var timeLeft = localStorage.getItem("timeLeft");
 
+var selectedTest = localStorage.getItem("selectedTest");
+var selectedTestId = localStorage.getItem("selectedTestId");
+
   var url = "/endsection";
 
   fetch(url, {
@@ -570,12 +572,8 @@ function doneBackup() {
       "Content-Type": "application/json",
     },
 
-    body: JSON.stringify({
-      ls: ls,
-      timeLeft: timeLeft,
-      section: "reading",
-      user_id: user_id,
-    }),
+      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading',
+      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId   }),
   })
     .then((response) => {
       return response.json();
@@ -590,7 +588,7 @@ function doneBackup() {
 
 var elapsed = 0;
 var x = setInterval(function () {
-<!--  doneBackup();-->
+  doneBackup();
   elapsed += 60000;
   console.log(elapsed);
 

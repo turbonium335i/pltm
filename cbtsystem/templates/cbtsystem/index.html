@@ -54,6 +54,7 @@
 
 {% block content %}
 <div class="container">
+
     <div class="card-group ">
 
         <div class="card text-white bg-dark border-0">
@@ -65,14 +66,14 @@
                 {% for t in testGroup|slice:":3" %}
 
                 {% if t.id == inProgressTest %}
-                <button class="btn btn-outline-warning  " onclick="showDetails(this)"
+                <button class="btn btn-outline-warning btn-lg " onclick="showDetails(this)"
                         data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
                 </button>
 
                 {% else %}
 
-                <button class="btn btn-outline-primary  " onclick="showDetails(this)"
+                <button class="btn btn-outline-primary btn-lg   " onclick="showDetails(this)"
                         data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
                 </button>
@@ -88,7 +89,8 @@
                 <p class="card-text text-warning  ">*Pending or test in progress are highlighted in yellow.</p>
 </div>
         </div>
-        <div class="text-white bg-dark">
+
+                <div class="card text-white bg-dark border-0">
 
             <div class="card-body  ">
                 <h5 class="card-title">Test Trend / History</h5>
@@ -99,6 +101,7 @@
                 </p>
             </div>
         </div>
+
     </div>
     <br>
 
@@ -171,10 +174,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['1', '2', '3', '4', '5', '6'],
+        labels: ['5', '4', '3', '2', '1' ],
         datasets: [{
             label: 'Reading',
-            data: [12, 19, 3, 5, 2, 30],
+            data: [{% for r in record|slice:"5:"    %}  '-{{r.numberInCorrectR}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -194,7 +197,8 @@ const myChart = new Chart(ctx, {
             borderWidth: 1
         }, {
             label: 'Writing',
-            data: [1, 5, 8, 15, 12, 20],
+<!--            data: [{% for r in record|slice:":5" reversed  %}  '-{{r.numberInCorrectW}}', {% endfor %}],-->
+             data: ['-20', '-12', '-8', '-18', '-15'],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',

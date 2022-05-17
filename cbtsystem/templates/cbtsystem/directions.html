@@ -6,22 +6,30 @@
 
     <h5 id="testName" class="text-center text-warning">SAT: </h5>
     <br>
-    <div class="d-flex justify-content-start text-danger pe-4 mb-3">
+    <div class="d-flex justify-content-start   pe-4 mb-3">
         <h3>
-            <span class="text-light" onclick="timerFunction()" style="cursor: pointer;">Reading Directions Page &nbsp;
+            <span class="text-light" >Reading Section Directions:  &nbsp;
             </span>
-
         </h3>
+
     </div>
     <div class="ms-3">
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
-        <li>use local storage to start of break time</li>
+        <li>Mobile phones, smartwatches, fitness trackers, or other wearable technology (simple nondigital watches are
+            acceptable)
+        </li>
+        <li>Separate timers of any type</li>
+        <li>Cameras or any other photographic equipment</li>
+        <li>Unacceptable calculators that have QWERTY (computer-like) keypads, use paper tape, make noise, or use a
+            power cord
+        </li>
+        <li>Mobile phones, smartwatches, fitness trackers, or other wearable technology (simple nondigital watches are
+            acceptable)
+        </li>
+        <li>Separate timers of any type</li>
+        <li>Cameras or any other photographic equipment</li>
+        <li>Unacceptable calculators that have QWERTY (computer-like) keypads, use paper tape, make noise, or use a
+            power cord
+        </li>
     </div>
 
     <div class="text-center py-5">
@@ -73,8 +81,11 @@ function getPending() {
       console.log("studentApi", studentApi);
 
       document.getElementById("jsData").innerHTML =
-       `Reading: ${studentApi.studentAnswersReading} <br> Writing: ${studentApi.studentAnswersWriting}
-        <br>studentApi.testName:  ${studentApi.testName}`;
+       `Reading: ${studentApi.studentAnswersReading}  / timeLeftReading: ${studentApi.timeLeftReading} <br>
+
+       Writing: ${studentApi.studentAnswersWriting} / timeLeftReading: ${studentApi.timeLeftWriting} <br>
+
+       studentApi.testName:  ${studentApi.testName}`;
 
 
 
