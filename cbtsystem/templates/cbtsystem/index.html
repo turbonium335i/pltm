@@ -24,8 +24,7 @@
 
 
 </head>
-<body class="bg-dark text-light">
-
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
 
 <div class="container">
 
@@ -66,14 +65,14 @@
                 {% for t in testGroup|slice:":3" %}
 
                 {% if t.id == inProgressTest %}
-                <button class="btn btn-outline-warning btn-lg " onclick="showDetails(this)"
+                <button class="btn btn-outline-warning btn-lg mb-1" onclick="showDetails(this)"
                         data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
                 </button>
 
                 {% else %}
 
-                <button class="btn btn-outline-primary btn-lg   " onclick="showDetails(this)"
+                <button class="btn btn-outline-primary btn-lg  mb-1 " onclick="showDetails(this)"
                         data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
                 </button>
@@ -93,7 +92,7 @@
                 <div class="card text-white bg-dark border-0">
 
             <div class="card-body  ">
-                <h5 class="card-title">Test Trend / History</h5>
+                <h5 class="card-title">Test Trend </h5>
 
                 <canvas id="myChart"></canvas>
                 <br>
@@ -106,7 +105,7 @@
     <br>
 
 
-    <p class="text-secondary"> Test in progress: <span class="text-warning">{{inProgress}}</span></p>
+    <p class="text-secondary"> Pending: <span class="text-light">{{inProgress.testName}} - {{inProgress.date_started}}</span></p>
 
 
     <div>
@@ -131,9 +130,9 @@
     </div>
 
 
-    <br><br>
-    Student Test History:
     <br>
+
+    <p class="text-secondary">Student Test History:</p>
 
     <table class="table table-dark table-striped table-hover table-sm">
         <thead>
@@ -174,10 +173,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['5', '4', '3', '2', '1' ],
+        labels: ['7','6','5', '4', '3', '2', '1' ],
         datasets: [{
             label: 'Reading',
-            data: [{% for r in record|slice:"5:"    %}  '-{{r.numberInCorrectR}}', {% endfor %}],
+            data: [{% for r in record|slice:"3:"  %}  '-{{r.numberInCorrectR}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -198,7 +197,7 @@ const myChart = new Chart(ctx, {
         }, {
             label: 'Writing',
 <!--            data: [{% for r in record|slice:":5" reversed  %}  '-{{r.numberInCorrectW}}', {% endfor %}],-->
-             data: ['-20', '-12', '-8', '-18', '-15'],
+             data: ['-20', '-12', '-8', '-18', '-15', '-18', '-12'],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -255,5 +254,14 @@ function showDetails(clicked) {
 
 
 {% endblock %}
+
+<footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
+  <div class="container text-center"><small>
+    <span > <a href="https://www.evolution3w.com" class="text-danger text-decoration-none">Developed & Managed by Evolution3W.com</a>
+
+
+    </span></small>
+  </div>
+</footer>
 </body>
 </html>

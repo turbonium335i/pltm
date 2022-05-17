@@ -32,7 +32,7 @@
         </li>
     </div>
 
-    <div class="text-center py-5">
+    <div class="text-center py-5" id="linkDiv">
 
         <a href="{% url 'demo' %}" class="btn btn-secondary btn-lg d-none" id="startBtn">Start Section <i
                 class="bi bi-arrow-right-circle"></i></a>
@@ -99,6 +99,12 @@ function getPending() {
 
         document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
         document.getElementById("startBtn").classList.add("btn-outline-warning");
+
+        var goTest = ` <a href="http://127.0.0.1:8000/demo/${studentApi.testId}  " class="btn btn-warning btn-lg " id="startBtn">Start Section <i
+                class="bi bi-arrow-right-circle"></i></a>`
+
+        document.getElementById("linkDiv").innerHTML = goTest
+
 
 
       } else {
