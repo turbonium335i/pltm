@@ -260,81 +260,92 @@ def endsection(request):
 def processtest(request):
 
     username = request.user
-    testData = testInProgress.objects.get(studentId=username.id)
-    testQuery = testSpec.objects.get(id=testData.testId)
 
-    inCorrect = []
-    wrongQtype = []
+    try:
+        testData = testInProgress.objects.get(studentId=username.id)
+        testQuery = testSpec.objects.get(id=testData.testId)
 
-    studentAnswersR = testData.studentAnswersReading
-    studentAnswersW = testData.studentAnswersWriting
-    readingAnswerKey = testQuery.answerKeyReading
-    writingAnswerKey = testQuery.answerKeyWriting
+        inCorrect = []
+        wrongQtype = []
 
-    cleanAnswerR = {}
-    cleanAnswerW = {}
+        studentAnswersR = testData.studentAnswersReading
+        studentAnswersW = testData.studentAnswersWriting
+        readingAnswerKey = testQuery.answerKeyReading
+        writingAnswerKey = testQuery.answerKeyWriting
 
-    for k, v in readingAnswerKey.items():
-        try:
-            cleanAnswerR[k] = studentAnswersR[k]
-        except:
-            cleanAnswerR[k] = 'X'
+        cleanAnswerR = {}
+        cleanAnswerW = {}
 
-    for k, v in writingAnswerKey.items():
-        try:
-            cleanAnswerW[k] = studentAnswersW[k]
-        except:
-            cleanAnswerW[k] = 'X'
+        for k, v in readingAnswerKey.items():
+            try:
+                cleanAnswerR[k] = studentAnswersR[k]
+            except:
+                cleanAnswerR[k] = 'X'
 
-    studentAnswersR = cleanAnswerR
-    studentAnswersW = cleanAnswerW
+        for k, v in writingAnswerKey.items():
+            try:
+                cleanAnswerW[k] = studentAnswersW[k]
+            except:
+                cleanAnswerW[k] = 'X'
 
-    # return JsonResponse( cleanAnswerW, safe=False)
+        studentAnswersR = cleanAnswerR
+        studentAnswersW = cleanAnswerW
 
+        # return JsonResponse( cleanAnswerW, safe=False)
 
-    print(testData.statusReading, testData.statusWriting)
+        print(testData.statusReading, testData.statusWriting)
 
-    for x, y in studentAnswersR.items():
-        if y != readingAnswerKey[x]:
-            inCorrect.append(x)
-            wrongQtype.append(testQuery.questionTypeReading[x])
+        for x, y in studentAnswersR.items():
+            if y != readingAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeReading[x])
 
-    wrongQ = dict(collections.Counter(wrongQtype))
-    wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-    numberInCorrectR = str(len(inCorrect))
-    print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectR = str(len(inCorrect))
+        print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
 
-    inCorrect = []
-    wrongQtype = []
+        inCorrect = []
+        wrongQtype = []
 
-    for x, y in studentAnswersW.items():
-        # print(x, y, testQuery.answerKeyReading[x])
-        if y != writingAnswerKey[x]:
-            inCorrect.append(x)
-            wrongQtype.append(testQuery.questionTypeWriting[x])
+        for x, y in studentAnswersW.items():
+            # print(x, y, testQuery.answerKeyReading[x])
+            if y != writingAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeWriting[x])
 
-    wrongQ = dict(collections.Counter(wrongQtype))
-    wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-    numberInCorrectW = str(len(inCorrect))
-    print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectW = str(len(inCorrect))
+        print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
 
+        r = testRecord.objects.create(studentUsername=username.username,
+                                      studentName=username.first_name,
+                                      testName=testData.testName,
+                                      testId=testData.testId,
+                                      studentAnswersReading=studentAnswersR,
+                                      studentAnswersWriting=studentAnswersW,
+                                      numberInCorrectR=numberInCorrectR,
+                                      numberInCorrectW=numberInCorrectW,
+                                      jsonWrongQtypeR=wrongSortR,
+                                      jsonWrongQtypeW=wrongSortW
+                                      )
 
+        print('record saved: ', r)
 
-    r = testRecord.objects.create(studentUsername=username.username,
-                                  studentName=username.first_name,
-                                  testName=testData.testName,
-                                  testId=testData.testId,
-                                  studentAnswersReading=studentAnswersR,
-                                  studentAnswersWriting=studentAnswersW,
-                                  numberInCorrectR=numberInCorrectR,
-                                  numberInCorrectW=numberInCorrectW,
-                                  jsonWrongQtypeR=wrongSortR,
-                                  jsonWrongQtypeW=wrongSortW
-                                  )
+        testData.delete()
 
-    print('record saved: ', r)
+        # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+        return render(request, 'cbtsystem/processTestClaw.html')
 
-    return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+    except:
+
+        return render(request, 'cbtsystem/processTestClaw.html' )
+
+        # logout(request)
+        # messages.info(request, "Authentication Error")
+        # return redirect('loginpage')
+
 
 @login_required(login_url='loginpage')
 @api_view(['GET'])

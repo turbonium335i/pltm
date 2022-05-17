@@ -38,49 +38,6 @@ body {
 
 
 
-    <p>process data here</p> <span>TimeLeft: {{testData.timeLeftReading}}, {{testData.timeLeftWriting}}</span>
-
-    <p>{{testData}} / {{testQuery}}</p>
-
-    <p> {{testQuery.answerKeyReading}}</p>
-    <p> {{testQuery.questionTypeReading}}</p>
-
-
-    <div class="row">
-        <div class="col">
-            <p>studentAnswersReading</p>
-            {% for key, value in testData.studentAnswersReading.items %}
-
-            <p>{{key}} - {{value}}</p>
-
-            {% endfor %}
-        </div>
-                <div class="col">
-            <p>studentAnswersWriting</p>
-            {% for key, value in testData.studentAnswersWriting.items %}
-
-            <p>{{key}} - {{value}}</p>
-
-            {% endfor %}
-        </div>
-        <div class="col">
-            <p>answerKey</p>
-            {% for key, value in testQuery.answerKeyReading.items %}
-
-            <p>{{key}} - {{value}}</p>
-
-            {% endfor %}
-        </div>
-        <div class="col">
-            <p>questionType</p>
-            {% for key, value in testQuery.questionTypeReading.items %}
-
-            <p>{{key}} - {{value}}</p>
-
-            {% endfor %}
-        </div>
-
-    </div>
 
 
 </div>

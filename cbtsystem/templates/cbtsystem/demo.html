@@ -158,7 +158,14 @@
                 <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()"> &#10006; End Section
                 </button>
 
+
             </div>
+              <br>
+
+                <p style="line-height: 0.9;"><small class="text-danger">
+       *Save at least one answer to skip to the next section.
+    </small></p>
+
         </div>
 
 
@@ -495,12 +502,18 @@ function doneAnswers() {
 
 console.log(doneList);
 var ls = localStorage.getItem("doneList");
+console.log('ls', ls)
 
 
 if(ls === null){
-     location.replace("{% url 'breakpage' %}")
+<!--     localStorage.removeItem("doneList");-->
+     location.replace("{% url 'index' %}")
+ } else{
+ saveAnswers()
+
  }
 
+function saveAnswers() {
 
 var timeLeft = localStorage.getItem("timeLeft");
 var selectedTest = localStorage.getItem("selectedTest");
@@ -533,6 +546,10 @@ location.replace("{% url 'breakpage' %}")
         }
       });
   }
+
+}
+
+
 
 
 

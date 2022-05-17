@@ -26,7 +26,7 @@
 
     <div class="text-center py-5">
 
-        <a href="{% url 'demo' %}" class="btn btn-secondary btn-lg d-none" id="startBtn">Start Next Section <i
+        <a href="{% url 'demo' %}" class="btn btn-secondary btn-lg d-none" id="startBtn">Start Section <i
                 class="bi bi-arrow-right-circle"></i></a>
     </div>
 
@@ -80,23 +80,23 @@ function getPending() {
 
       if (studentApi.testId === selectedTestId) {
 
-            localStorage.setItem("readingApi", studentApi.studentAnswersReading);
-      localStorage.setItem("readingApiTime", studentApi.timeLeftReading);
+        localStorage.setItem("readingApi", studentApi.studentAnswersReading);
+        localStorage.setItem("readingApiTime", studentApi.timeLeftReading);
 
-                  localStorage.setItem("writingApi", studentApi.studentAnswersWriting);
-      localStorage.setItem("writingApiTime", studentApi.timeLeftWriting);
+        localStorage.setItem("writingApi", studentApi.studentAnswersWriting);
+        localStorage.setItem("writingApiTime", studentApi.timeLeftWriting);
 
-
-      document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
-      document.getElementById("startBtn").classList.add("btn-outline-warning");
+        document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
+        document.getElementById("startBtn").classList.add("btn-outline-warning");
 
 
       } else {
 
 
-      localStorage.removeItem("readingApi");
+        localStorage.removeItem("readingApi");
         localStorage.removeItem("readingApiTime");
-              localStorage.removeItem("writingApi");
+
+        localStorage.removeItem("writingApi");
         localStorage.removeItem("writingApiTime");
 
 
