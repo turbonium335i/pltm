@@ -146,7 +146,7 @@
         </thead>
         <tbody>
 
-        {% for r in record|slice:":10" reversed %}
+        {% for r in record|slice:":10" %}
 
         <tr>
 
@@ -176,7 +176,7 @@ const myChart = new Chart(ctx, {
         labels: ['7','6','5', '4', '3', '2', '1' ],
         datasets: [{
             label: 'Reading',
-            data: [{% for r in record|slice:"3:"  %}  '-{{r.numberInCorrectR}}', {% endfor %}],
+            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectR}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -257,7 +257,7 @@ function showDetails(clicked) {
 
 <footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
   <div class="container text-center"><small>
-    <span > <a href="https://www.evolution3w.com" class="text-danger text-decoration-none">Developed & Managed by Evolution3W.com</a>
+    <span > <a href="https://www.evolution3w.com" class="text-muted text-decoration-none">Developed & Managed by Evolution3W.com</a>
 
 
     </span></small>

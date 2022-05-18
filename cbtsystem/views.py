@@ -21,7 +21,8 @@ from rest_framework.response import Response
 def index(request):
 
     username = request.user
-    record = testRecord.objects.filter(studentUsername=username.username)
+    record = testRecord.objects.filter(studentUsername=username.username).order_by('-id')
+
 
     inProgress = testInProgress.objects.filter(studentId=username.id).first()
 
