@@ -24,30 +24,42 @@
 
 
 </head>
-<body class="bg-dark text-light d-flex flex-column min-vh-100">
+<body class="bg-light text-dark d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg py-1" style="background-color: rgba(55,53,53,255); ">
+  <div class="container-fluid">
+        <a class="navbar-brand text-light" href="{% url 'index' %}" >
+      <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="30" height='auto'>
+            Platinum Academy
+    </a>
 
-<div class="container">
-
-    <div class="text-secondary text-end mb-0 mt-1">
+           <div class="text-secondary text-end mb-0 mt-0">
 
         {% if request.user.is_superuser %}<i class="bi bi-shield-check"></i>{% else %} * {% endif %}
         <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
         {{request.user.id|json_script:"user_id" }}
         <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
 
+  </div>
+</nav>
+<br>
 
-    <a href="{% url 'index' %}">index</a>
-    <a href="{% url 'breakpage' %}">breakPage</a>
-    <a href="{% url 'directions' %}">directions</a>
-    <a href="{% url 'loginpage' %}">login</a>
-    <a href="{% url 'demo' %}">cbt demo</a>
-    <a href="{% url 'processtest' %}">processtest</a>
-    <a href="{% url 'results' %}">results</a>
-    <a href="{% url 'history' %}">history</a>
-    <a href="http://127.0.0.1:8000/admin">admin</a>
+<!--<div class="container">-->
 
-    <hr class="bg-danger">
-</div>
+
+
+
+<!--    <a href="{% url 'index' %}">index</a>-->
+<!--    <a href="{% url 'breakpage' %}">breakPage</a>-->
+<!--    <a href="{% url 'directions' %}">directions</a>-->
+<!--    <a href="{% url 'loginpage' %}">login</a>-->
+<!--    <a href="{% url 'demo' %}">cbt demo</a>-->
+<!--    <a href="{% url 'processtest' %}">processtest</a>-->
+<!--    <a href="{% url 'results' %}">results</a>-->
+<!--    <a href="{% url 'history' %}">history</a>-->
+<!--    <a href="http://127.0.0.1:8000/admin">admin</a>-->
+
+<!--    <hr class="bg-danger">-->
+<!--</div>-->
 
 
 {% block content %}
@@ -55,43 +67,45 @@
 
     <div class="card-group ">
 
-        <div class="card text-white bg-dark border-0">
+        <div class="card bg-light text-dark  border-0">
 
             <div class="card-body ">
                 <h5 class="card-title">Select Test <i class="bi bi-arrow-right-circle"></i></h5>
                 <br>
 
                 {% for t in testGroup|slice:":3" %}
-<div class="d-grid gap-2">
-                {% if t.id == inProgressTest %}
-                <button class="btn btn-outline-warning btn-lg mb-1 " onclick="showDetails(this)"
-                        data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
+                <div class="d-grid gap-2">
+                    {% if t.id == inProgressTest %}
+                    <button class="btn btn-outline-warning btn-lg mb-1 " onclick="showDetails(this)"
+                            data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
-                </button>
+                    </button>
 
-                {% else %}
+                    {% else %}
 
-                <button class="btn btn-outline-primary btn-lg  mb-1   " onclick="showDetails(this)"
-                        data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
+                    <button class="btn btn-outline-primary btn-lg  mb-1   " onclick="showDetails(this)"
+                            data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
-                </button>
+                    </button>
 
-                {% endif %}
-</div>
+                    {% endif %}
+                </div>
                 {% endfor %}
 
                 <br> <br>
 
             </div>
-            <div class="card-footer border-0">
-                <p class="card-text text-warning  ">*Pending or test in progress are highlighted in yellow.</p>
+            <div class="card-footer border-0 bg-secondary ms-0">
+                <p class="card-text text-warning  ">
+                    <small> *Pending or test in progress are highlighted in yellow.</small>
+                </p>
             </div>
         </div>
 
-        <div class="card text-white bg-dark border-0">
+        <div class="card text-white bg-light border-0">
 
             <div class="card-body  ">
-                <h5 class="card-title">Test Trend </h5>
+                <h5 class="card-title text-dark">Test Trend  <i class="bi bi-graph-up"></i></h5>
 
                 <canvas id="myChart"></canvas>
                 <br>
@@ -105,7 +119,7 @@
 
 
     <p class="text-secondary"> Pending: <span
-            class="text-light">{{inProgress.testName}} - {{inProgress.date_started}}</span></p>
+            class="text-dark">{{inProgress.testName}} - {{inProgress.date_started}}</span></p>
 
 
     <div>
@@ -136,7 +150,7 @@
 
     <p class="text-secondary">Student Test History:</p>
 
-    <table class="table table-dark table-striped table-hover table-sm">
+    <table class="table   table-striped table-hover table-sm">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -231,6 +245,8 @@ const myChart = new Chart(ctx, {
 
 
 
+
+
 </script>
 
 
@@ -254,12 +270,14 @@ function showDetails(clicked) {
 
 
 
+
+
 </script>
 
 
 {% endblock %}
 
-<footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
+<footer class="footer mt-auto py-3 border-top border-secondary" style="background-color: rgba(55,53,53,255);">
     <div class="container text-center"><small>
     <span> <a href="https://www.evolution3w.com" class="text-muted text-decoration-none">Developed & Managed by Evolution3W.com</a>
 

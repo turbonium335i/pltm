@@ -266,6 +266,8 @@ def processtest(request):
         testData = testInProgress.objects.get(studentId=username.id)
         testQuery = testSpec.objects.get(id=testData.testId)
 
+        print('test status: ', testData.statusReading, testData.statusWriting)
+
         inCorrect = []
         wrongQtype = []
 
@@ -320,21 +322,21 @@ def processtest(request):
         numberInCorrectW = str(len(inCorrect))
         print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
 
-        r = testRecord.objects.create(studentUsername=username.username,
-                                      studentName=username.first_name,
-                                      testName=testData.testName,
-                                      testId=testData.testId,
-                                      studentAnswersReading=studentAnswersR,
-                                      studentAnswersWriting=studentAnswersW,
-                                      numberInCorrectR=numberInCorrectR,
-                                      numberInCorrectW=numberInCorrectW,
-                                      jsonWrongQtypeR=wrongSortR,
-                                      jsonWrongQtypeW=wrongSortW
-                                      )
+        # r = testRecord.objects.create(studentUsername=username.username,
+        #                               studentName=username.first_name,
+        #                               testName=testData.testName,
+        #                               testId=testData.testId,
+        #                               studentAnswersReading=studentAnswersR,
+        #                               studentAnswersWriting=studentAnswersW,
+        #                               numberInCorrectR=numberInCorrectR,
+        #                               numberInCorrectW=numberInCorrectW,
+        #                               jsonWrongQtypeR=wrongSortR,
+        #                               jsonWrongQtypeW=wrongSortW
+        #                               )
 
-        print('record saved: ', r)
+        # print('record saved: ', r)
 
-        testData.delete()
+        # testData.delete()
 
         # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
         return render(request, 'cbtsystem/processTestClaw.html')
