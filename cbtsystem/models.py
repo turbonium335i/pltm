@@ -2,6 +2,8 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
+from django.contrib.sessions.models import Session
+
 from django.conf import settings
 from jsonfield import JSONField
 
@@ -69,3 +71,18 @@ class groupTest(models.Model):
 
     def __str__(self):
         return "Test Group"
+
+
+class LoggedInUser(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='logged_in_user', on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=32, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+class loggrecord(models.Model):
+    username = models.CharField(max_length=100, blank=True, null=True)
+    logdate = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.username, self.logdate)

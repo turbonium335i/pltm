@@ -22,30 +22,65 @@
 
     <!--    style="background-color:black;"-->
 
+    <style>
+
+            #userInfo {
+            display:none;
+        }
+
+        @media(min-width:400px){
+        #userInfo {
+            display:block;
+        }
+
+        }
+
+
+                    #userInfo2 {
+            display:none;
+        }
+
+        @media(max-width:399px){
+        #userInfo2 {
+            display:block;
+        }
+
+        }
+
+    </style>
+
 
 </head>
 <body class="bg-light text-dark d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg py-1" style="background-color: rgba(55,53,53,255); ">
-  <div class="container-fluid">
-        <a class="navbar-brand text-light" href="{% url 'index' %}" >
-      <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="30" height='auto'>
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="{% url 'index' %}">
+            <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="30" height='auto'>
             Platinum Academy
-    </a>
+        </a>
 
-           <div class="text-secondary text-end mb-0 mt-0">
+        <div class="text-secondary text-end mb-0 mt-0" id="userInfo" >
 
-        {% if request.user.is_superuser %}<i class="bi bi-shield-check"></i>{% else %} * {% endif %}
-        <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
-        {{request.user.id|json_script:"user_id" }}
-        <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
+            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i class="bi bi-shield-check"></i></a>{% else %} * {% endif %}
+            <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
+            {{request.user.id|json_script:"user_id" }}
+            <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
 
-  </div>
+    </div>
 </nav>
+        <div class="text-secondary text-end mb-0 mt-0" id="userInfo2" >
+
+            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i class="bi bi-shield-check"></i></a>{% else %} * {% endif %}
+            <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
+            {{request.user.id|json_script:"user_id" }}
+            <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
+
+    </div>
+
+
 <br>
 
 <!--<div class="container">-->
-
-
 
 
 <!--    <a href="{% url 'index' %}">index</a>-->
@@ -105,7 +140,7 @@
         <div class="card text-white bg-light border-0">
 
             <div class="card-body  ">
-                <h5 class="card-title text-dark">Test Trend  <i class="bi bi-graph-up"></i></h5>
+                <h5 class="card-title text-dark">Test Trend <i class="bi bi-graph-up"></i></h5>
 
                 <canvas id="myChart"></canvas>
                 <br>
@@ -247,6 +282,7 @@ const myChart = new Chart(ctx, {
 
 
 
+
 </script>
 
 
@@ -267,6 +303,7 @@ function showDetails(clicked) {
   window.location.href = "{% url 'directions' %}";
 
 }
+
 
 
 

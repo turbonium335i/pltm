@@ -9,9 +9,11 @@ from .models import *
 import collections
 from django.contrib.auth.decorators import login_required
 
+
 from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 
 
 # fix origin django 4.0 csrf error
@@ -59,6 +61,18 @@ def index(request):
 @login_required(login_url='loginpage')
 def demo(request):
     return render(request, 'cbtsystem/demo.html')
+
+@login_required(login_url='loginpage')
+def cbtreading(request, pk):
+
+    testQ = groupTest.objects.all()[0]
+
+    testPDF = testQ.showTest.get(id=1)
+
+
+
+
+    return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF })
 
 
 def loginpage(request):
@@ -217,7 +231,9 @@ def history(request):
 def endsection(request):
     try:
         data = json.loads(request.body)
-        print(data['ls'], data['timeLeft'], data['section'], data['section'], data['user_id'], data['selectedTestId'],  data['selectedTest'])
+        print(data['ls'], data['timeLeft'], data['section'],
+              data['section'], data['user_id'], data['selectedTestId'],
+              data['selectedTest'], data['testStatus'])
 
 
         progressRecord, created = testInProgress.objects.get_or_create(studentId=request.user.id)
@@ -243,6 +259,13 @@ def endsection(request):
         progressRecord.studentId = request.user.id
         progressRecord.testName = data['selectedTest']
         progressRecord.testId = data['selectedTestId']
+
+        if data['testStatus'] == 'r':
+            progressRecord.statusReading = "YES"
+
+        if data['testStatus'] == 'w':
+            progressRecord.statusWriting = "YES"
+
         progressRecord.save(force_insert=False)
 
 
@@ -268,82 +291,88 @@ def processtest(request):
 
         print('test status: ', testData.statusReading, testData.statusWriting)
 
-        inCorrect = []
-        wrongQtype = []
+        if (testData.statusReading == 'YES' and testData.statusReading == 'YES'):
 
-        studentAnswersR = testData.studentAnswersReading
-        studentAnswersW = testData.studentAnswersWriting
-        readingAnswerKey = testQuery.answerKeyReading
-        writingAnswerKey = testQuery.answerKeyWriting
+            inCorrect = []
+            wrongQtype = []
 
-        cleanAnswerR = {}
-        cleanAnswerW = {}
+            studentAnswersR = testData.studentAnswersReading
+            studentAnswersW = testData.studentAnswersWriting
+            readingAnswerKey = testQuery.answerKeyReading
+            writingAnswerKey = testQuery.answerKeyWriting
 
-        for k, v in readingAnswerKey.items():
-            try:
-                cleanAnswerR[k] = studentAnswersR[k]
-            except:
-                cleanAnswerR[k] = 'X'
+            cleanAnswerR = {}
+            cleanAnswerW = {}
 
-        for k, v in writingAnswerKey.items():
-            try:
-                cleanAnswerW[k] = studentAnswersW[k]
-            except:
-                cleanAnswerW[k] = 'X'
+            for k, v in readingAnswerKey.items():
+                try:
+                    cleanAnswerR[k] = studentAnswersR[k]
+                except:
+                    cleanAnswerR[k] = 'X'
 
-        studentAnswersR = cleanAnswerR
-        studentAnswersW = cleanAnswerW
+            for k, v in writingAnswerKey.items():
+                try:
+                    cleanAnswerW[k] = studentAnswersW[k]
+                except:
+                    cleanAnswerW[k] = 'X'
 
-        # return JsonResponse( cleanAnswerW, safe=False)
+            studentAnswersR = cleanAnswerR
+            studentAnswersW = cleanAnswerW
 
-        print(testData.statusReading, testData.statusWriting)
+            # return JsonResponse( cleanAnswerW, safe=False)
 
-        for x, y in studentAnswersR.items():
-            if y != readingAnswerKey[x]:
-                inCorrect.append(x)
-                wrongQtype.append(testQuery.questionTypeReading[x])
+            print(testData.statusReading, testData.statusWriting)
 
-        wrongQ = dict(collections.Counter(wrongQtype))
-        wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-        numberInCorrectR = str(len(inCorrect))
-        print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
+            for x, y in studentAnswersR.items():
+                if y != readingAnswerKey[x]:
+                    inCorrect.append(x)
+                    wrongQtype.append(testQuery.questionTypeReading[x])
 
-        inCorrect = []
-        wrongQtype = []
+            wrongQ = dict(collections.Counter(wrongQtype))
+            wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+            numberInCorrectR = str(len(inCorrect))
+            print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
 
-        for x, y in studentAnswersW.items():
-            # print(x, y, testQuery.answerKeyReading[x])
-            if y != writingAnswerKey[x]:
-                inCorrect.append(x)
-                wrongQtype.append(testQuery.questionTypeWriting[x])
+            inCorrect = []
+            wrongQtype = []
 
-        wrongQ = dict(collections.Counter(wrongQtype))
-        wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-        numberInCorrectW = str(len(inCorrect))
-        print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
+            for x, y in studentAnswersW.items():
+                # print(x, y, testQuery.answerKeyReading[x])
+                if y != writingAnswerKey[x]:
+                    inCorrect.append(x)
+                    wrongQtype.append(testQuery.questionTypeWriting[x])
 
-        # r = testRecord.objects.create(studentUsername=username.username,
-        #                               studentName=username.first_name,
-        #                               testName=testData.testName,
-        #                               testId=testData.testId,
-        #                               studentAnswersReading=studentAnswersR,
-        #                               studentAnswersWriting=studentAnswersW,
-        #                               numberInCorrectR=numberInCorrectR,
-        #                               numberInCorrectW=numberInCorrectW,
-        #                               jsonWrongQtypeR=wrongSortR,
-        #                               jsonWrongQtypeW=wrongSortW
-        #                               )
+            wrongQ = dict(collections.Counter(wrongQtype))
+            wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+            numberInCorrectW = str(len(inCorrect))
+            print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
 
-        # print('record saved: ', r)
+            # r = testRecord.objects.create(studentUsername=username.username,
+            #                               studentName=username.first_name,
+            #                               testName=testData.testName,
+            #                               testId=testData.testId,
+            #                               studentAnswersReading=studentAnswersR,
+            #                               studentAnswersWriting=studentAnswersW,
+            #                               numberInCorrectR=numberInCorrectR,
+            #                               numberInCorrectW=numberInCorrectW,
+            #                               jsonWrongQtypeR=wrongSortR,
+            #                               jsonWrongQtypeW=wrongSortW
+            #                               )
 
-        # testData.delete()
+            # print('record saved: ', r)
 
-        # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
-        return render(request, 'cbtsystem/processTestClaw.html')
+            # testData.delete()
+
+            # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+            return render(request, 'cbtsystem/processTestClaw.html')
+        else:
+            return redirect('index')
+
 
     except:
 
-        return render(request, 'cbtsystem/processTestClaw.html' )
+        # return render(request, 'cbtsystem/processTestClaw.html')
+        return redirect('index')
 
         # logout(request)
         # messages.info(request, "Authentication Error")
