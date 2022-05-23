@@ -45,9 +45,6 @@
 
 
 
-
-
-
 </style>
 <!--#f0ead6;-->
 
@@ -64,12 +61,13 @@
 <hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
 <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
     {{ request.user.id|json_script:"user_id" }}
-    <div class="d-flex justify-content-end text-danger pe-4"><i class="bi bi-window-fullscreen"
-                                                                onclick="fullscreen()"></i> &nbsp;F11
+    <div class="d-flex justify-content-end text-danger pe-4">
+
+
+        <i class="bi bi-window-fullscreen"
+                         onclick="fullscreen()"></i> &nbsp;F11
         &nbsp;
-
-
-        <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
+                <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
                 <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
             </span>
 
@@ -140,8 +138,12 @@
                   <label for="D">D</label>
             </form>
             <br>
-            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i
-                    class="bi bi-save"></i></button>
+<!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
+<!--                    class="bi bi-save"></i></button>-->
+               <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
+                   <i class="bi bi-eraser"></i></button>
+
+
             <button type="button" class="btn btn-outline-warning " id="flagBtn" onclick="flagFunction()"><i
                     class="bi bi-flag"></i></button>
 
@@ -175,10 +177,10 @@
 </div>
 
 
+
 <script>
 
  var timeLeft = 3610000
-
 
  if (localStorage.getItem('readingApiTime') !== null) {
     console.log(`readingApiTime exists`);
@@ -243,14 +245,6 @@
         }
 
 
-
-
-
-
-
-
-
-
 </script>
 
 <script>
@@ -273,9 +267,6 @@
 
         var doneList = obj
         var flagList = {   }
-
-
-
 
         var currentQuestion = 1;
         var lastQuestion = 1;
@@ -361,12 +352,40 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
 
 
 
-        function nextFunction() {
+function nextFunction() {
+    console.log('currentQuestion: ', currentQuestion)
+  var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+  if (checkRadio != null) {
+    var clickedBtn = document.getElementById("b" + currentQuestion.toString());
 
-            currentQuestion += 1;
-            btnFunction(currentQuestion)
+    console.log(flagList);
 
-        }
+    if (flagList.hasOwnProperty(currentQuestion.toString())) {
+      console.log("in flag function");
+      currentQuestion += 1;
+      btnFunction(currentQuestion);
+    } else{
+
+    clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
+    clickedBtn.classList.add("btn-primary");
+    doneList[currentQuestion] = checkRadio.id;
+    console.log(doneList);
+    localStorage.setItem("doneList", JSON.stringify(doneList));
+    $("#submitCheck")
+      .fadeOut(100)
+      .fadeIn(200)
+      .fadeOut(100)
+      .fadeIn(200)
+      .fadeOut(100)
+      .fadeIn(100);
+    currentQuestion += 1;
+    btnFunction(currentQuestion);}
+  } else {
+    currentQuestion += 1;
+    btnFunction(currentQuestion);
+  }
+}
+
         function prevFunction() {
 
             currentQuestion -= 1;
@@ -378,11 +397,7 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
 
 
 
-
-
-
-
-        function btnFunction(id) {
+               function btnFunction(id) {
 
 
             var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
@@ -390,7 +405,6 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
             lastClickedBtn.classList.add("border-dark");
 
             currentQuestion = id
-
 
             var clickedBtn = document.getElementById('b' + (id.toString()));
             clickedBtn.classList.remove("border-dark");
@@ -418,7 +432,7 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
                 try { document.getElementById(flagList[id.toString()]).checked = true; }
 
                 catch (err) {
-                    console.log('error')
+                    console.log('radio empty')
                     var checkRadio = document.querySelector('input[name="fav_language"]:checked');
                     // console.log(document.querySelector('input[name="fav_language"]:checked'));
 
@@ -438,34 +452,32 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
         }
 
 
+               function saveFunction() {
 
-        function saveFunction() {
+        var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+        checkRadio.checked = false;
+        var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+        clickedBtn.classList.remove("btn-primary");
+        clickedBtn.classList.add("btn-light", "btn-warning", "notDone");
 
-            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-            if (checkRadio != null) {
-                // document.querySelector('input[name="fav_language"]:checked').checked = false;
-                var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
-                clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
-                clickedBtn.classList.add("btn-primary");
-                // var localcheck = document.querySelector('input[name="fav_language"]:checked').id;
-                doneList[currentQuestion] = checkRadio.id;
+                delete doneList[currentQuestion];
+                delete flagList[currentQuestion];
+        console.log(doneList);
+        localStorage.setItem('doneList', JSON.stringify(doneList));
 
-                // try {
-                //     var savedAnswer = document.querySelector('input[name="fav_language"]:checked').value;
 
-                //     // clearAnswers();
-                // }
-                // catch (err) {
-                //     var savedAnswer = "not selected";
-                // }
 
-                // console.log('saved: ', currentQuestion, savedAnswer);
 
-                console.log(doneList);
-                localStorage.setItem('doneList', JSON.stringify(doneList));
-                $("#submitCheck").fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(100)
-
-            }
+<!--            var checkRadio = document.querySelector('input[name="fav_language"]:checked');-->
+<!--            if (checkRadio != null) {-->
+<!--                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));-->
+<!--                clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");-->
+<!--                clickedBtn.classList.add("btn-primary");-->
+<!--                 doneList[currentQuestion] = checkRadio.id; -->
+<!--                console.log(doneList);-->
+<!--                localStorage.setItem('doneList', JSON.stringify(doneList));-->
+<!--                $("#submitCheck").fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(100)-->
+<!--            }-->
 
         }
 
@@ -479,6 +491,7 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
                 clickedBtn.classList.remove("btn-light", "btn-outline-primary", "btn-dark");
                 clickedBtn.classList.add("btn-warning");
+                flagList[currentQuestion] = checkRadio.id;
                 doneList[currentQuestion] = checkRadio.id;
 
             }
@@ -532,7 +545,7 @@ var selectedTestId = localStorage.getItem("selectedTestId");
       },
 
       body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading',
-      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId   }),
+      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'r'   }),
     })
       .then((response) => {
         return response.json();
@@ -550,11 +563,6 @@ location.replace("{% url 'breakpage' %}")
   }
 
 }
-
-
-
-
-
 
         btnFunction(1)
 
@@ -576,7 +584,7 @@ var selectedTestId = localStorage.getItem("selectedTestId");
     },
 
       body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'reading',
-      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId   }),
+      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'r'   }),
   })
     .then((response) => {
       return response.json();
@@ -597,6 +605,7 @@ var x = setInterval(function () {
 
   if (elapsed > 3600000) {
     clearInterval();
+        doneAnswers()
   }
 }, 60000);
 
