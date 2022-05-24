@@ -18,6 +18,7 @@ urlpatterns = [
     path('results_pk/<str:pk>', views.results_pk, name='results_pk'),
     path('pendingapi', views.pendingTestApi, name='pendingapi'),
     path('cbtreading_pk/<str:pk>', views.cbtreading, name='cbtreading_pk'),
+    path('rawscale', views.rawscale, name='rawscale'),
 
 
 

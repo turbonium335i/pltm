@@ -8,11 +8,20 @@
 
     <div class="d-flex justify-content-start text-danger pe-4 mb-3">
         <h3>
-            <span class="text-dark">Writing Directions &nbsp;
+            <span class="text-dark">Writing Section Directions &nbsp;
             </span>
 
         </h3>
     </div>
+
+    <div class="progress bg-secondary" style="height: 5px;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 1%;"
+             aria-valuenow="25"
+             aria-valuemin="0"
+             aria-valuemax="100"></div>
+    </div>
+
+    <br>
     <div class="ms-3">
         <li>Mobile phones, smartwatches, fitness trackers, or other wearable technology (simple nondigital watches are
             acceptable)
@@ -32,14 +41,18 @@
         </li>
 
 
-
     </div>
 
-    <div class="text-center py-5">
+    <div class="text-center py-5" id="linkDiv">
 
-        <a href="{% url 'cbtwriting' %}" class="btn btn-secondary btn-lg">Start Next Section <i
+        <a href="{% url 'cbtwriting' %}" class="btn btn-secondary btn-lg d-none" id="startBtn">Start Section <i
                 class="bi bi-arrow-right-circle"></i></a>
     </div>
+
+        <br>
+
+
+    <div id="jsData"></div>
 
 
     <script>
@@ -51,6 +64,41 @@ var selectedTestId = localStorage.getItem("selectedTestId")
 }
 
 myTest()
+
+
+
+
+
+    </script>
+
+     <script>
+
+        var progressPercentage = 0
+        var x = setInterval(function () {
+            document
+                .getElementsByClassName("progress-bar")[0]
+                .setAttribute("style", "width:" + progressPercentage + "%");
+
+            progressPercentage += 5
+<!--            console.log(progressPercentage)-->
+            if (progressPercentage > 100) {
+
+<!--var goTest = ` <a href="http://127.0.0.1:8000/cbtwriting" class="btn btn-warning btn-lg " id="startBtn">Start Section <i-->
+<!--class="bi bi-arrow-right-circle"></i></a>`-->
+
+
+<!--var goTest = ` <a href="http://127.0.0.1:8000/cbtreading_pk/${studentApi.testId}  " class="btn btn-warning btn-lg " id="startBtn">Start Section <i-->
+<!--class="bi bi-arrow-right-circle"></i></a>`-->
+
+<!--            document.getElementById("linkDiv").innerHTML = goTest-->
+
+        document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
+        document.getElementById("startBtn").classList.add("btn-outline-secondary");
+                clearInterval(x);
+
+            }
+
+        }, 100);
 
 
 
