@@ -45,6 +45,13 @@
     }
 
 
+input[type='radio'] {
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+}
+
+
 </style>
 <!--#f0ead6;-->
 
@@ -161,7 +168,7 @@
                 <!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
                            <button type="button" class="btn btn-outline-primary  " onclick="doneBackup()">
                    <i class="bi bi-save"></i></button>
-                <button type="button" class="btn btn-outline-dark " onclick="doneAnswers()"> &#10006; End Section
+                <button type="button" class="btn btn-outline-dark " onclick="doneAnswers()" id="endSectionBtn"> &#10006; End Section
                 </button>
 
             </div>
@@ -275,7 +282,7 @@
 
 
 
-        var qCount = 53;
+        var qCount = 45;
         var qArray = [];
         for (let i = 1; i < qCount; i++) {
             qArray.push({ [i]: '' })
@@ -522,6 +529,9 @@ var ls = localStorage.getItem("doneList");
 console.log('ls', ls)
 
 
+var endSectionBtn = document.getElementById('endSectionBtn')
+endSectionBtn.disabled = true;
+
 if(ls === null){
 <!--     localStorage.removeItem("doneList");-->
      location.replace("{% url 'index' %}")
@@ -531,6 +541,8 @@ if(ls === null){
  }
 
  function saveAnswers() {
+
+
 
 
 var timeLeft = localStorage.getItem("timeLeft");
@@ -558,8 +570,10 @@ var selectedTestId = localStorage.getItem("selectedTestId");
 <!--        alert('data sent success')-->
 
 localStorage.clear();
-
 location.replace("{% url 'processtest' %}")
+
+
+
         }
       });
   }

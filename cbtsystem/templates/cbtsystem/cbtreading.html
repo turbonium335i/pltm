@@ -43,6 +43,12 @@
         background: #555;
     }
 
+input[type='radio'] {
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+}
+
 
 
 </style>
@@ -159,7 +165,7 @@
                 <br> <br> <br>
                 <br> <br> <br> <br> <br>
                 <!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
-                <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()"> &#10006; End Section
+                <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()" id="endSectionBtn"> &#10006; End Section
                 </button>
 
 
@@ -519,6 +525,8 @@ console.log(doneList);
 var ls = localStorage.getItem("doneList");
 console.log('ls', ls)
 
+var endSectionBtn = document.getElementById('endSectionBtn')
+endSectionBtn.disabled = true;
 
 if(ls === null){
 <!--     localStorage.removeItem("doneList");-->

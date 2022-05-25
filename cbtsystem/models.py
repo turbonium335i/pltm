@@ -38,8 +38,8 @@ class testInProgress(models.Model):
     studentFlagWriting = JSONField(null=True, default={})
     statusReading = models.CharField(max_length=3, null=True, blank=True, default='NO')
     statusWriting = models.CharField(max_length=3, null=True, blank=True, default='NO')
-    timeLeftReading = models.CharField(max_length=200, null=True, blank=True, default='60')
-    timeLeftWriting = models.CharField(max_length=200, null=True, blank=True, default='60')
+    timeLeftReading = models.CharField(max_length=200, null=True, blank=True, default='3610000')
+    timeLeftWriting = models.CharField(max_length=200, null=True, blank=True, default='3610000')
 
     def __str__(self):
         return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_started.strftime("%m/%d/%Y %H:%M:%S"),  self.studentUsername, self.studentName)

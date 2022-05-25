@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Platinum CBT</title>
+    <title>Platinum SAT</title>
 
     <!--    <link rel="shortcut icon" type="image/png"-->
     <!--          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">-->
@@ -28,7 +28,7 @@
             display:none;
         }
 
-        @media(min-width:400px){
+        @media(min-width:438px){
         #userInfo {
             display:block;
         }
@@ -40,12 +40,13 @@
             display:none;
         }
 
-        @media(max-width:399px){
+        @media(max-width:437px){
         #userInfo2 {
             display:block;
         }
 
         }
+
 
     </style>
 
@@ -56,26 +57,28 @@
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="{% url 'index' %}">
             <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="30" height='auto'>
-            Platinum Academy
+            Platinum Academy SAT
         </a>
 
-        <div class="text-secondary text-end mb-0 mt-0" id="userInfo" >
+        <div class="text-secondary text-end mb-0 mt-0" id="userInfo">
 
-            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i class="bi bi-shield-check"></i></a>{% else %} * {% endif %}
+            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i
+                class="bi bi-shield-check text-success"></i></a>{% else %} * {% endif %}
             <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
             {{request.user.id|json_script:"user_id" }}
             <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
 
     </div>
 </nav>
-        <div class="text-secondary text-end mb-0 mt-0" id="userInfo2" >
+<div class="text-secondary text-end mb-0 mt-0" id="userInfo2">
 
-            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i class="bi bi-shield-check"></i></a>{% else %} * {% endif %}
-            <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
-            {{request.user.id|json_script:"user_id" }}
-            <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
+    {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin" ><i class="bi bi-shield-check text-success"></i></a>
+    {% else %} * {% endif %}
+    <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
+    {{request.user.id|json_script:"user_id" }}
+    <a href="{% url 'logoutpage' %}"><i class="bi bi-power text-danger"></i></a></div>
 
-    </div>
+</div>
 
 
 <br>
@@ -283,6 +286,7 @@ const myChart = new Chart(ctx, {
 
 
 
+
 </script>
 
 
@@ -306,9 +310,6 @@ function showDetails(clicked) {
 
 
 
-
-
-
 </script>
 
 
@@ -316,9 +317,11 @@ function showDetails(clicked) {
 
 <footer class="footer mt-auto py-3 border-top border-secondary" style="background-color: rgba(55,53,53,255);">
     <div class="container text-center"><small>
+    <span> <a href="http://www.platinumacademy.co.kr" class="text-light text-decoration-none">&copy; Platinum Academy 2022</a>
+    </span></small>
+    </div>
+    <div class="container text-center"><small>
     <span> <a href="https://www.evolution3w.com" class="text-muted text-decoration-none">Developed & Managed by Evolution3W.com</a>
-
-
     </span></small>
     </div>
 </footer>
