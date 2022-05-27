@@ -12,7 +12,8 @@ class testSpecAdmin(admin.ModelAdmin):
 admin.site.register(testInProgress)
 admin.site.register(groupTest)
 admin.site.register(LoggedInUser)
-admin.site.register(loggrecord)
+admin.site.register(QtypeNote)
+
 
 #custom search functions
 admin.site.register(testRecord, testRecordAdmin)

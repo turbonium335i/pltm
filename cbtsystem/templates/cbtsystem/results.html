@@ -41,7 +41,7 @@
                     </tr>
                     </thead>
                     <tbody id="readingHead">
-                    {% for x, y, z, t in zipRecord %}
+                    {% for x, y, z, t, q in zipRecord %}
                     {% if y == z %}
                     <tr>
                         <td>
@@ -67,10 +67,10 @@
                         <td>
                             {{y}}
                         </td>
-                        <td>
+                        <td  >
                             &#10060;
                         </td>
-                        <td>
+                        <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}" style="cursor: pointer;">
                             {{t}}
                         </td>
                     </tr>

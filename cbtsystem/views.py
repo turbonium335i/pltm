@@ -40,9 +40,6 @@ def index(request):
     except:
         inProgressTest = ""
 
-    print("inProgressTest", inProgressTest)
-
-    # if inProgressTest != "":
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
@@ -164,53 +161,65 @@ def results_pk(request, pk):
     qAnswer = []
     qType = []
 
-    try:
 
-        record = testRecord.objects.get(id=pk)
+    # try:
 
-        if request.user.username == record.studentUsername:
+    testqnotes = QtypeNote.objects.all()
+    testnotesdict = {}
 
-            testQuery = testSpec.objects.all().first()
+    for x in testqnotes:
+        testnotesdict[x.title] = x.notes
 
-            for n, a in record.studentAnswersReading.items():
-                qNo.append(n)
-                qMarked.append(a)
+    record = testRecord.objects.get(id=pk)
 
-            for n, a in testQuery.answerKeyReading.items():
-                qAnswer.append(a)
+    if request.user.username == record.studentUsername:
 
-            for n, a in testQuery.questionTypeReading.items():
-                qType.append(a)
+        testQuery = testSpec.objects.all().first()
 
-            zipRecord = zip(qNo, qMarked, qAnswer, qType)
+        for n, a in record.studentAnswersReading.items():
+            qNo.append(n)
+            qMarked.append(a)
 
-            qNo = []
-            qMarked = []
-            qAnswer = []
-            qType = []
+        for n, a in testQuery.answerKeyReading.items():
+            qAnswer.append(a)
 
-            for n, a in record.studentAnswersWriting.items():
-                qNo.append(n)
-                qMarked.append(a)
+        for n, a in testQuery.questionTypeReading.items():
+            qType.append(a)
 
-            for n, a in testQuery.answerKeyWriting.items():
-                qAnswer.append(a)
+        ziptypesQnotesR = []
 
-            for n, a in testQuery.questionTypeWriting.items():
-                qType.append(a)
+        for zz in qType:
+            ziptypesQnotesR.append(testnotesdict[zz])
 
-            zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+        zipRecord = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesR)
 
-            return render(request, 'cbtsystem/results.html',
-                          {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
-        else:
-            return redirect("index")
+        qNo = []
+        qMarked = []
+        qAnswer = []
+        qType = []
 
-    except:
+        for n, a in record.studentAnswersWriting.items():
+            qNo.append(n)
+            qMarked.append(a)
 
-        logout(request)
-        messages.info(request, "Authentication Error")
-        return redirect('loginpage')
+        for n, a in testQuery.answerKeyWriting.items():
+            qAnswer.append(a)
+
+        for n, a in testQuery.questionTypeWriting.items():
+            qType.append(a)
+
+        zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+
+        return render(request, 'cbtsystem/results.html',
+                      {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+    else:
+        return redirect("index")
+
+    # except:
+    #
+    #     logout(request)
+    #     messages.info(request, "Authentication Error")
+    #     return redirect('loginpage')
 
 
 @login_required(login_url='loginpage')

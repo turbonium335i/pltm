@@ -89,3 +89,11 @@ class loggrecord(models.Model):
 
     def __str__(self):
         return '{0} - {1}'.format(self.username, self.logdate)
+
+class QtypeNote(models.Model):
+
+    title = models.CharField(max_length=100, null=True, default='QtypeNotes Title')
+    notes = models.TextField(null=True, blank=True, default='QtypeNotes Notes')
+
+    def __str__(self):
+        return 'id: {0} - {1} '.format(self.id, self.title)
