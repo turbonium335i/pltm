@@ -13,7 +13,7 @@ def on_user_logged_in(sender, request, **kwargs):
     myDate = datetime.now()
     formatedDate = myDate.strftime("%Y-%m-%d %H:%M:%S")
     LoggedInUser.objects.get_or_create(user=kwargs.get('user'))
-    loggrecord.objects.create(username=kwargs.get('user'), logdate=formatedDate)
+    # loggrecord.objects.create(username=kwargs.get('user'), logdate=formatedDate)
 
 @receiver(user_logged_out)
 def on_user_logged_out(sender, **kwargs):

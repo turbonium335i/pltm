@@ -11,6 +11,8 @@ class testSpecAdmin(admin.ModelAdmin):
 # admin.site.register(testRecord)
 admin.site.register(testInProgress)
 admin.site.register(groupTest)
+admin.site.register(LoggedInUser)
+admin.site.register(loggrecord)
 
 #custom search functions
 admin.site.register(testRecord, testRecordAdmin)

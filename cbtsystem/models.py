@@ -19,11 +19,11 @@ class testSpec(models.Model):
     pdfLink = models.URLField(max_length=250, null=True, blank=True,
                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
     pdfLink2 = models.URLField(max_length=250, null=True, blank=True,
-                              default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
-
+                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
 
     def __str__(self):
         return '{0} - {1} - {2}'.format(self.id, self.name, self.notes)
+
 
 class testInProgress(models.Model):
     studentId = models.CharField(null=True, blank=False, max_length=7)
@@ -42,7 +42,8 @@ class testInProgress(models.Model):
     timeLeftWriting = models.CharField(max_length=200, null=True, blank=True, default='3610000')
 
     def __str__(self):
-        return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_started.strftime("%m/%d/%Y %H:%M:%S"),  self.studentUsername, self.studentName)
+        return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_started.strftime("%m/%d/%Y %H:%M:%S"),
+                                            self.studentUsername, self.studentName)
 
 
 class testRecord(models.Model):
@@ -60,13 +61,14 @@ class testRecord(models.Model):
     jsonWrongQtypeR = JSONField(null=True, default={})
     jsonWrongQtypeW = JSONField(null=True, default={})
 
-
     def __str__(self):
-        return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_finished.strftime("%m/%d/%Y %H:%M:%S"),  self.studentUsername, self.studentName)
+        return '{0} {1} {2} {3} {4} R:-{5} W:-{6}'.format(self.id, self.testName,
+                                                          self.date_finished.strftime("%m/%d/%Y %H:%M:%S"),
+                                                          self.studentUsername, self.studentName, self.numberInCorrectR,
+                                                          self.numberInCorrectW)
 
 
 class groupTest(models.Model):
-
     showTest = models.ManyToManyField(testSpec, blank=True)
 
     def __str__(self):
@@ -79,6 +81,7 @@ class LoggedInUser(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 class loggrecord(models.Model):
     username = models.CharField(max_length=100, blank=True, null=True)
