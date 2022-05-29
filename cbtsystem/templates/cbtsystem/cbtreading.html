@@ -617,20 +617,16 @@ if(ls != null){
 
 
 
-
-var x = setInterval(function () {
-  doneBackup();
   elapsed += 60000;
   console.log(elapsed);
 
   if (elapsed > 3600000) {
     clearInterval();
-        doneAnswers()
+    doneAnswers()
+  }
+
   }
 }, 60000);
-
-
-
 
 
 

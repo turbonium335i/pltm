@@ -60,6 +60,8 @@ class testRecord(models.Model):
     scoreWriting = models.CharField(max_length=3, null=True, default='200')
     jsonWrongQtypeR = JSONField(null=True, default={})
     jsonWrongQtypeW = JSONField(null=True, default={})
+    jsonQtypePerR = JSONField(null=True, default={})
+    jsonQtypePerW = JSONField(null=True, default={})
 
     def __str__(self):
         return '{0} {1} {2} {3} {4} R:-{5} W:-{6}'.format(self.id, self.testName,

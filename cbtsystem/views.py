@@ -285,11 +285,6 @@ def endsection(request):
 
         progressRecord.save(force_insert=False)
 
-        # save progress every 5 questions?
-
-        # multiqsetName, created = groupmulti.objects.get_or_create(multiqsetName=makegroupsetname)
-        # multiqsetName.multiq.add(toadd)
-        # multiqsetName.save(force_insert=False)
 
         return JsonResponse('progress saved', safe=False)
 
@@ -317,6 +312,26 @@ def processtest(request):
             readingAnswerKey = testQuery.answerKeyReading
             writingAnswerKey = testQuery.answerKeyWriting
 
+            readingQT = testQuery.questionTypeReading
+            writingQT = testQuery.questionTypeWriting
+
+
+            qTypeTotalR = []
+
+            for k, v in readingQT.items():
+                qTypeTotalR.append(v)
+
+            qTypeTotalR= dict(collections.Counter(qTypeTotalR))
+
+
+            qTypeTotalW = []
+
+            for k, v in writingQT.items():
+                qTypeTotalW.append(v)
+
+            qTypeTotalW= dict(collections.Counter(qTypeTotalW))
+
+
             cleanAnswerR = {}
             cleanAnswerW = {}
 
@@ -337,8 +352,6 @@ def processtest(request):
 
             # return JsonResponse( cleanAnswerW, safe=False)
 
-            print(testData.statusReading, testData.statusWriting)
-
             for x, y in studentAnswersR.items():
                 if y != readingAnswerKey[x]:
                     inCorrect.append(x)
@@ -347,7 +360,7 @@ def processtest(request):
             wrongQ = dict(collections.Counter(wrongQtype))
             wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
             numberInCorrectR = str(len(inCorrect))
-            print("Reading: -" + str(len(inCorrect)) + ",", wrongSortR)
+            print("Reading: -" + numberInCorrectR + ",", wrongSortR)
 
             inCorrect = []
             wrongQtype = []
@@ -361,23 +374,43 @@ def processtest(request):
             wrongQ = dict(collections.Counter(wrongQtype))
             wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
             numberInCorrectW = str(len(inCorrect))
-            print("Writing: -" + str(len(inCorrect)) + ",", wrongSortW)
+            print("Writing: -" + numberInCorrectW + ",", wrongSortW)
 
-            r = testRecord.objects.create(studentUsername=username.username,
-                                          studentName=username.first_name,
-                                          testName=testData.testName,
-                                          testId=testData.testId,
-                                          studentAnswersReading=studentAnswersR,
-                                          studentAnswersWriting=studentAnswersW,
-                                          numberInCorrectR=numberInCorrectR,
-                                          numberInCorrectW=numberInCorrectW,
-                                          jsonWrongQtypeR=wrongSortR,
-                                          jsonWrongQtypeW=wrongSortW
-                                          )
+            qTypePercentR = {}
 
-            print('record saved: ', r)
+            for x, y in qTypeTotalR.items():
+                qTypePercentR[x] = round(100 * ((int(qTypeTotalR[x]) - int(wrongSortR[x]))/int(qTypeTotalR[x])))
 
-            testData.delete()
+            jsonQtypePerR = dict(sorted(qTypePercentR.items(), key=lambda item: item[1], reverse=True))
+            print('R % correct: ', jsonQtypePerR)
+
+            qTypePercentW = {}
+
+            for x, y in qTypeTotalW.items():
+                qTypePercentW[x] = round(100 * ((int(qTypeTotalW[x]) - int(wrongSortW[x]))/int(qTypeTotalW[x])))
+
+            jsonQtypePerW = dict(sorted(qTypePercentW.items(), key=lambda item: item[1], reverse=True))
+            print('W % correct: ', jsonQtypePerW)
+
+
+
+            # r = testRecord.objects.create(studentUsername=username.username,
+            #                               studentName=username.first_name,
+            #                               testName=testData.testName,
+            #                               testId=testData.testId,
+            #                               studentAnswersReading=studentAnswersR,
+            #                               studentAnswersWriting=studentAnswersW,
+            #                               numberInCorrectR=numberInCorrectR,
+            #                               numberInCorrectW=numberInCorrectW,
+            #                               jsonWrongQtypeR=wrongSortR,
+            #                               jsonWrongQtypeW=wrongSortW,
+            #                               jsonQtypePerR=wrongSortR,
+            #                               jsonQtypePerW=wrongSortW
+            #                               )
+            #
+            # print('record saved: ', r)
+            #
+            # testData.delete()
 
             # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
             return render(request, 'cbtsystem/processTestClaw.html')
