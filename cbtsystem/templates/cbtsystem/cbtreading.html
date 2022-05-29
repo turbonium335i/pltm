@@ -606,6 +606,18 @@ var selectedTestId = localStorage.getItem("selectedTestId");
 }
 
 var elapsed = 0;
+
+var x = setInterval(function () {
+var ls = localStorage.getItem("doneList");
+
+if(ls != null){
+   doneBackup();
+ }else {
+  console.log("backup empty")
+
+
+
+
 var x = setInterval(function () {
   doneBackup();
   elapsed += 60000;

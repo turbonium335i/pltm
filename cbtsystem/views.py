@@ -162,64 +162,75 @@ def results_pk(request, pk):
     qType = []
 
 
-    # try:
+    try:
 
-    testqnotes = QtypeNote.objects.all()
-    testnotesdict = {}
+        testqnotes = QtypeNote.objects.all()
+        testnotesdict = {}
 
-    for x in testqnotes:
-        testnotesdict[x.title] = x.notes
+        for x in testqnotes:
+            testnotesdict[x.title] = x.notes
 
-    record = testRecord.objects.get(id=pk)
+        record = testRecord.objects.get(id=pk)
 
-    if request.user.username == record.studentUsername:
+        if request.user.username == record.studentUsername:
 
-        testQuery = testSpec.objects.all().first()
+            testQuery = testSpec.objects.get(id=record.testId)
 
-        for n, a in record.studentAnswersReading.items():
-            qNo.append(n)
-            qMarked.append(a)
+            for n, a in record.studentAnswersReading.items():
+                qNo.append(n)
+                qMarked.append(a)
 
-        for n, a in testQuery.answerKeyReading.items():
-            qAnswer.append(a)
+            for n, a in testQuery.answerKeyReading.items():
+                qAnswer.append(a)
 
-        for n, a in testQuery.questionTypeReading.items():
-            qType.append(a)
+            for n, a in testQuery.questionTypeReading.items():
+                qType.append(a)
 
-        ziptypesQnotesR = []
+            ziptypesQnotesR = []
 
-        for zz in qType:
-            ziptypesQnotesR.append(testnotesdict[zz])
+            for zz in qType:
+                try:
+                    ziptypesQnotesR.append(testnotesdict[zz])
+                except:
+                    ziptypesQnotesR.append("Question Type input error. Contact administrator.")
 
-        zipRecord = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesR)
+            zipRecord = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesR)
 
-        qNo = []
-        qMarked = []
-        qAnswer = []
-        qType = []
+            qNo = []
+            qMarked = []
+            qAnswer = []
+            qType = []
 
-        for n, a in record.studentAnswersWriting.items():
-            qNo.append(n)
-            qMarked.append(a)
+            for n, a in record.studentAnswersWriting.items():
+                qNo.append(n)
+                qMarked.append(a)
 
-        for n, a in testQuery.answerKeyWriting.items():
-            qAnswer.append(a)
+            for n, a in testQuery.answerKeyWriting.items():
+                qAnswer.append(a)
 
-        for n, a in testQuery.questionTypeWriting.items():
-            qType.append(a)
+            for n, a in testQuery.questionTypeWriting.items():
+                qType.append(a)
 
-        zipRecordW = zip(qNo, qMarked, qAnswer, qType)
+            ziptypesQnotesW = []
 
-        return render(request, 'cbtsystem/results.html',
-                      {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
-    else:
-        return redirect("index")
+            for zz in qType:
+                try:
+                    ziptypesQnotesW.append(testnotesdict[zz])
+                except:
+                    ziptypesQnotesW.append("Question Type input error. Contact administrator.")
 
-    # except:
-    #
-    #     logout(request)
-    #     messages.info(request, "Authentication Error")
-    #     return redirect('loginpage')
+            zipRecordW = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesW)
+
+            return render(request, 'cbtsystem/results.html',
+                          {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+        else:
+            return redirect("index")
+
+    except:
+
+        # logout(request)
+        # messages.info(request, "Authentication Error")
+        return redirect('index')
 
 
 @login_required(login_url='loginpage')

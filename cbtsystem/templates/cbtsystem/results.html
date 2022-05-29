@@ -12,7 +12,7 @@
 
             Reading: <span class="text-danger"> -{{record.numberInCorrectR}}</span> / Writing:
             <span class="text-danger"> -{{record.numberInCorrectW}}</span> <br>
-<!--            {{record.jsonWrongQtypeR}} / {{record.jsonWrongQtypeW}} <br>-->
+            <!--            {{record.jsonWrongQtypeR}} / {{record.jsonWrongQtypeW}} <br>-->
             {{record.date_finished}}
 
         </div>
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col">
                 <h5 class="text-dark">Reading</h5>
-                <canvas id="myChart2"  ></canvas>
+                <canvas id="myChart2"></canvas>
                 <table class="table table-striped  table-hover table-light">
                     <thead>
                     <tr>
@@ -54,7 +54,8 @@
                         <td>
                             &#9898;
                         </td>
-                        <td>
+                        <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            style="cursor: pointer;">
                             {{t}}
                         </td>
                     </tr>
@@ -67,10 +68,11 @@
                         <td>
                             {{y}}
                         </td>
-                        <td  >
+                        <td>
                             &#10060;
                         </td>
-                        <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}" style="cursor: pointer;">
+                        <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            style="cursor: pointer;">
                             {{t}}
                         </td>
                     </tr>
@@ -82,7 +84,7 @@
             <div class="col">
                 <h5 class="text-dark">Writing</h5>
                 <div class="col">
-                    <canvas id="myChart"  ></canvas>
+                    <canvas id="myChart"></canvas>
                     <table class="table table-striped  table-hover table-light">
                         <thead>
                         <tr>
@@ -94,7 +96,7 @@
                         </tr>
                         </thead>
                         <tbody id="writingHead">
-                        {% for x, y, z, t in zipRecordW %}
+                        {% for x, y, z, t, q in zipRecordW %}
                         {% if y == z %}
                         <tr>
                             <td>
@@ -107,7 +109,8 @@
                             <td>
                                 &#9898;
                             </td>
-                            <td>
+                            <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                                style="cursor: pointer;">
                                 {{t}}
                             </td>
                         </tr>
@@ -123,7 +126,8 @@
                             <td>
                                 &#10060;
                             </td>
-                            <td>
+                            <td data-bs-toggle="popover" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                                style="cursor: pointer;">
                                 {{t}}
                             </td>
                         </tr>
@@ -205,6 +209,7 @@ const myChart = new Chart(ctx, {
     }
 });
 
+
 </script>
 
 <script>
@@ -238,6 +243,7 @@ const myChart2 = new Chart(ctx2, {
     }
 });
 
+
 </script>
 
- {% endblock %}
+{% endblock %}
