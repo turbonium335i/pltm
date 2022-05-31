@@ -59,9 +59,35 @@ def demo(request):
 def cbtreading(request, pk):
     testQ = groupTest.objects.all()[0]
 
-    testPDF = testQ.showTest.get(id=1)
+    try:
 
-    return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF})
+        testPDF = testQ.showTest.get(id=pk)
+
+        return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF})
+
+    except:
+        logout(request)
+        messages.info(request, "Authentication Error")
+        return redirect('loginpage')
+
+
+@login_required(login_url='loginpage')
+def cbtwriting(request, pk):
+
+    testQ = groupTest.objects.all()[0]
+
+    try:
+
+        testPDF = testQ.showTest.get(id=pk)
+
+        return render(request, 'cbtsystem/cbtwriting.html', {'testPDF': testPDF})
+
+    except:
+        logout(request)
+        messages.info(request, "Authentication Error")
+        return redirect('loginpage')
+
+
 
 
 def loginpage(request):
@@ -233,9 +259,7 @@ def results_pk(request, pk):
         return redirect('index')
 
 
-@login_required(login_url='loginpage')
-def cbtwriting(request):
-    return render(request, 'cbtsystem/cbtwriting.html')
+
 
 
 @login_required(login_url='loginpage')
@@ -296,132 +320,155 @@ def endsection(request):
 def processtest(request):
     username = request.user
 
-    try:
-        testData = testInProgress.objects.get(studentId=username.id)
-        testQuery = testSpec.objects.get(id=testData.testId)
+    # try:
+    testData = testInProgress.objects.get(studentId=username.id)
+    testQuery = testSpec.objects.get(id=testData.testId)
 
-        print('test status: ', testData.statusReading, testData.statusWriting)
+    print('test status: ', testData.statusReading, testData.statusWriting,
+          testData.studentAnswersReading, testData.studentAnswersWriting
 
-        if (testData.statusReading == 'YES' and testData.statusReading == 'YES'):
+          )
 
-            inCorrect = []
-            wrongQtype = []
+    if (testData.statusReading == 'YES' and testData.statusWriting == 'YES'):
+        correct = []
+        inCorrect = []
 
-            studentAnswersR = testData.studentAnswersReading
-            studentAnswersW = testData.studentAnswersWriting
-            readingAnswerKey = testQuery.answerKeyReading
-            writingAnswerKey = testQuery.answerKeyWriting
+        correctQtype = []
+        wrongQtype = []
 
-            readingQT = testQuery.questionTypeReading
-            writingQT = testQuery.questionTypeWriting
+        studentAnswersR = testData.studentAnswersReading
+        studentAnswersW = testData.studentAnswersWriting
+        readingAnswerKey = testQuery.answerKeyReading
+        writingAnswerKey = testQuery.answerKeyWriting
 
-
-            qTypeTotalR = []
-
-            for k, v in readingQT.items():
-                qTypeTotalR.append(v)
-
-            qTypeTotalR= dict(collections.Counter(qTypeTotalR))
+        readingQT = testQuery.questionTypeReading
+        writingQT = testQuery.questionTypeWriting
 
 
-            qTypeTotalW = []
+        qTypeTotalR = []
 
-            for k, v in writingQT.items():
-                qTypeTotalW.append(v)
+        for k, v in readingQT.items():
+            qTypeTotalR.append(v)
 
-            qTypeTotalW= dict(collections.Counter(qTypeTotalW))
+        qTypeTotalR= dict(collections.Counter(qTypeTotalR))
 
 
-            cleanAnswerR = {}
-            cleanAnswerW = {}
+        qTypeTotalW = []
 
-            for k, v in readingAnswerKey.items():
-                try:
-                    cleanAnswerR[k] = studentAnswersR[k]
-                except:
-                    cleanAnswerR[k] = 'X'
+        for k, v in writingQT.items():
+            qTypeTotalW.append(v)
 
-            for k, v in writingAnswerKey.items():
-                try:
-                    cleanAnswerW[k] = studentAnswersW[k]
-                except:
-                    cleanAnswerW[k] = 'X'
+        qTypeTotalW= dict(collections.Counter(qTypeTotalW))
 
-            studentAnswersR = cleanAnswerR
-            studentAnswersW = cleanAnswerW
 
-            # return JsonResponse( cleanAnswerW, safe=False)
+        cleanAnswerR = {}
+        cleanAnswerW = {}
 
-            for x, y in studentAnswersR.items():
-                if y != readingAnswerKey[x]:
-                    inCorrect.append(x)
-                    wrongQtype.append(testQuery.questionTypeReading[x])
+        for k, v in readingAnswerKey.items():
+            try:
+                cleanAnswerR[k] = studentAnswersR[k]
+            except:
+                cleanAnswerR[k] = 'X'
 
-            wrongQ = dict(collections.Counter(wrongQtype))
-            wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-            numberInCorrectR = str(len(inCorrect))
-            print("Reading: -" + numberInCorrectR + ",", wrongSortR)
+        for k, v in writingAnswerKey.items():
+            try:
+                cleanAnswerW[k] = studentAnswersW[k]
+            except:
+                cleanAnswerW[k] = 'X'
 
-            inCorrect = []
-            wrongQtype = []
+        studentAnswersR = cleanAnswerR
+        studentAnswersW = cleanAnswerW
 
-            for x, y in studentAnswersW.items():
-                # print(x, y, testQuery.answerKeyReading[x])
-                if y != writingAnswerKey[x]:
-                    inCorrect.append(x)
-                    wrongQtype.append(testQuery.questionTypeWriting[x])
+        # return JsonResponse( cleanAnswerW, safe=False)
 
-            wrongQ = dict(collections.Counter(wrongQtype))
-            wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
-            numberInCorrectW = str(len(inCorrect))
-            print("Writing: -" + numberInCorrectW + ",", wrongSortW)
+        for x, y in studentAnswersR.items():
+            if y != readingAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeReading[x])
+            else:
+                correct.append(x)
+                correctQtype.append(testQuery.questionTypeReading[x])
 
-            qTypePercentR = {}
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortR = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectR = str(len(inCorrect))
+        print("Reading: -" + numberInCorrectR + ",", wrongSortR)
 
-            for x, y in qTypeTotalR.items():
+        # correctQ = dict(collections.Counter(correctQtype))
+        # correctSortR = dict(sorted(correctQ.items(), key=lambda item: item[1], reverse=True))
+        # numberCorrectR = str(len(correct))
+        # print("Reading: +" + numberCorrectR + ",", correctSortR)
+
+
+        inCorrect = []
+        wrongQtype = []
+
+        for x, y in studentAnswersW.items():
+            # print(x, y, testQuery.answerKeyReading[x])
+            if y != writingAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeWriting[x])
+
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortW = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectW = str(len(inCorrect))
+        print("Writing: -" + numberInCorrectW + ",", wrongSortW)
+
+        qTypePercentR = {}
+
+        for x, y in qTypeTotalR.items():
+
+            try:
                 qTypePercentR[x] = round(100 * ((int(qTypeTotalR[x]) - int(wrongSortR[x]))/int(qTypeTotalR[x])))
+            except:
+                qTypePercentR[x] = 100
 
-            jsonQtypePerR = dict(sorted(qTypePercentR.items(), key=lambda item: item[1], reverse=True))
-            print('R % correct: ', jsonQtypePerR)
+        jsonQtypePerR = dict(sorted(qTypePercentR.items(), key=lambda item: item[1], reverse=True))
+        print('R % correct: ', jsonQtypePerR)
 
-            qTypePercentW = {}
+        qTypePercentW = {}
 
-            for x, y in qTypeTotalW.items():
+        for x, y in qTypeTotalW.items():
+
+            try:
                 qTypePercentW[x] = round(100 * ((int(qTypeTotalW[x]) - int(wrongSortW[x]))/int(qTypeTotalW[x])))
-
-            jsonQtypePerW = dict(sorted(qTypePercentW.items(), key=lambda item: item[1], reverse=True))
-            print('W % correct: ', jsonQtypePerW)
-
+            except:
+                qTypePercentW[x] = 100
 
 
-            # r = testRecord.objects.create(studentUsername=username.username,
-            #                               studentName=username.first_name,
-            #                               testName=testData.testName,
-            #                               testId=testData.testId,
-            #                               studentAnswersReading=studentAnswersR,
-            #                               studentAnswersWriting=studentAnswersW,
-            #                               numberInCorrectR=numberInCorrectR,
-            #                               numberInCorrectW=numberInCorrectW,
-            #                               jsonWrongQtypeR=wrongSortR,
-            #                               jsonWrongQtypeW=wrongSortW,
-            #                               jsonQtypePerR=wrongSortR,
-            #                               jsonQtypePerW=wrongSortW
-            #                               )
-            #
-            # print('record saved: ', r)
-            #
-            # testData.delete()
-
-            # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
-            return render(request, 'cbtsystem/processTestClaw.html')
-        else:
-            return redirect('index')
+        jsonQtypePerW = dict(sorted(qTypePercentW.items(), key=lambda item: item[1], reverse=True))
+        print('W % correct: ', jsonQtypePerW)
 
 
-    except:
 
-        # return render(request, 'cbtsystem/processTestClaw.html')
+        r = testRecord.objects.create(studentUsername=username.username,
+                                      studentName=username.first_name,
+                                      testName=testData.testName,
+                                      testId=testData.testId,
+                                      studentAnswersReading=studentAnswersR,
+                                      studentAnswersWriting=studentAnswersW,
+                                      numberInCorrectR=numberInCorrectR,
+                                      numberInCorrectW=numberInCorrectW,
+                                      jsonWrongQtypeR=wrongSortR,
+                                      jsonWrongQtypeW=wrongSortW,
+                                      jsonQtypePerR=jsonQtypePerR,
+                                      jsonQtypePerW=jsonQtypePerW
+                                      )
+
+        print('record saved: ', r)
+
+        testData.delete()
+
+        # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
+        return render(request, 'cbtsystem/processTestClaw.html')
+    else:
         return redirect('index')
+
+
+    # except:
+    #
+    #     # return render(request, 'cbtsystem/processTestClaw.html')
+    #     return redirect('index')
 
         # logout(request)
         # messages.info(request, "Authentication Error")

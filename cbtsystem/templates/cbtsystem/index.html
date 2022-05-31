@@ -53,6 +53,7 @@
 
 
 
+
     </style>
 
 
@@ -257,8 +258,8 @@ const myChart = new Chart(ctx, {
             borderWidth: 1
         }, {
             label: 'Writing',
-<!--            data: [{% for r in record|slice:":5" reversed  %}  '-{{r.numberInCorrectW}}', {% endfor %}],-->
-             data: ['-20', '-12', '-8', '-18', '-15', '-18', '-12'],
+            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectW}}', {% endfor %}],
+<!--             data: ['-20', '-12', '-8', '-18', '-15', '-18', '-12'],-->
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -297,9 +298,8 @@ const myChart = new Chart(ctx, {
 
 
 
+
 </script>
-
-
 
 
 <script>
@@ -315,11 +315,6 @@ function showDetails(clicked) {
   window.location.href = "{% url 'directions' %}";
 
 }
-
-
-
-
-
 
 
 </script>
@@ -348,6 +343,7 @@ function showDetails(clicked) {
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl, {html: true})
 })
+
 
 </script>
 </body>

@@ -80,7 +80,7 @@ myTest()
                 .setAttribute("style", "width:" + progressPercentage + "%");
 
             progressPercentage += 2
-            console.log(progressPercentage)
+<!--            console.log(progressPercentage)-->
             if (progressPercentage >= 80) {
                 clearInterval(x);
 
@@ -151,8 +151,24 @@ progressPercentage = 100
         localStorage.removeItem("writingApiTime");
 
 
-              document.getElementById("startBtn").classList.remove("d-none");
-              progressPercentage = 100
+<!--              document.getElementById("startBtn").classList.remove("d-none");-->
+<!--              progressPercentage = 100-->
+
+
+
+                      document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
+        document.getElementById("startBtn").classList.add("btn-outline-warning");
+
+        var goTest = `<a href="http://127.0.0.1:8000/cbtreading_pk/${selectedTestId}  " class="btn btn-secondary btn-lg " id="startBtn">Start Section <i
+                class="bi bi-arrow-right-circle"></i></a>`
+progressPercentage = 100
+        document.getElementById("linkDiv").innerHTML = goTest
+
+
+
+
+
+
 
       }
 

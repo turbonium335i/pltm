@@ -104,7 +104,7 @@
                             </td>
 
                             <td>
-                                {{y}}, {{z}}
+                                {{y}}
                             </td>
                             <td>
                                 &#9898;
@@ -121,7 +121,7 @@
                             </td>
 
                             <td>
-                                {{y}}, {{z}}
+                                {{y}}
                             </td>
                             <td>
                                 &#10060;
@@ -183,10 +183,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: [{% for x, y in record.jsonWrongQtypeR.items %}  '{{x}}', {% endfor %}],
+        labels: [{% for x, y in record.jsonQtypePerR.items %}  '{{x}}', {% endfor %}],
         datasets: [{
-            label: 'Incorrect',
-            data: [{% for x, y in record.jsonWrongQtypeR.items %}  '{{y}}', {% endfor %}],
+            label: '% Correct',
+            data: [{% for x, y in record.jsonQtypePerR.items %}  '{{y}}', {% endfor %}],
             backgroundColor: [
 
                 'rgba(54, 162, 235, 0.2)',
@@ -200,12 +200,14 @@ const myChart = new Chart(ctx, {
             borderWidth: 1
         }]
     },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+options: {
+           scales: {
+        y: {
+
+            suggestedMax: 100
+        },
+
+    }
     }
 });
 
@@ -217,10 +219,10 @@ const ctx2 = document.getElementById('myChart2').getContext('2d');
 const myChart2 = new Chart(ctx2, {
     type: 'bar',
     data: {
-        labels: [{% for x, y in record.jsonWrongQtypeW.items %}  '{{x}}', {% endfor %}],
+        labels: [{% for x, y in record.jsonQtypePerW.items %}  '{{x}}', {% endfor %}],
         datasets: [{
-            label: 'Incorrect',
-            data: [{% for x, y in record.jsonWrongQtypeW.items %}  '{{y}}', {% endfor %}],
+            label: '% Correct',
+            data: [{% for x, y in record.jsonQtypePerW.items %}  '{{y}}', {% endfor %}],
             backgroundColor: [
 
                 'rgba(75, 192, 192, 0.2)',
@@ -234,12 +236,14 @@ const myChart2 = new Chart(ctx2, {
             borderWidth: 1
         }]
     },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+options: {
+           scales: {
+        y: {
+
+            suggestedMax: 100
+        },
+
+    }
     }
 });
 
