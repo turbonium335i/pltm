@@ -4,42 +4,49 @@
 <br>
 <div class="container border border-secondary border border-1 rounded-3 px-3" id="timebox">
 
-        <div class="progress mt-3 mb-2 bg-dark " style="height: 30px;">
-            <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%"></div>
-        </div>
+    <div class="progress mt-3 mb-2 bg-dark " style="height: 40px;">
+        <div class="progress-bar bg-secondary" role="progressbar" style="width: 100%"></div>
+    </div>
 
-        <div class="d-flex justify-content-start text-secondary pe-4 mb-3">
-            <h3>
+    <div class="d-flex justify-content-start text-secondary pe-4 mb-3">
+        <h3>
                 <span class="text-dark" style="cursor: progress;">
                     <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining Break Time &nbsp;
                 </span>
 
-                <span id="demo" class=" h1">10:00</span>
-            </h3>
-        </div>
-        <div class="ms-3">
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-            <li>use local storage to start of break time</li>
-        </div>
+            <span id="demo" class=" h1">10:00</span>
+        </h3>
+    </div>
+    <div class="ms-3">
+        <h4>Take a Break</h4>
+        <li>You may leave the room, but do not disturb students who are still testing.</li>
+        <li>Do not exit the app or close your laptop.</li>
+
+        <li>Testing won't resume until you return.</li>
+
+
         <br>
+        <h4>Follow these rules during the break:</h4>
 
-
-    </div>
-    <div class="text-center py-5">
-<!--        <button type="button" class="btn btn-outline-danger btn-lg" onclick="upDateTimer()">Update Timer</button>-->
-         <a href="{% url 'directions2' %}" class="btn btn-secondary btn-lg">Start Section <i
-                class="bi bi-arrow-right-circle"></i></a>
-
+        <li>Do not access your phone, textbooks, notes, or the internet.</li>
+        <li>Do not eat or drink in the test room.</li>
+        <li>Do not speak in the test room, outside the test room. Do not discusss the exam with anyone.</li>
+        <li>If you leave the room, bring your photo ID.</li>
 
     </div>
+    <br>
 
-    <script>
+
+</div>
+<div class="text-center py-5">
+    <!--        <button type="button" class="btn btn-outline-danger btn-lg" onclick="upDateTimer()">Update Timer</button>-->
+    <a href="{% url 'directions2' %}" class="btn btn-secondary btn-lg">Start Section <i
+            class="bi bi-arrow-right-circle"></i></a>
+
+
+</div>
+
+<script>
 
 
 <!--        function upDateTimer() {-->
@@ -51,9 +58,9 @@
 
 
 
-        var breakTime = 60000
-        var currentSeconds = 60000
-        var countDownDate = (Date.now() + 60000)
+        var breakTime = 600000
+        var currentSeconds = breakTime
+        var countDownDate = (Date.now() + breakTime)
         var x = setInterval(function () {
             var now = new Date().getTime();
             var distance = countDownDate - now;
@@ -115,5 +122,6 @@
 
 
 
-    </script>
+
+</script>
 {% endblock %}
