@@ -26,7 +26,12 @@ def index(request):
 
     testQ = groupTest.objects.all()
     # query manytomany relationship
-    testGroup = testQ[0].showTest.all()
+
+    try:
+        testGroup = testQ[0].showTest.all()
+
+    except:
+        testGroup = []
 
     percentR = 0
     percentW = 0
