@@ -19,8 +19,11 @@ urlpatterns = [
     path('pendingapi', views.pendingTestApi, name='pendingapi'),
     path('cbtreading_pk/<str:pk>', views.cbtreading, name='cbtreading_pk'),
     path('cbtwriting_pk/<str:pk>', views.cbtwriting, name='cbtwriting_pk'),
+    path('cbtmathone_pk/<str:pk>', views.cbtmathone, name='cbtmathone_pk'),
+    path('cbtmathtwo_pk/<str:pk>', views.cbtmathtwo, name='cbtmathtwo_pk'),
     path('rawscale', views.rawscale, name='rawscale'),
-
+    path('directionsm1', views.directionsm1, name='directionsm1'),
+    path('directionsm2', views.directionsm2, name='directionsm2'),
 
 
 

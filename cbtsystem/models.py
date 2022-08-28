@@ -16,9 +16,19 @@ class testSpec(models.Model):
     questionTypeReading = JSONField(null=True, default={})
     answerKeyWriting = JSONField(null=True, default={})
     questionTypeWriting = JSONField(null=True, default={})
+
+    answerKeyMathOne = JSONField(null=True, default={})
+    questionTypeMathOne = JSONField(null=True, default={})
+    answerKeyMathTwo = JSONField(null=True, default={})
+    questionTypeMathTwo = JSONField(null=True, default={})
+
     pdfLink = models.URLField(max_length=250, null=True, blank=True,
                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
     pdfLink2 = models.URLField(max_length=250, null=True, blank=True,
+                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
+    pdfLinkMathOne = models.URLField(max_length=250, null=True, blank=True,
+                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
+    pdfLinkMathTwo = models.URLField(max_length=250, null=True, blank=True,
                                default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
 
     def __str__(self):
@@ -34,12 +44,20 @@ class testInProgress(models.Model):
     date_started = models.DateTimeField(auto_now_add=True)
     studentAnswersReading = JSONField(null=True, default={})
     studentAnswersWriting = JSONField(null=True, default={})
+    studentAnswersMathOne = JSONField(null=True, default={})
+    studentAnswersMathTwo = JSONField(null=True, default={})
     studentFlagReading = JSONField(null=True, default={})
     studentFlagWriting = JSONField(null=True, default={})
+    studentFlagMathOne = JSONField(null=True, default={})
+    studentFlagMathTwo = JSONField(null=True, default={})
     statusReading = models.CharField(max_length=3, null=True, blank=True, default='NO')
     statusWriting = models.CharField(max_length=3, null=True, blank=True, default='NO')
+    statusMathOne = models.CharField(max_length=3, null=True, blank=True, default='NO')
+    statusMathTwo = models.CharField(max_length=3, null=True, blank=True, default='NO')
     timeLeftReading = models.CharField(max_length=200, null=True, blank=True, default='3610000')
     timeLeftWriting = models.CharField(max_length=200, null=True, blank=True, default='3610000')
+    timeLeftMathOne = models.CharField(max_length=200, null=True, blank=True, default='3610000')
+    timeLeftMathTwo = models.CharField(max_length=200, null=True, blank=True, default='3610000')
 
     def __str__(self):
         return '{0} {1} {2} {3} {4}'.format(self.id, self.testName, self.date_started.strftime("%m/%d/%Y %H:%M:%S"),
@@ -54,14 +72,21 @@ class testRecord(models.Model):
     date_finished = models.DateTimeField(auto_now_add=True)
     studentAnswersReading = JSONField(null=True, default={})
     studentAnswersWriting = JSONField(null=True, default={})
+    studentAnswersMathOne = JSONField(null=True, default={})
+    studentAnswersMathTwo = JSONField(null=True, default={})
     numberInCorrectR = models.CharField(max_length=10, null=True, default='0')
     numberInCorrectW = models.CharField(max_length=10, null=True, default='0')
+    numberInCorrectM1 = models.CharField(max_length=10, null=True, default='0')
+    numberInCorrectM2 = models.CharField(max_length=10, null=True, default='0')
     scoreReading = models.CharField(max_length=3, null=True, default='200')
     scoreWriting = models.CharField(max_length=3, null=True, default='200')
+    scoreMath = models.CharField(max_length=3, null=True, default='200')
     jsonWrongQtypeR = JSONField(null=True, default={})
     jsonWrongQtypeW = JSONField(null=True, default={})
-    jsonQtypePerR = JSONField(null=True, default={})
-    jsonQtypePerW = JSONField(null=True, default={})
+    jsonWrongQtypeMathOne = JSONField(null=True, default={})
+    jsonWrongQtypeMathTwo = JSONField(null=True, default={})
+    jsonQtypePerMathOne = JSONField(null=True, default={})
+    jsonQtypePerMathTwo = JSONField(null=True, default={})
 
     def __str__(self):
         return '{0} {1} {2} {3} {4} R:-{5} W:-{6}'.format(self.id, self.testName,

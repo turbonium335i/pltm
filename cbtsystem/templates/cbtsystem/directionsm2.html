@@ -8,7 +8,7 @@
 
     <div class="d-flex justify-content-start text-danger pe-4 mb-3">
         <h3>
-            <span class="text-dark">Writing Section Directions &nbsp;
+            <span class="text-dark">Math Section 2 Directions &nbsp;
             </span>
 
         </h3>
@@ -84,7 +84,7 @@ myTest()
                 .getElementsByClassName("progress-bar")[0]
                 .setAttribute("style", "width:" + progressPercentage + "%");
 
-            progressPercentage += 20
+            progressPercentage += 5
 <!--            console.log(progressPercentage)-->
             if (progressPercentage > 100) {
 
@@ -93,7 +93,7 @@ myTest()
         document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
         document.getElementById("startBtn").classList.add("btn-outline-secondary");
 
-                var goTest = `<a href="http://127.0.0.1:8000/cbtwriting_pk/${selectedTestId}  " class="btn btn-secondary btn-lg " id="startBtn">Start Section <i
+                var goTest = `<a href="http://127.0.0.1:8000/cbtmathtwo_pk/${selectedTestId}  " class="btn btn-secondary btn-lg " id="startBtn">Start Section <i
                 class="bi bi-arrow-right-circle"></i></a>`
 
         document.getElementById("linkDiv").innerHTML = goTest

@@ -92,6 +92,37 @@ def cbtwriting(request, pk):
         messages.info(request, "Authentication Error")
         return redirect('loginpage')
 
+@login_required(login_url='loginpage')
+def cbtmathone(request, pk):
+
+    testQ = groupTest.objects.all()[0]
+
+    try:
+
+        testPDF = testQ.showTest.get(id=pk)
+
+        return render(request, 'cbtsystem/cbtmathone.html', {'testPDF': testPDF})
+
+    except:
+        logout(request)
+        messages.info(request, "Authentication Error")
+        return redirect('loginpage')
+
+@login_required(login_url='loginpage')
+def cbtmathtwo(request, pk):
+
+    testQ = groupTest.objects.all()[0]
+
+    try:
+
+        testPDF = testQ.showTest.get(id=pk)
+
+        return render(request, 'cbtsystem/cbtmathtwo.html', {'testPDF': testPDF})
+
+    except:
+        logout(request)
+        messages.info(request, "Authentication Error")
+        return redirect('loginpage')
 
 
 
@@ -140,6 +171,14 @@ def directions(request):
 @login_required(login_url='loginpage')
 def directions2(request):
     return render(request, 'cbtsystem/directions2.html')
+
+@login_required(login_url='loginpage')
+def directionsm1(request):
+    return render(request, 'cbtsystem/directionsm1.html')
+
+@login_required(login_url='loginpage')
+def directionsm2(request):
+    return render(request, 'cbtsystem/directionsm2.html')
 
 
 @login_required(login_url='loginpage')
@@ -294,6 +333,18 @@ def endsection(request):
             progressRecord.studentAnswersReading = rAnswers
             progressRecord.timeLeftReading = rTimeLeft
 
+        elif data['section'] == 'math1':
+
+            rTimeLeft = json.loads(data['timeLeft'])
+            progressRecord.studentAnswersMathOne = rAnswers
+            progressRecord.timeLeftMathOne = rTimeLeft
+
+        elif data['section'] == 'math2':
+
+            rTimeLeft = json.loads(data['timeLeft'])
+            progressRecord.studentAnswersMathTwo = rAnswers
+            progressRecord.timeLeftMathTwo = rTimeLeft
+
         else:
 
             rTimeLeft = json.loads(data['timeLeft'])
@@ -311,6 +362,13 @@ def endsection(request):
 
         if data['testStatus'] == 'w':
             progressRecord.statusWriting = "YES"
+
+        if data['testStatus'] == 'm1':
+            progressRecord.statusMathOne = "YES"
+
+        if data['testStatus'] == 'm2':
+            progressRecord.statusMathTwo = "YES"
+
 
         progressRecord.save(force_insert=False)
 
