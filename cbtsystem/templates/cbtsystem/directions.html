@@ -77,6 +77,7 @@ myTest()
 
 
 
+
     </script>
     <script>
 
@@ -137,6 +138,24 @@ function getPending() {
         localStorage.setItem("writingApi", studentApi.studentAnswersWriting);
         localStorage.setItem("writingApiTime", studentApi.timeLeftWriting);
 
+                      localStorage.setItem(
+                "mathOneApi",
+                studentApi.studentAnswersMathOne
+              );
+              localStorage.setItem(
+                "mathOneApiTime",
+                studentApi.timeLeftMathOne
+              );
+
+              localStorage.setItem(
+                "mathTwoApi",
+                studentApi.studentAnswersMathTwo
+              );
+              localStorage.setItem(
+                "mathTwoApiTime",
+                studentApi.timeLeftMathTwo
+              );
+
         document.getElementById("startBtn").classList.remove("d-none", "btn-secondary");
         document.getElementById("startBtn").classList.add("btn-outline-warning");
 
@@ -158,6 +177,12 @@ progressPercentage = 100
 
         localStorage.removeItem("writingApi");
         localStorage.removeItem("writingApiTime");
+
+                localStorage.removeItem("mathOneApi");
+        localStorage.removeItem("mathOneApiTime");
+
+                localStorage.removeItem("mathTwoApi");
+        localStorage.removeItem("mathTwoApiTime");
 
 
 <!--              document.getElementById("startBtn").classList.remove("d-none");-->
@@ -186,6 +211,7 @@ progressPercentage = 100
 }
 
 getPending();
+
 
 
 

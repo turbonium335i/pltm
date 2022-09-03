@@ -68,9 +68,9 @@ input[type='radio'] {
 </nav>
 <hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
 <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
-
+    {{ request.user.id|json_script:"user_id" }}
     <div class="d-flex justify-content-end text-danger pe-4">
-        {{ request.user.id|json_script:"user_id" }}
+
 
         <i class="bi bi-window-fullscreen"
            onclick="fullscreen()"></i> &nbsp;F11
@@ -86,13 +86,13 @@ input[type='radio'] {
 
     <div class="row pt-2">
         <div class="col-sm-9  scrolly border-end border-none">
-            <!--                                               <iframe-->
-            <!--                                            src="https://drive.google.com/file/d/1aRdDi8L2WlmBGdmbJQI-emm5eYO6tKbw/preview"-->
-            <!--                                            width="100%"-->
-            <!--                                            height="100%"-->
-            <!--                                    ></iframe>-->
+            <!--            <iframe-->
+            <!--                    src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
+            <!--                    width="100%"-->
+            <!--                    height="100%"-->
+            <!--            ></iframe>-->
             <iframe
-                    src="{{testPDF.pdfLink2}}"
+                    src="{{testPDF.pdfLink}}"
                     width="100%"
                     height="100%"
             ></iframe>
@@ -167,19 +167,17 @@ input[type='radio'] {
                 <br> <br> <br>
                 <br> <br> <br> <br> <br>
                 <!--     <a href="{% url 'index' %}" type="button" class="btn btn-outline-primary">  Home</a>-->
-                <button type="button" class="btn btn-outline-primary  " onclick="doneBackup()">
-                    <i class="bi bi-save"></i></button>
-                <button type="button" class="btn btn-outline-dark " onclick="doneAnswers()" id="endSectionBtn"> &#10006;
+                <button type="button" class="btn btn-outline-dark" onclick="doneAnswers()" id="endSectionBtn"> &#10006;
                     End Section
                 </button>
+
 
             </div>
             <br>
 
             <p style="line-height: 0.9;"><small class="text-danger">
-                *Save at least one answer to save or skip to the next section.
+                *Save at least one answer to skip to the next section.
             </small></p>
-
 
         </div>
 
