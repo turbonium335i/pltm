@@ -12,13 +12,16 @@ class testSpec(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     code = models.CharField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+
     answerKeyReading = JSONField(null=True, default={})
     questionTypeReading = JSONField(null=True, default={})
+
     answerKeyWriting = JSONField(null=True, default={})
     questionTypeWriting = JSONField(null=True, default={})
 
     answerKeyMathOne = JSONField(null=True, default={})
     questionTypeMathOne = JSONField(null=True, default={})
+
     answerKeyMathTwo = JSONField(null=True, default={})
     questionTypeMathTwo = JSONField(null=True, default={})
 
@@ -83,6 +86,8 @@ class testRecord(models.Model):
     scoreMath = models.CharField(max_length=3, null=True, default='200')
     jsonWrongQtypeR = JSONField(null=True, default={})
     jsonWrongQtypeW = JSONField(null=True, default={})
+    jsonQtypePerR = JSONField(null=True, default={})
+    jsonQtypePerW = JSONField(null=True, default={})
     jsonWrongQtypeMathOne = JSONField(null=True, default={})
     jsonWrongQtypeMathTwo = JSONField(null=True, default={})
     jsonQtypePerMathOne = JSONField(null=True, default={})

@@ -45,7 +45,6 @@ def index(request):
     except:
         inProgressTest = ""
 
-
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
                                                     "record": record,
@@ -78,7 +77,6 @@ def cbtreading(request, pk):
 
 @login_required(login_url='loginpage')
 def cbtwriting(request, pk):
-
     testQ = groupTest.objects.all()[0]
 
     try:
@@ -92,9 +90,9 @@ def cbtwriting(request, pk):
         messages.info(request, "Authentication Error")
         return redirect('loginpage')
 
+
 @login_required(login_url='loginpage')
 def cbtmathone(request, pk):
-
     testQ = groupTest.objects.all()[0]
 
     try:
@@ -108,9 +106,9 @@ def cbtmathone(request, pk):
         messages.info(request, "Authentication Error")
         return redirect('loginpage')
 
+
 @login_required(login_url='loginpage')
 def cbtmathtwo(request, pk):
-
     testQ = groupTest.objects.all()[0]
 
     try:
@@ -123,7 +121,6 @@ def cbtmathtwo(request, pk):
         logout(request)
         messages.info(request, "Authentication Error")
         return redirect('loginpage')
-
 
 
 def loginpage(request):
@@ -172,9 +169,11 @@ def directions(request):
 def directions2(request):
     return render(request, 'cbtsystem/directions2.html')
 
+
 @login_required(login_url='loginpage')
 def directionsm1(request):
     return render(request, 'cbtsystem/directionsm1.html')
+
 
 @login_required(login_url='loginpage')
 def directionsm2(request):
@@ -211,10 +210,8 @@ def results(request):
     for n, a in record.studentAnswersWriting.items():
         qNo.append(n)
         qMarked.append(a)
-
     for n, a in testQuery.answerKeyWriting.items():
         qAnswer.append(a)
-
     for n, a in testQuery.questionTypeWriting.items():
         qType.append(a)
 
@@ -231,9 +228,7 @@ def results_pk(request, pk):
     qAnswer = []
     qType = []
 
-
     try:
-
         testqnotes = QtypeNote.objects.all()
         testnotesdict = {}
 
@@ -291,8 +286,60 @@ def results_pk(request, pk):
 
             zipRecordW = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesW)
 
+            qNo = []
+            qMarked = []
+            qAnswer = []
+            qType = []
+
+            for n, a in record.studentAnswersMathOne.items():
+                qNo.append(n)
+                qMarked.append(a)
+
+            for n, a in testQuery.answerKeyMathOne.items():
+                qAnswer.append(a)
+
+            for n, a in testQuery.questionTypeMathOne.items():
+                qType.append(a)
+
+            ziptypesQnotesM1 = []
+
+            for zz in qType:
+                try:
+                    ziptypesQnotesM1.append(testnotesdict[zz])
+                except:
+                    ziptypesQnotesM1.append("Question Type input error. Contact administrator.")
+
+            zipRecordM1 = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesM1)
+
+            qNo = []
+            qMarked = []
+            qAnswer = []
+            qType = []
+
+            for n, a in record.studentAnswersMathTwo.items():
+                qNo.append(n)
+                qMarked.append(a)
+
+            for n, a in testQuery.answerKeyMathTwo.items():
+                qAnswer.append(a)
+
+            for n, a in testQuery.questionTypeMathTwo.items():
+                qType.append(a)
+
+            ziptypesQnotesM2 = []
+
+            for zz in qType:
+                try:
+                    ziptypesQnotesM2.append(testnotesdict[zz])
+                except:
+                    ziptypesQnotesM2.append("Question Type input error. Contact administrator.")
+
+            zipRecordM2 = zip(qNo, qMarked, qAnswer, qType, ziptypesQnotesM2)
+
             return render(request, 'cbtsystem/results.html',
-                          {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+                          {"zipRecord": zipRecord, "zipRecordW": zipRecordW,
+                           "zipRecordM1": zipRecordM1, "zipRecordM2": zipRecordM2,
+                           "record": record})
         else:
             return redirect("index")
 
@@ -301,9 +348,6 @@ def results_pk(request, pk):
         # logout(request)
         # messages.info(request, "Authentication Error")
         return redirect('index')
-
-
-
 
 
 @login_required(login_url='loginpage')
@@ -369,9 +413,7 @@ def endsection(request):
         if data['testStatus'] == 'm2':
             progressRecord.statusMathTwo = "YES"
 
-
         progressRecord.save(force_insert=False)
-
 
         return JsonResponse('progress saved', safe=False)
 
@@ -389,10 +431,10 @@ def processtest(request):
 
     print('test status: ', testData.statusReading, testData.statusWriting,
           testData.studentAnswersReading, testData.studentAnswersWriting
-
           )
 
-    if (testData.statusReading == 'YES' and testData.statusWriting == 'YES'):
+    if (testData.statusReading == 'YES' and testData.statusWriting == 'YES'
+        and testData.statusMathOne == 'YES') and testData.statusMathTwo == 'YES':
         correct = []
         inCorrect = []
 
@@ -401,31 +443,43 @@ def processtest(request):
 
         studentAnswersR = testData.studentAnswersReading
         studentAnswersW = testData.studentAnswersWriting
+        studentAnswersM1 = testData.studentAnswersMathOne
+        studentAnswersM2 = testData.studentAnswersMathTwo
+
         readingAnswerKey = testQuery.answerKeyReading
         writingAnswerKey = testQuery.answerKeyWriting
+        mathOneAnswerKey = testQuery.answerKeyMathOne
+        mathTwoAnswerKey = testQuery.answerKeyMathTwo
 
         readingQT = testQuery.questionTypeReading
         writingQT = testQuery.questionTypeWriting
-
+        mathM1QT = testQuery.questionTypeMathOne
+        mathM2QT = testQuery.questionTypeMathTwo
 
         qTypeTotalR = []
-
         for k, v in readingQT.items():
             qTypeTotalR.append(v)
-
-        qTypeTotalR= dict(collections.Counter(qTypeTotalR))
-
+        qTypeTotalR = dict(collections.Counter(qTypeTotalR))
 
         qTypeTotalW = []
-
         for k, v in writingQT.items():
             qTypeTotalW.append(v)
+        qTypeTotalW = dict(collections.Counter(qTypeTotalW))
 
-        qTypeTotalW= dict(collections.Counter(qTypeTotalW))
+        qTypeTotalM1 = []
+        for k, v in mathM1QT.items():
+            qTypeTotalM1.append(v)
+        qTypeTotalM1 = dict(collections.Counter(qTypeTotalM1))
 
+        qTypeTotalM2 = []
+        for k, v in mathM2QT.items():
+            qTypeTotalM2.append(v)
+        qTypeTotalM2 = dict(collections.Counter(qTypeTotalM2))
 
         cleanAnswerR = {}
         cleanAnswerW = {}
+        cleanAnswerM1 = {}
+        cleanAnswerM2 = {}
 
         for k, v in readingAnswerKey.items():
             try:
@@ -439,10 +493,26 @@ def processtest(request):
             except:
                 cleanAnswerW[k] = 'X'
 
+        for k, v in mathOneAnswerKey.items():
+            try:
+                cleanAnswerM1[k] = studentAnswersM1[k]
+            except:
+                cleanAnswerM1[k] = 'X'
+
+        for k, v in mathTwoAnswerKey.items():
+            try:
+                cleanAnswerM2[k] = studentAnswersM2[k]
+            except:
+                cleanAnswerM2[k] = 'X'
+
         studentAnswersR = cleanAnswerR
         studentAnswersW = cleanAnswerW
+        studentAnswersM1 = cleanAnswerM1
+        studentAnswersM2 = cleanAnswerM2
 
         # return JsonResponse( cleanAnswerW, safe=False)
+
+        ############## classify question types
 
         for x, y in studentAnswersR.items():
             if y != readingAnswerKey[x]:
@@ -462,7 +532,6 @@ def processtest(request):
         # numberCorrectR = str(len(correct))
         # print("Reading: +" + numberCorrectR + ",", correctSortR)
 
-
         inCorrect = []
         wrongQtype = []
 
@@ -477,32 +546,69 @@ def processtest(request):
         numberInCorrectW = str(len(inCorrect))
         print("Writing: -" + numberInCorrectW + ",", wrongSortW)
 
+        inCorrect = []
+        wrongQtype = []
+
+        for x, y in studentAnswersM1.items():
+            # print(x, y, testQuery.answerKeyReading[x])
+            if y != mathOneAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeMathOne[x])
+
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortM1 = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectM1 = str(len(inCorrect))
+        print("Math Section 1: -" + numberInCorrectM1 + ",", wrongSortM1)
+
+        inCorrect = []
+        wrongQtype = []
+
+        for x, y in studentAnswersM2.items():
+            # print(x, y, testQuery.answerKeyReading[x])
+            if y != mathTwoAnswerKey[x]:
+                inCorrect.append(x)
+                wrongQtype.append(testQuery.questionTypeMathTwo[x])
+
+        wrongQ = dict(collections.Counter(wrongQtype))
+        wrongSortM2 = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
+        numberInCorrectM2 = str(len(inCorrect))
+        print("Math Section 2: -" + numberInCorrectM2 + ",", wrongSortM2)
+
         qTypePercentR = {}
-
         for x, y in qTypeTotalR.items():
-
             try:
-                qTypePercentR[x] = round(100 * ((int(qTypeTotalR[x]) - int(wrongSortR[x]))/int(qTypeTotalR[x])))
+                qTypePercentR[x] = round(100 * ((int(qTypeTotalR[x]) - int(wrongSortR[x])) / int(qTypeTotalR[x])))
             except:
                 qTypePercentR[x] = 100
-
         jsonQtypePerR = dict(sorted(qTypePercentR.items(), key=lambda item: item[1], reverse=True))
         print('R % correct: ', jsonQtypePerR)
 
         qTypePercentW = {}
-
         for x, y in qTypeTotalW.items():
-
             try:
-                qTypePercentW[x] = round(100 * ((int(qTypeTotalW[x]) - int(wrongSortW[x]))/int(qTypeTotalW[x])))
+                qTypePercentW[x] = round(100 * ((int(qTypeTotalW[x]) - int(wrongSortW[x])) / int(qTypeTotalW[x])))
             except:
                 qTypePercentW[x] = 100
-
-
         jsonQtypePerW = dict(sorted(qTypePercentW.items(), key=lambda item: item[1], reverse=True))
         print('W % correct: ', jsonQtypePerW)
 
+        qTypePercentM1 = {}
+        for x, y in qTypeTotalM1.items():
+            try:
+                qTypePercentM1[x] = round(100 * ((int(qTypeTotalM1[x]) - int(wrongSortM1[x])) / int(qTypeTotalM1[x])))
+            except:
+                wrongSortM1[x] = 100
+        jsonQtypePerM1 = dict(sorted(qTypePercentM1.items(), key=lambda item: item[1], reverse=True))
+        print('m1 % correct: ', jsonQtypePerM1)
 
+        qTypePercentM2 = {}
+        for x, y in qTypeTotalM2.items():
+            try:
+                qTypePercentM2[x] = round(100 * ((int(qTypeTotalM2[x]) - int(wrongSortM2[x])) / int(qTypeTotalM2[x])))
+            except:
+                wrongSortM2[x] = 100
+        jsonQtypePerM2 = dict(sorted(qTypePercentM2.items(), key=lambda item: item[1], reverse=True))
+        print('m2 % correct: ', jsonQtypePerM2)
 
         r = testRecord.objects.create(studentUsername=username.username,
                                       studentName=username.first_name,
@@ -510,32 +616,40 @@ def processtest(request):
                                       testId=testData.testId,
                                       studentAnswersReading=studentAnswersR,
                                       studentAnswersWriting=studentAnswersW,
+                                      studentAnswersMathOne=studentAnswersM1,
+                                      studentAnswersMathTwo=studentAnswersM2,
                                       numberInCorrectR=numberInCorrectR,
                                       numberInCorrectW=numberInCorrectW,
+                                      numberInCorrectM1=numberInCorrectM1,
+                                      numberInCorrectM2=numberInCorrectM2,
                                       jsonWrongQtypeR=wrongSortR,
                                       jsonWrongQtypeW=wrongSortW,
+                                      jsonWrongQtypeMathOne=wrongSortM1,
+                                      jsonWrongQtypeMathTwo=wrongSortM2,
                                       jsonQtypePerR=jsonQtypePerR,
-                                      jsonQtypePerW=jsonQtypePerW
+                                      jsonQtypePerW=jsonQtypePerW,
+                                      jsonQtypePerMathOne=jsonQtypePerM1,
+                                      jsonQtypePerMathTwo=jsonQtypePerM2
+
                                       )
 
         print('record saved: ', r)
 
-        testData.delete()
+        # testData.delete()
 
         # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
         return render(request, 'cbtsystem/processTestClaw.html')
     else:
         return redirect('index')
 
-
     # except:
     #
     #     # return render(request, 'cbtsystem/processTestClaw.html')
     #     return redirect('index')
 
-        # logout(request)
-        # messages.info(request, "Authentication Error")
-        # return redirect('loginpage')
+    # logout(request)
+    # messages.info(request, "Authentication Error")
+    # return redirect('loginpage')
 
 
 @login_required(login_url='loginpage')
