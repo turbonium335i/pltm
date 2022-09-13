@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
-
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <style>
@@ -48,6 +49,8 @@ input[type='radio'] {
   width: 15px;
   vertical-align: middle;
 }
+
+
 
 
 
@@ -132,9 +135,10 @@ input[type='radio'] {
 
 
         <div class="col-sm-3 scrolly mt-5 mt-md-0  ps-5 ps-sm-3 ps-md-3 ps-lg-5 text-dark">
-            <form action="/action_page.php">
-                <h4 class="text-dark">Question <span id="questionNo"
-                                                     class="text-dark border border-danger px-2">1</span></h4>
+            <h4 class="text-dark">Question <span id="questionNo"
+                                                 class="text-dark border border-danger px-2">1</span></h4>
+            <form action="/action_page.php" class="d-inline" id="multiBox">
+
                   <input type="radio" id="A" name="fav_language" value="A">
                   <label for="A">A</label><br>
                   <input type="radio" id="B" name="fav_language" value="B">
@@ -143,10 +147,22 @@ input[type='radio'] {
                   <label for="C">C</label><br>
                   <input type="radio" id="D" name="fav_language" value="D">
                   <label for="D">D</label>
+                <br>
+            </form>
+            <form class="d-none" id="inputBox">
+                <label for="fname" class="fw-bold">Answer:</label>
+                <br>
+                <input type="text" id="fname" name="fname" autofocus maxlength="12"
+                       style="text-align: center; color: blue; font-size: 1.25rem;width: 160px" autocomplete="off"><br><br>
             </form>
             <br>
             <!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
             <!--                    class="bi bi-save"></i></button>-->
+
+                            <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    <i class="bi bi-calculator-fill"></i> </button>
             <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
                 <i class="bi bi-eraser"></i></button>
 
@@ -173,6 +189,47 @@ input[type='radio'] {
                 </button>
 
             </div>
+                    <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header  text-light fw-bold" style="background-color: rgba(55,53,53,255)">
+                                <i class="bi bi-calculator-fill"></i> &nbsp; Calculator
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body  " style="background-color: rgba(55,53,53,255)">
+                                <div class="calculator-grid">
+                                    <div class="output">
+                                        <div data-previous-operand class="previous-operand"></div>
+                                        <div data-current-operand class="current-operand"></div>
+                                    </div>
+                                    <button data-all-clear class="span-two border">AC</button>
+                                    <button data-delete class="border">DEL</button>
+                                    <button data-operation class="border">÷</button>
+                                    <button data-number class="border">1</button>
+                                    <button data-number class="border">2</button>
+                                    <button data-number class="border">3</button>
+                                    <button data-operation class="border">*</button>
+                                    <button data-number class="border">4</button>
+                                    <button data-number class="border">5</button>
+                                    <button data-number class="border">6</button>
+                                    <button data-operation class="border">+</button>
+                                    <button data-number class="border">7</button>
+                                    <button data-number class="border">8</button>
+                                    <button data-number class="border">9</button>
+                                    <button data-operation class="border">-</button>
+                                    <button data-number class="border">.</button>
+                                    <button data-number class="border">0</button>
+                                    <button data-equals class="span-two border">=</button>
+                                </div>
+                                <br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             <br>
 
             <p style="line-height: 0.9;"><small class="text-danger">
@@ -185,7 +242,6 @@ input[type='radio'] {
 
     </div>
 </div>
-
 
 
 <script>
@@ -255,10 +311,12 @@ input[type='radio'] {
         }
 
 
+
+
 </script>
 
 <script>
-
+var subjectiveAnswers = [1, 2]
     var obj = {}
 
     const user_id = JSON.parse(document.getElementById('user_id').textContent);
@@ -274,7 +332,7 @@ input[type='radio'] {
 
     }
 
-
+     var inputBox = document.getElementById("inputBox");
         var doneList = obj
         var flagList = {   }
 
@@ -362,153 +420,174 @@ id=b${i} onclick="btnFunction(${i})">${i}</button>`
 
 
 
-function nextFunction() {
-    console.log('currentQuestion: ', currentQuestion)
-  var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-  if (checkRadio != null) {
-    var clickedBtn = document.getElementById("b" + currentQuestion.toString());
-
-    console.log(flagList);
-
-    if (flagList.hasOwnProperty(currentQuestion.toString())) {
-      console.log("in flag function");
-      currentQuestion += 1;
-      btnFunction(currentQuestion);
-    } else{
-
-    clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
-    clickedBtn.classList.add("btn-primary");
-    doneList[currentQuestion] = checkRadio.id;
-    console.log(doneList);
-    localStorage.setItem("doneList", JSON.stringify(doneList));
-    $("#submitCheck")
-      .fadeOut(100)
-      .fadeIn(200)
-      .fadeOut(100)
-      .fadeIn(200)
-      .fadeOut(100)
-      .fadeIn(100);
-    currentQuestion += 1;
-    btnFunction(currentQuestion);}
-  } else {
-    currentQuestion += 1;
-    btnFunction(currentQuestion);
-  }
-}
-
-        function prevFunction() {
-
-            currentQuestion -= 1;
-            btnFunction(currentQuestion)
+        function nextFunction() {
+            console.log('currentQuestion: ', currentQuestion)
 
 
-        }
+            if (subjectiveAnswers.includes(currentQuestion)) {
+                var formAnswer = document.getElementById('fname').value
+                document.getElementById("inputBox").reset();
+
+                console.log(doneList);
 
 
-
-
-               function btnFunction(id) {
-
-
-            var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
-            lastClickedBtn.classList.remove("border-danger", "border-2");
-            lastClickedBtn.classList.add("border-dark");
-
-            currentQuestion = id
-
-            var clickedBtn = document.getElementById('b' + (id.toString()));
-            clickedBtn.classList.remove("border-dark");
-            clickedBtn.classList.add("border-danger", "border-2");
-
-
-            document.getElementById('questionNo').innerHTML = id
-            $("#questionNo").fadeOut(300).fadeIn(300)
-
-
-            console.log(doneList[id.toString()])
-
-
-
-            lastQuestion = currentQuestion
-
-
-
-            try {
-
-                document.getElementById(doneList[id.toString()]).checked = true;
-            }
-            catch (err) {
-
-                try { document.getElementById(flagList[id.toString()]).checked = true; }
-
-                catch (err) {
-                    console.log('radio empty')
-                    var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-                    // console.log(document.querySelector('input[name="fav_language"]:checked'));
-
-                    if (checkRadio != null) {
-                        document.querySelector('input[name="fav_language"]:checked').checked = false;
-
+                if (formAnswer != "") {
+                    var clickedBtn = document.getElementById("b" + currentQuestion.toString());
+                    console.log(flagList);
+                    if (flagList.hasOwnProperty(currentQuestion.toString())) {
+                        console.log("in flag function");
+                        currentQuestion += 1;
+                        btnFunction(currentQuestion);
+                    } else {
+                        clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
+                        clickedBtn.classList.add("btn-primary");
+                        doneList[currentQuestion] = formAnswer
+                        console.log(doneList);
+                        localStorage.setItem("doneList", JSON.stringify(doneList));
+                        $("#submitCheck")
+                            .fadeOut(100)
+                            .fadeIn(200)
+                            .fadeOut(100)
+                            .fadeIn(200)
+                            .fadeOut(100)
+                            .fadeIn(100);
+                        currentQuestion += 1;
+                        btnFunction(currentQuestion);
                     }
-
+                } else {
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
                 }
 
 
 
+            }
+
+            else {
+                var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                if (checkRadio != null) {
+                    var clickedBtn = document.getElementById("b" + currentQuestion.toString());
+                    console.log(flagList);
+                    if (flagList.hasOwnProperty(currentQuestion.toString())) {
+                        console.log("in flag function");
+                        currentQuestion += 1;
+                        btnFunction(currentQuestion);
+                    } else {
+                        clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
+                        clickedBtn.classList.add("btn-primary");
+                        doneList[currentQuestion] = checkRadio.id;
+                        console.log(doneList);
+                        localStorage.setItem("doneList", JSON.stringify(doneList));
+                        $("#submitCheck")
+                            .fadeOut(100)
+                            .fadeIn(200)
+                            .fadeOut(100)
+                            .fadeIn(200)
+                            .fadeOut(100)
+                            .fadeIn(100);
+                        currentQuestion += 1;
+                        btnFunction(currentQuestion);
+                    }
+                } else {
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
+                }
 
             }
 
 
         }
-
-
-               function saveFunction() {
-
-        var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-        checkRadio.checked = false;
-        var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
-        clickedBtn.classList.remove("btn-primary");
-        clickedBtn.classList.add("btn-light", "btn-warning", "notDone");
-
-                delete doneList[currentQuestion];
-                delete flagList[currentQuestion];
-        console.log(doneList);
-        localStorage.setItem('doneList', JSON.stringify(doneList));
-
-
-
-
-<!--            var checkRadio = document.querySelector('input[name="fav_language"]:checked');-->
-<!--            if (checkRadio != null) {-->
-<!--                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));-->
-<!--                clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");-->
-<!--                clickedBtn.classList.add("btn-primary");-->
-<!--                 doneList[currentQuestion] = checkRadio.id; -->
-<!--                console.log(doneList);-->
-<!--                localStorage.setItem('doneList', JSON.stringify(doneList));-->
-<!--                $("#submitCheck").fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(100)-->
-<!--            }-->
-
+        function prevFunction() {
+            currentQuestion -= 1;
+            btnFunction(currentQuestion)
         }
+        function btnFunction(id) {
+            if (subjectiveAnswers.includes(id)) {
+                multiBox.classList.remove("d-inline");
+                multiBox.classList.add("d-none");
+                inputBox.classList.remove("d-none");
+                inputBox.classList.add("d-inline");
+                try {
+                    if (doneList[id.toString()] != undefined) {
+                        document.getElementById("fname").value = doneList[id.toString()];
+                    } else {
+                        document.getElementById("fname").value = ""
+                    }
 
+                } catch (err) {
+                    console.log('no subjective')
+                }
+            } else {
+                multiBox.classList.add("d-inline");
+                multiBox.classList.remove("d-none");
+                inputBox.classList.add("d-none");
+                inputBox.classList.remove("d-inline");
+            }
 
+            var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
+            lastClickedBtn.classList.remove("border-danger", "border-2");
+            lastClickedBtn.classList.add("border-dark");
+            currentQuestion = id
+            var clickedBtn = document.getElementById('b' + (id.toString()));
+            clickedBtn.classList.remove("border-dark");
+            clickedBtn.classList.add("border-danger", "border-2");
+            document.getElementById('questionNo').innerHTML = id
+            $("#questionNo").fadeOut(300).fadeIn(300)
+            lastQuestion = currentQuestion
+            try {
+                document.getElementById(doneList[id.toString()]).checked = true;
+            }
+            catch (err) {
+                try { document.getElementById(flagList[id.toString()]).checked = true; }
+                catch (err) {
+                    console.log('radio empty')
+                    var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                    // console.log(document.querySelector('input[name="fav_language"]:checked'));
+                    if (checkRadio != null) {
+                        document.querySelector('input[name="fav_language"]:checked').checked = false;
+                    }
+                }
+            }
+        }
+        function saveFunction() {
+            var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+            clickedBtn.classList.remove("btn-primary");
+            clickedBtn.classList.add("btn-light", "btn-warning", "notDone");
+            delete doneList[currentQuestion];
+            delete flagList[currentQuestion];
+
+            if (subjectiveAnswers.includes(currentQuestion)) {
+                document.getElementById("inputBox").reset();
+            } else {
+                var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                checkRadio.checked = false;
+            }
+            console.log(doneList);
+            localStorage.setItem('doneList', JSON.stringify(doneList));
+        }
         function flagFunction() {
 
-            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-
-            if (checkRadio != null) {
-
+            if (subjectiveAnswers.includes(currentQuestion)) {
                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
                 clickedBtn.classList.remove("btn-light", "btn-outline-primary", "btn-dark");
                 clickedBtn.classList.add("btn-warning");
-                flagList[currentQuestion] = checkRadio.id;
-                doneList[currentQuestion] = checkRadio.id;
+                flagList[currentQuestion] = document.getElementById("fname").value
+                doneList[currentQuestion] = document.getElementById("fname").value
+            } else {
+                var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                if (checkRadio != null) {
+                    var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+                    clickedBtn.classList.remove("btn-light", "btn-outline-primary", "btn-dark");
+                    clickedBtn.classList.add("btn-warning");
+                    flagList[currentQuestion] = checkRadio.id;
+                    doneList[currentQuestion] = checkRadio.id;
+                }
 
             }
 
 
-        }
 
+        }
 
 
 
@@ -633,6 +712,8 @@ if(ls != null){
 
 
 
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -665,6 +746,147 @@ if(ls != null){
 
 
 
+
+
+
+</script>
+<script>
+    class Calculator {
+  constructor(previousOperandTextElement, currentOperandTextElement) {
+    this.previousOperandTextElement = previousOperandTextElement;
+    this.currentOperandTextElement = currentOperandTextElement;
+    this.clear();
+  }
+
+  clear() {
+    this.currentOperand = "";
+    this.previousOperand = "";
+    this.operation = undefined;
+  }
+
+  delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1);
+  }
+
+  appendNumber(number) {
+    if (number === "." && this.currentOperand.includes(".")) return;
+    this.currentOperand = this.currentOperand.toString() + number.toString();
+  }
+
+  chooseOperation(operation) {
+    if (this.currentOperand === "") return;
+    if (this.previousOperand !== "") {
+      this.compute();
+    }
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = "";
+  }
+
+  compute() {
+    let computation;
+    const prev = parseFloat(this.previousOperand);
+    const current = parseFloat(this.currentOperand);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operation) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      case "*":
+        computation = prev * current;
+        break;
+      case "÷":
+        computation = prev / current;
+        break;
+      default:
+        return;
+    }
+    this.currentOperand = computation;
+    this.operation = undefined;
+    this.previousOperand = "";
+  }
+
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]);
+    const decimalDigits = stringNumber.split(".")[1];
+    let integerDisplay;
+    if (isNaN(integerDigits)) {
+      integerDisplay = "";
+    } else {
+      integerDisplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0,
+      });
+    }
+    if (decimalDigits != null) {
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
+  }
+
+  updateDisplay() {
+    this.currentOperandTextElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
+    if (this.operation != null) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(
+        this.previousOperand
+      )} ${this.operation}`;
+    } else {
+      this.previousOperandTextElement.innerText = "";
+    }
+  }
+}
+
+const numberButtons = document.querySelectorAll("[data-number]");
+const operationButtons = document.querySelectorAll("[data-operation]");
+const equalsButton = document.querySelector("[data-equals]");
+const deleteButton = document.querySelector("[data-delete]");
+const allClearButton = document.querySelector("[data-all-clear]");
+const previousOperandTextElement = document.querySelector(
+  "[data-previous-operand]"
+);
+const currentOperandTextElement = document.querySelector(
+  "[data-current-operand]"
+);
+
+const calculator = new Calculator(
+  previousOperandTextElement,
+  currentOperandTextElement
+);
+
+numberButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.appendNumber(button.innerText);
+    calculator.updateDisplay();
+  });
+});
+
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
+  });
+});
+
+equalsButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+allClearButton.addEventListener("click", (button) => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+
+deleteButton.addEventListener("click", (button) => {
+  calculator.delete();
+  calculator.updateDisplay();
+});
 
 </script>
 </body>
