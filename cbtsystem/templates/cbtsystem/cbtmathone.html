@@ -53,6 +53,8 @@ input[type='radio'] {
 
 
 
+
+
 </style>
 <!--#f0ead6;-->
 
@@ -97,38 +99,7 @@ input[type='radio'] {
                     height="100%"
             ></iframe>
 
-            <!--            In publishing and graphic design, Lorem ipsum is a placeholder-->
-            <!--            text commonly used to demonstrate the visual form of a document or-->
-            <!--            a typeface without relying on meaningful content. Lorem ipsum may-->
-            <!--            be used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available. In-->
-            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
-            <!--            commonly used to demonstrate the visual form of a document or a-->
-            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
-            <!--            used as a placeholder before the final copy is available.-->
+
         </div>
 
 
@@ -157,6 +128,11 @@ input[type='radio'] {
             <br>
             <!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
             <!--                    class="bi bi-save"></i></button>-->
+
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <i class="bi bi-calculator-fill"></i>
+            </button>
+
             <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
                 <i class="bi bi-eraser"></i></button>
 
@@ -171,6 +147,29 @@ input[type='radio'] {
             </button>
             <button type="button" class="btn btn-outline-dark" id="nextBtn" onclick="nextFunction()">Next <i
                     class="bi bi-arrow-right-circle"></i></button>
+
+            <!-- Button trigger modal -->
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <h5 class="modal-title" id="staticBackdropLabel">Graphing Calculator</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="float-right">
+                                <div id="calculatorx" style="width: 750px; height: 500px;"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
             <div class="text-end">
                 <br> <br> <br>
@@ -264,400 +263,307 @@ input[type='radio'] {
 
 
 
+
+
 </script>
 
 <script>
-
-    var obj = {}
-
-    const user_id = JSON.parse(document.getElementById('user_id').textContent);
-    console.log("user_id", user_id)
-
-    var localAnswers = localStorage.getItem("mathOneApi");
-    console.log(localAnswers)
-
-    if (localAnswers !== null) {
-    var b = localAnswers.replace(/'/g, '"');
-    obj = JSON.parse(b);
-    console.log(obj);
-
+var subjectiveAnswers = [1, 2]
+var obj = {}
+const user_id = JSON.parse(document.getElementById('user_id').textContent);
+console.log("user_id", user_id)
+var localAnswers = localStorage.getItem("mathOneApi");
+console.log(localAnswers)
+if (localAnswers !== null) {
+var b = localAnswers.replace(/'/g, '"');
+obj = JSON.parse(b);
+console.log(obj);
+}
+    var inputBox = document.getElementById("inputBox");
+    var doneList = obj
+    var flagList = {   }
+    var currentQuestion = 1;
+    var lastQuestion = 1;
+    var qCount = 43;
+    var qArray = [];
+    for (let i = 1; i < qCount; i++) {
+        qArray.push({ [i]: '' })
     }
-
-        var inputBox = document.getElementById("inputBox");
-
-        var doneList = obj
-        var flagList = {   }
-
-        var currentQuestion = 1;
-        var lastQuestion = 1;
-
-
-
-        var qCount = 43;
-        var qArray = [];
-        for (let i = 1; i < qCount; i++) {
-            qArray.push({ [i]: '' })
-        }
-
-
-        var questionBox = document.getElementById("questionBox");
-
-        for (let i = 1; i < qArray.length + 1; i++) {
-            console.log(flagList[i])
-
-
-                        if  (i === 1 && doneList[i] === '' ) {
-
-                var qBtn = `
+    var questionBox = document.getElementById("questionBox");
+    for (let i = 1; i < qArray.length + 1; i++) {
+        console.log(flagList[i])
+                    if  (i === 1 && doneList[i] === '' ) {
+            var qBtn = `
 <button type="button" class="btn btn-light btn-sm notDone border-dark py-0 " id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-            }
-
-           else if (i === 1 && doneList[i] !== undefined ) {
-                var qBtn = `
+        }
+       else if (i === 1 && doneList[i] !== undefined ) {
+            var qBtn = `
 <button type="button" class="btn   btn-sm  btn-primary py-0  border-danger border-2"
 id=b${i} onclick="btnFunction(${i})">${i}</button>`
-            }
-
-            else if (i === 1 && flagList[i] !== undefined) {
-                var qBtn = `
+        }
+        else if (i === 1 && flagList[i] !== undefined) {
+            var qBtn = `
 <button type="button" class="btn btn-outline-dark btn-sm py-0  btn-warning  border-danger border-2"
 id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-
-            }
-            else if (i === 1 && doneList[i] !== undefined && flagList[i] !== undefined) {
-                var qBtn = `
+        }
+        else if (i === 1 && doneList[i] !== undefined && flagList[i] !== undefined) {
+            var qBtn = `
 <button type="button" class="btn btn-outline-dark btn-sm py-0 notDone border-danger border-2"
 id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-
-            }
-
-            else if (doneList[i] === '') {
-                            var qBtn = `
+        }
+        else if (doneList[i] === '') {
+                        var qBtn = `
 <button type="button" class="btn btn-light btn-sm notDone border-dark py-0 " id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-
-            }
-
-
-
-            else if (doneList[i] !== undefined) {
-                var qBtn = `
+        }
+        else if (doneList[i] !== undefined) {
+            var qBtn = `
 <button type="button" class="btn  btn-primary btn-sm py-0 border-dark "
 id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-            }
-
-            else if (flagList[i] !== undefined) {
-                var qBtn = `
+        }
+        else if (flagList[i] !== undefined) {
+            var qBtn = `
 <button type="button" class="btn  btn-warning btn-sm  py-0 border-dark "
 id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-            }
-
-
-            else {
-
-                var qBtn = `
+        }
+        else {
+            var qBtn = `
 <button type="button" class="btn btn-light btn-sm notDone border-dark py-0 " id=b${i} onclick="btnFunction(${i})">${i}</button>`
-
-            }
-
-
-
-            questionBox.innerHTML += qBtn;
         }
-
-
-
-function nextFunction() {
-    console.log('currentQuestion: ', currentQuestion)
-  var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-  if (checkRadio != null) {
-    var clickedBtn = document.getElementById("b" + currentQuestion.toString());
-
-    console.log(flagList);
-
-    if (flagList.hasOwnProperty(currentQuestion.toString())) {
-      console.log("in flag function");
-      currentQuestion += 1;
-      btnFunction(currentQuestion);
-    } else{
-
-    clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
-    clickedBtn.classList.add("btn-primary");
-    doneList[currentQuestion] = checkRadio.id;
-    console.log(doneList);
-    localStorage.setItem("doneList", JSON.stringify(doneList));
-    $("#submitCheck")
-      .fadeOut(100)
-      .fadeIn(200)
-      .fadeOut(100)
-      .fadeIn(200)
-      .fadeOut(100)
-      .fadeIn(100);
-    currentQuestion += 1;
-    btnFunction(currentQuestion);}
-  } else {
-    currentQuestion += 1;
-    btnFunction(currentQuestion);
-  }
-}
-
-        function prevFunction() {
-
-            currentQuestion -= 1;
-            btnFunction(currentQuestion)
-
-
-        }
-
-
-
-
-               function btnFunction(id) {
-
-                           var subjectiveAnswers = [40, 41]
-
-            if (subjectiveAnswers.includes(id)) {
-
-                multiBox.classList.remove("d-inline");
-                multiBox.classList.add("d-none");
-                inputBox.classList.remove("d-none");
-                inputBox.classList.add("d-inline");
-            } else {
-
-                multiBox.classList.add("d-inline");
-                multiBox.classList.remove("d-none");
-                inputBox.classList.add("d-none");
-                inputBox.classList.remove("d-inline");
-
-            }
-
-
-            var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
-            lastClickedBtn.classList.remove("border-danger", "border-2");
-            lastClickedBtn.classList.add("border-dark");
-
-            currentQuestion = id
-
-            var clickedBtn = document.getElementById('b' + (id.toString()));
-            clickedBtn.classList.remove("border-dark");
-            clickedBtn.classList.add("border-danger", "border-2");
-
-
-            document.getElementById('questionNo').innerHTML = id
-            $("#questionNo").fadeOut(300).fadeIn(300)
-
-
-
-
-
-            lastQuestion = currentQuestion
-
-
-
-            try {
-
-                document.getElementById(doneList[id.toString()]).checked = true;
-            }
-            catch (err) {
-
-                try { document.getElementById(flagList[id.toString()]).checked = true; }
-
-                catch (err) {
-                    console.log('radio empty')
-                    var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-                    // console.log(document.querySelector('input[name="fav_language"]:checked'));
-
-                    if (checkRadio != null) {
-                        document.querySelector('input[name="fav_language"]:checked').checked = false;
-
-                    }
-
+        questionBox.innerHTML += qBtn;
+    }
+    function nextFunction() {
+        console.log('currentQuestion: ', currentQuestion)
+        if (subjectiveAnswers.includes(currentQuestion)) {
+            var formAnswer = document.getElementById('fname').value
+            document.getElementById("inputBox").reset();
+            console.log(doneList);
+            if (formAnswer != "") {
+                var clickedBtn = document.getElementById("b" + currentQuestion.toString());
+                console.log(flagList);
+                if (flagList.hasOwnProperty(currentQuestion.toString())) {
+                    console.log("in flag function");
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
+                } else {
+                    clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
+                    clickedBtn.classList.add("btn-primary");
+                    doneList[currentQuestion] = formAnswer
+                    console.log(doneList);
+                    localStorage.setItem("doneList", JSON.stringify(doneList));
+                    $("#submitCheck")
+                        .fadeOut(100)
+                        .fadeIn(200)
+                        .fadeOut(100)
+                        .fadeIn(200)
+                        .fadeOut(100)
+                        .fadeIn(100);
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
                 }
-
-
-
-
+            } else {
+                currentQuestion += 1;
+                btnFunction(currentQuestion);
             }
-
-
         }
-
-
-               function saveFunction() {
-
-        var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-        checkRadio.checked = false;
+        else {
+            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+            if (checkRadio != null) {
+                var clickedBtn = document.getElementById("b" + currentQuestion.toString());
+                console.log(flagList);
+                if (flagList.hasOwnProperty(currentQuestion.toString())) {
+                    console.log("in flag function");
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
+                } else {
+                    clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");
+                    clickedBtn.classList.add("btn-primary");
+                    doneList[currentQuestion] = checkRadio.id;
+                    console.log(doneList);
+                    localStorage.setItem("doneList", JSON.stringify(doneList));
+                    $("#submitCheck")
+                        .fadeOut(100)
+                        .fadeIn(200)
+                        .fadeOut(100)
+                        .fadeIn(200)
+                        .fadeOut(100)
+                        .fadeIn(100);
+                    currentQuestion += 1;
+                    btnFunction(currentQuestion);
+                }
+            } else {
+                currentQuestion += 1;
+                btnFunction(currentQuestion);
+            }
+        }
+    }
+    function prevFunction() {
+        currentQuestion -= 1;
+        btnFunction(currentQuestion)
+    }
+    function btnFunction(id) {
+        if (subjectiveAnswers.includes(id)) {
+            multiBox.classList.remove("d-inline");
+            multiBox.classList.add("d-none");
+            inputBox.classList.remove("d-none");
+            inputBox.classList.add("d-inline");
+            try {
+                if (doneList[id.toString()] != undefined) {
+                    document.getElementById("fname").value = doneList[id.toString()];
+                } else {
+                    document.getElementById("fname").value = ""
+                }
+            } catch (err) {
+                console.log('no subjective')
+            }
+        } else {
+            multiBox.classList.add("d-inline");
+            multiBox.classList.remove("d-none");
+            inputBox.classList.add("d-none");
+            inputBox.classList.remove("d-inline");
+        }
+        var lastClickedBtn = document.getElementById('b' + (lastQuestion.toString()));
+        lastClickedBtn.classList.remove("border-danger", "border-2");
+        lastClickedBtn.classList.add("border-dark");
+        currentQuestion = id
+        var clickedBtn = document.getElementById('b' + (id.toString()));
+        clickedBtn.classList.remove("border-dark");
+        clickedBtn.classList.add("border-danger", "border-2");
+        document.getElementById('questionNo').innerHTML = id
+        $("#questionNo").fadeOut(300).fadeIn(300)
+        lastQuestion = currentQuestion
+        try {
+            document.getElementById(doneList[id.toString()]).checked = true;
+        }
+        catch (err) {
+            try { document.getElementById(flagList[id.toString()]).checked = true; }
+            catch (err) {
+                console.log('radio empty')
+                var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+                // console.log(document.querySelector('input[name="fav_language"]:checked'));
+                if (checkRadio != null) {
+                    document.querySelector('input[name="fav_language"]:checked').checked = false;
+                }
+            }
+        }
+    }
+    function saveFunction() {
         var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
         clickedBtn.classList.remove("btn-primary");
         clickedBtn.classList.add("btn-light", "btn-warning", "notDone");
-
-                delete doneList[currentQuestion];
-                delete flagList[currentQuestion];
+        delete doneList[currentQuestion];
+        delete flagList[currentQuestion];
+        if (subjectiveAnswers.includes(currentQuestion)) {
+            document.getElementById("inputBox").reset();
+        } else {
+            var checkRadio = document.querySelector('input[name="fav_language"]:checked');
+            checkRadio.checked = false;
+        }
         console.log(doneList);
         localStorage.setItem('doneList', JSON.stringify(doneList));
-
-
-
-
-<!--            var checkRadio = document.querySelector('input[name="fav_language"]:checked');-->
-<!--            if (checkRadio != null) {-->
-<!--                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));-->
-<!--                clickedBtn.classList.remove("btn-light", "btn-warning", "btn-dark");-->
-<!--                clickedBtn.classList.add("btn-primary");-->
-<!--                 doneList[currentQuestion] = checkRadio.id; -->
-<!--                console.log(doneList);-->
-<!--                localStorage.setItem('doneList', JSON.stringify(doneList));-->
-<!--                $("#submitCheck").fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(200).fadeOut(100).fadeIn(100)-->
-<!--            }-->
-
-        }
-
-
-        function flagFunction() {
-
+    }
+    function flagFunction() {
+        if (subjectiveAnswers.includes(currentQuestion)) {
+            var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
+            clickedBtn.classList.remove("btn-light", "btn-outline-primary", "btn-dark");
+            clickedBtn.classList.add("btn-warning");
+            flagList[currentQuestion] = document.getElementById("fname").value
+            doneList[currentQuestion] = document.getElementById("fname").value
+        } else {
             var checkRadio = document.querySelector('input[name="fav_language"]:checked');
-
             if (checkRadio != null) {
-
                 var clickedBtn = document.getElementById('b' + (currentQuestion.toString()));
                 clickedBtn.classList.remove("btn-light", "btn-outline-primary", "btn-dark");
                 clickedBtn.classList.add("btn-warning");
                 flagList[currentQuestion] = checkRadio.id;
                 doneList[currentQuestion] = checkRadio.id;
-
             }
-
-
         }
-
-
-
-
-
-        function clearAnswers() {
-
-            console.log('clear answers')
-            // document.querySelector('input[name="fav_language"]:checked').checked = false;
-
-        }
-
-
-
-
+    }
+    function clearAnswers() {
+        console.log('clear answers')
+        // document.querySelector('input[name="fav_language"]:checked').checked = false;
+    }
 function doneAnswers() {
-
 console.log(doneList);
 var ls = localStorage.getItem("doneList");
 console.log('ls', ls)
-
 var endSectionBtn = document.getElementById('endSectionBtn')
 endSectionBtn.disabled = true;
-
 if(ls === null){
 <!--     localStorage.removeItem("doneList");-->
-     location.replace("{% url 'index' %}")
- } else{
- saveAnswers()
-
- }
-
+ location.replace("{% url 'index' %}")
+} else{
+saveAnswers()
+}
 function saveAnswers() {
-
 var timeLeft = localStorage.getItem("timeLeft");
 var selectedTest = localStorage.getItem("selectedTest");
 var selectedTestId = localStorage.getItem("selectedTestId");
-
-
-    var url = "/endsection";
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-
-      },
-
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'math1',
-      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'m1'   }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log("response: ", data);
-        if (data === "progress saved"){
+var url = "/endsection";
+fetch(url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'math1',
+  'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'m1'   }),
+})
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log("response: ", data);
+    if (data === "progress saved"){
 <!--        alert('data sent success')-->
 <!--localStorage.clear();-->
 localStorage.removeItem("doneList");
 localStorage.removeItem("timeLeft");
 location.replace("{% url 'directionsm2' %}")
-        }
-      });
-  }
-
+    }
+  });
 }
-
-        btnFunction(1)
-
-
+}
+    btnFunction(1)
 function doneBackup() {
-  console.log(doneList);
-  var ls = localStorage.getItem("doneList");
-  var timeLeft = localStorage.getItem("timeLeft");
-
+console.log(doneList);
+var ls = localStorage.getItem("doneList");
+var timeLeft = localStorage.getItem("timeLeft");
 var selectedTest = localStorage.getItem("selectedTest");
 var selectedTestId = localStorage.getItem("selectedTestId");
-
-  var url = "/endsection";
-
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-
-      body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'math1',
-      'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'m1'   }),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log("response: ", data);
-      if (data === "progress saved") {
-        console.log("data saved");
-      }
-    });
+var url = "/endsection";
+fetch(url, {
+method: "POST",
+headers: {
+  "Content-Type": "application/json",
+},
+  body: JSON.stringify({'ls': ls, 'timeLeft':timeLeft, 'section':'math1',
+  'user_id': user_id, 'selectedTest':selectedTest, 'selectedTestId':selectedTestId, 'testStatus':'m1'   }),
+})
+.then((response) => {
+  return response.json();
+})
+.then((data) => {
+  console.log("response: ", data);
+  if (data === "progress saved") {
+    console.log("data saved");
+  }
+});
 }
-
 var elapsed = 0;
-
 var x = setInterval(function () {
 var ls = localStorage.getItem("doneList");
-
 if(ls != null){
-   doneBackup();
- }else {
-  console.log("backup empty")
-
-
-
-  elapsed += 60000;
-  console.log(elapsed);
-
-  if (elapsed > 3600000) {
-    clearInterval();
-    doneAnswers()
-  }
-
-  }
+doneBackup();
+}else {
+console.log("backup empty")
+elapsed += 60000;
+console.log(elapsed);
+if (elapsed > 3600000) {
+clearInterval();
+doneAnswers()
+}
+}
 }, 60000);
-
 
 
 
@@ -666,6 +572,8 @@ if(ls != null){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+
 
 
 <script>
@@ -697,7 +605,20 @@ if(ls != null){
 
 
 
+
+
 </script>
+
+<script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<script>
+  var elt = document.getElementById('calculatorx');
+  var calculator = Desmos.GraphingCalculator(elt);
+  calculator.setExpression({ id: 'graph1', latex: 'y=x^2' });
+
+
+</script>
+
+
 </body>
 
 </html>
