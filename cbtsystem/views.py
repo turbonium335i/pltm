@@ -13,6 +13,7 @@ from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from datetime import datetime, timedelta
 
 # fix origin django 4.0 csrf error
 
@@ -35,15 +36,27 @@ def index(request):
 
     percentR = 0
     percentW = 0
+    percentMA1 = 0
+    percentMA2 = 0
 
     try:
         inProgressTest = int(inProgress.testId)
+    except:
+        inProgressTest = ""
+
+    try:
         testQuery = testSpec.objects.get(id=inProgress.testId)
         percentR = (round((len(inProgress.studentAnswersReading) / len(testQuery.answerKeyReading)) * 100))
         percentW = (round((len(inProgress.studentAnswersWriting) / len(testQuery.answerKeyWriting)) * 100))
+        percentMA1 = (round((len(inProgress.studentAnswersMathOne) / len(testQuery.answerKeyMathOne)) * 100))
+        percentMA2 = (round((len(inProgress.studentAnswersMathTwo) / len(testQuery.answerKeyMathTwo)) * 100))
 
     except:
-        inProgressTest = ""
+        pass
+
+    nextTest = testDate.objects.all().first()
+    # print(nextTest.next_test.strftime("new Date(%Y, %m, %d)"))
+
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
@@ -51,6 +64,9 @@ def index(request):
                                                     "inProgressTest": inProgressTest,
                                                     "percentR": percentR,
                                                     "percentW": percentW,
+                                                    "percentMA1": percentMA1,
+                                                    "percentMA2": percentMA2,
+                                                    "nextTest": nextTest,
                                                     })
 
 
@@ -359,6 +375,16 @@ def history(request):
 
 @csrf_exempt
 def endsection(request):
+
+
+
+
+    data = json.loads(request.body)
+    print(data['ls'], data['timeLeft'], data['section'],
+          data['section'], data['user_id'], data['selectedTestId'],
+          data['selectedTest'], data['testStatus'])
+
+
     try:
         data = json.loads(request.body)
         print(data['ls'], data['timeLeft'], data['section'],
@@ -414,6 +440,8 @@ def endsection(request):
             progressRecord.statusMathTwo = "YES"
 
         progressRecord.save(force_insert=False)
+        progressRecord.date_started = datetime.now()
+        progressRecord.save()
 
         return JsonResponse('progress saved', safe=False)
 

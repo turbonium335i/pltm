@@ -129,3 +129,12 @@ class QtypeNote(models.Model):
 
     def __str__(self):
         return 'id: {0} - {1} '.format(self.id, self.title)
+
+class testDate(models.Model):
+
+    next_test = models.DateField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return 'id: {0} - {1} '.format(self.id, self.next_test)
+
+

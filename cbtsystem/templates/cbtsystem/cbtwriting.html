@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Writing</title>
+    <title>CBT Verbal 2</title>
     <!--    <link rel="shortcut icon" type="image/png"-->
     <!--          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">-->
     <!-- -->
@@ -69,22 +69,26 @@ input[type='radio'] {
 <hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
 <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
     {{ request.user.id|json_script:"user_id" }}
-    <div class="d-flex justify-content-end text-danger pe-4">
+        <div class="d-flex justify-content-between pb-1">
 
+            <span class="fw-bold"> Section 1: Reading and Writing</span>
+            <div>
+                <!-- <span class="border border-dark rounded px-1 mb-1 me-1" onclick="fullscreen()" style="cursor: pointer;">
+                    <i class="bi bi-window-fullscreen"></i> F11
+                </span> -->
+                <span class=" border border-dark rounded px-1 mb-1 text-center" onclick="timerFunction()"
+                    style="cursor: pointer;">
+                    <i class="bi bi-clock-history timerOn" id="timer"></i> Timer
+                </span>
 
-        <i class="bi bi-window-fullscreen"
-           onclick="fullscreen()"></i> &nbsp;F11
-        &nbsp;
-        <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
-                <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
-            </span>
+            </div>
 
-        <span id="demo">00h 00m 00s </span>
-    </div>
+        </div>
+        <div id="demo" class="text-center fw-bold">00:00:00</div>
     <!--    <div class="fw-bold mb-1 mx-0">PASSAGE I</div>-->
 
 
-    <div class="row pt-2">
+        <div class="row pt-2" style="border-top: dotted gray;border-bottom: dotted gray;">
         <div class="col-sm-9  scrolly border-end border-none">
             <!--            <iframe-->
             <!--                    src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
@@ -132,36 +136,43 @@ input[type='radio'] {
         </div>
 
 
-        <div class="col-sm-3 scrolly mt-5 mt-md-0  ps-5 ps-sm-3 ps-md-3 ps-lg-5 text-dark">
-            <form action="/action_page.php">
-                <h4 class="text-dark">Question <span id="questionNo"
-                                                     class="text-dark border border-danger px-2">1</span></h4>
-                  <input type="radio" id="A" name="fav_language" value="A">
-                  <label for="A">A</label><br>
-                  <input type="radio" id="B" name="fav_language" value="B">
-                  <label for="B">B</label><br>
-                  <input type="radio" id="C" name="fav_language" value="C">
-                  <label for="C">C</label><br>
-                  <input type="radio" id="D" name="fav_language" value="D">
-                  <label for="D">D</label>
-            </form>
-            <br>
-            <!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
-            <!--                    class="bi bi-save"></i></button>-->
-            <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
-                <i class="bi bi-eraser"></i></button>
+            <div class="col-sm-3 scrolly mt-5 mt-sm-0 ps-sm-3 text-dark">
+                <form action="/action_page.php">
+
+                    <div class="d-flex justify-content-between  mb-2 fw-bold "
+                        style="background-color:#D3D3D3; border-bottom: dotted gray;">
+                        <div class="bg-dark text-light px-1" span id="questionNo"> </div>
+
+                    </div>
 
 
-            <button type="button" class="btn btn-outline-warning " id="flagBtn" onclick="flagFunction()"><i
-                    class="bi bi-flag"></i></button>
 
-            <br><br> <br><br>
-            <button type="button" class="btn btn-outline-dark" id="backBtn" onclick="prevFunction()"><i
-                    class="bi bi-arrow-left-circle"></i>
-                Prev
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="nextBtn" onclick="nextFunction()">Next <i
-                    class="bi bi-arrow-right-circle"></i></button>
+                      <input type="radio" id="A" name="fav_language" value="A">
+                      <label for="A">A</label><br>
+                      <input type="radio" id="B" name="fav_language" value="B">
+                      <label for="B">B</label><br>
+                      <input type="radio" id="C" name="fav_language" value="C">
+                      <label for="C">C</label><br>
+                      <input type="radio" id="D" name="fav_language" value="D">
+                      <label for="D">D</label>
+                </form>
+                <br>
+                <!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
+                <!--                    class="bi bi-save"></i></button>-->
+                <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
+                    <i class="bi bi-eraser"></i></button>
+
+
+                <button type="button" class="btn btn-outline-warning " id="flagBtn" onclick="flagFunction()"><i
+                        class="bi bi-bookmark"></i></button>
+
+                <br><br> <br><br>
+                <button type="button" class="btn btn-primary rounded-pill" id="backBtn" onclick="prevFunction()"><i
+                        class="bi bi-arrow-left-circle"></i>
+                    Prev
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill" id="nextBtn" onclick="nextFunction()">Next <i
+                        class="bi bi-arrow-right-circle"></i></button>
 
             <div class="text-end">
                 <br> <br> <br>
@@ -188,7 +199,7 @@ input[type='radio'] {
 
 <script>
 
- var timeLeft = 3610000
+ var timeLeft = 1920000
 
  if (localStorage.getItem('writingApiTime') !== null) {
     console.log(`writingApiTime exists`);
@@ -282,7 +293,7 @@ input[type='radio'] {
 
 
 
-        var qCount = 45;
+        var qCount = 28;
         var qArray = [];
         for (let i = 1; i < qCount; i++) {
             qArray.push({ [i]: '' })
@@ -632,7 +643,7 @@ if(ls != null){
   elapsed += 60000;
   console.log(elapsed);
 
-  if (elapsed > 3600000) {
+  if (elapsed > 1920000) {
     clearInterval();
     doneAnswers()
   }

@@ -71,22 +71,26 @@ input[type='radio'] {
 <hr class="bg-success m-0 p-0  " style="height:5px;" id="submitCheck">
 <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
     {{ request.user.id|json_script:"user_id" }}
-    <div class="d-flex justify-content-end text-danger pe-4">
+        <div class="d-flex justify-content-between pb-1">
 
+            <span class="fw-bold"> Section 2: Math </span>
+            <div>
+                <!-- <span class="border border-dark rounded px-1 mb-1 me-1" onclick="fullscreen()" style="cursor: pointer;">
+                    <i class="bi bi-window-fullscreen"></i> F11
+                </span> -->
+                <span class=" border border-dark rounded px-1 mb-1 text-center" onclick="timerFunction()"
+                    style="cursor: pointer;">
+                    <i class="bi bi-clock-history timerOn" id="timer"></i> Timer
+                </span>
 
-        <i class="bi bi-window-fullscreen"
-           onclick="fullscreen()"></i> &nbsp;F11
-        &nbsp;
-        <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
-                <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
-            </span>
+            </div>
 
-        <span id="demo">00h 00m 00s </span>
-    </div>
+        </div>
+        <div id="demo" class="text-center fw-bold">00:00:00</div>
     <!--    <div class="fw-bold mb-1 mx-0">PASSAGE I</div>-->
 
 
-    <div class="row pt-2">
+        <div class="row pt-2" style="border-top: dotted gray;border-bottom: dotted gray;">
         <div class="col-sm-9  scrolly border-end border-none">
             <!--            <iframe-->
             <!--                    src="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview"-->
@@ -103,9 +107,12 @@ input[type='radio'] {
         </div>
 
 
-        <div class="col-sm-3 scrolly mt-5 mt-md-0  ps-5 ps-sm-3 ps-md-3 ps-lg-5 text-dark">
-            <h4 class="text-dark">Question <span id="questionNo"
-                                                 class="text-dark border border-danger px-2">1</span></h4>
+            <div class="col-sm-3 scrolly mt-5 mt-sm-0 ps-sm-3 text-dark">
+      <div class="d-flex justify-content-between  mb-2 fw-bold "
+                        style="background-color:#D3D3D3; border-bottom: dotted gray;">
+                        <div class="bg-dark text-light px-1" span id="questionNo"> </div>
+
+                    </div>
             <form action="/action_page.php" class="d-inline" id="multiBox">
 
                   <input type="radio" id="A" name="fav_language" value="A">
@@ -118,20 +125,22 @@ input[type='radio'] {
                   <label for="D">D</label>
                 <br>
             </form>
-
             <form class="d-none" id="inputBox">
-                <label for="fname">Answer:</label>
+                <label for="fname" class="fw-bold">Answer:</label>
                 <br>
-                <input type="text" id="fname" name="fname" autofocus><br><br>
-
+                <input type="text" id="fname" name="fname" autofocus maxlength="12"
+                       style="text-align: center; color: blue; font-size: 1.25rem;width: 160px" autocomplete="off"><br><br>
             </form>
             <br>
             <!--            <button type="button" class="btn btn-outline-primary " id="saveBtn" onclick="saveFunction()">Save <i-->
             <!--                    class="bi bi-save"></i></button>-->
 
-            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <i class="bi bi-calculator-fill"></i>
-            </button>
+            <!--<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">-->
+            <!--    <i class="bi bi-calculator-fill"></i>-->
+            <!--</button>-->
+              <button type="button" class="btn btn-outline-danger" onclick="viewCal()">
+                    <i class="bi bi-calculator-fill"></i>
+                </button>
 
             <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
                 <i class="bi bi-eraser"></i></button>
@@ -141,12 +150,12 @@ input[type='radio'] {
                     class="bi bi-flag"></i></button>
 
             <br><br> <br><br>
-            <button type="button" class="btn btn-outline-dark" id="backBtn" onclick="prevFunction()"><i
-                    class="bi bi-arrow-left-circle"></i>
-                Prev
-            </button>
-            <button type="button" class="btn btn-outline-dark" id="nextBtn" onclick="nextFunction()">Next <i
-                    class="bi bi-arrow-right-circle"></i></button>
+                <button type="button" class="btn btn-primary rounded-pill" id="backBtn" onclick="prevFunction()"><i
+                        class="bi bi-arrow-left-circle"></i>
+                    Prev
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill" id="nextBtn" onclick="nextFunction()">Next <i
+                        class="bi bi-arrow-right-circle"></i></button>
 
             <!-- Button trigger modal -->
 
@@ -162,7 +171,7 @@ input[type='radio'] {
                         </div>
                         <div class="modal-body ">
                             <div class="float-right">
-                                <div id="calculatorx" style="width: 750px; height: 500px;"></div>
+                                <!--<div id="calculatorx" style="width: 750px; height: 500px;"></div>-->
                             </div>
 
                         </div>
@@ -191,12 +200,21 @@ input[type='radio'] {
 
 
     </div>
+
+        <div class="d-flex justify-content-around my-5">
+            <div id="calculatorx" style="width: 750px; height: 500px;"> </div>
+        </div>
+        <div class="float-right pb-5">
+            <button type="button" class="btn btn-outline-dark float-end" onclick='topFunction()'>
+                <i class="bi bi-arrow-up  "></i>
+            </button>
+        </div>
 </div>
 
 
 <script>
 
- var timeLeft = 3610000
+ var timeLeft = 2100000
 
  if (localStorage.getItem('mathOneApiTime') !== null) {
     console.log(`mathOneApiTime exists`);
@@ -267,8 +285,21 @@ input[type='radio'] {
 
 </script>
 
+    <script>
+            function viewCal() {
+                const element = document.getElementById("calculatorx");
+                element.scrollIntoView();
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+    </script>
+
 <script>
-var subjectiveAnswers = [1, 2]
+
+var subjectiveAnswers = [20, 21, 22]
 var obj = {}
 const user_id = JSON.parse(document.getElementById('user_id').textContent);
 console.log("user_id", user_id)
@@ -284,7 +315,7 @@ console.log(obj);
     var flagList = {   }
     var currentQuestion = 1;
     var lastQuestion = 1;
-    var qCount = 43;
+        var qCount = 23;
     var qArray = [];
     for (let i = 1; i < qCount; i++) {
         qArray.push({ [i]: '' })
@@ -568,12 +599,13 @@ doneAnswers()
 
 
 
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
-
 
 
 <script>

@@ -71,29 +71,22 @@ input[type='radio'] {
 
 <div class="mx-2 pt-2 mx-lg-4 mx-xl-5">
 
-
+    <div class="d-flex justify-content-end text-danger pe-4">
         {{ request.user.id|json_script:"user_id" }}
-        <div class="d-flex justify-content-between pb-1">
 
-            <span class="fw-bold"> Section 2: Math 2</span>
-            <div>
-                <!-- <span class="border border-dark rounded px-1 mb-1 me-1" onclick="fullscreen()" style="cursor: pointer;">
-                    <i class="bi bi-window-fullscreen"></i> F11
-                </span> -->
-                <span class=" border border-dark rounded px-1 mb-1 text-center" onclick="timerFunction()"
-                    style="cursor: pointer;">
-                    <i class="bi bi-clock-history timerOn" id="timer"></i> Timer
-                </span>
+        <i class="bi bi-window-fullscreen"
+           onclick="fullscreen()"></i> &nbsp;F11
+        &nbsp;
+        <span class="text-dark" onclick="timerFunction()" style="cursor: pointer;">
+                <i class="bi bi-clock-history timerOn" id="timer"></i> Remaining &nbsp;
+            </span>
 
-            </div>
-
-        </div>
-        <div id="demo" class="text-center fw-bold">00:00:00</div>
-
+        <span id="demo">00h 00m 00s </span>
+    </div>
     <!--    <div class="fw-bold mb-1 mx-0">PASSAGE I</div>-->
 
 
-        <div class="row pt-2" style="border-top: dotted gray;border-bottom: dotted gray;">
+    <div class="row pt-2">
         <div class="col-sm-9  scrolly border-end border-none">
             <!--                                               <iframe-->
             <!--                                            src="https://drive.google.com/file/d/1aRdDi8L2WlmBGdmbJQI-emm5eYO6tKbw/preview"-->
@@ -106,16 +99,44 @@ input[type='radio'] {
                     height="100%"
             ></iframe>
 
-
+            <!--            In publishing and graphic design, Lorem ipsum is a placeholder-->
+            <!--            text commonly used to demonstrate the visual form of a document or-->
+            <!--            a typeface without relying on meaningful content. Lorem ipsum may-->
+            <!--            be used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available. In-->
+            <!--            publishing and graphic design, Lorem ipsum is a placeholder text-->
+            <!--            commonly used to demonstrate the visual form of a document or a-->
+            <!--            typeface without relying on meaningful content. Lorem ipsum may be-->
+            <!--            used as a placeholder before the final copy is available.-->
         </div>
 
 
-            <div class="col-sm-3 scrolly mt-5 mt-sm-0 ps-sm-3 text-dark">
-            <div class="d-flex justify-content-between  mb-2 fw-bold "
-                        style="background-color:#D3D3D3; border-bottom: dotted gray;">
-                        <div class="bg-dark text-light px-1" span id="questionNo"> </div>
-
-                    </div>
+        <div class="col-sm-3 scrolly mt-5 mt-md-0  ps-5 ps-sm-3 ps-md-3 ps-lg-5 text-dark">
+            <h4 class="text-dark">Question <span id="questionNo"
+                                                 class="text-dark border border-danger px-2">1</span></h4>
             <form action="/action_page.php" class="d-inline" id="multiBox">
 
                   <input type="radio" id="A" name="fav_language" value="A">
@@ -139,9 +160,9 @@ input[type='radio'] {
             <!--                    class="bi bi-save"></i></button>-->
 
                             <!-- Button trigger modal -->
-   <button type="button" class="btn btn-outline-danger" onclick="viewCal()">
-                    <i class="bi bi-calculator-fill"></i>
-                </button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    <i class="bi bi-calculator-fill"></i> </button>
             <button type="button" class="btn btn-outline-secondary " id="saveBtn" onclick="saveFunction()">
                 <i class="bi bi-eraser"></i></button>
 
@@ -150,12 +171,12 @@ input[type='radio'] {
                     class="bi bi-flag"></i></button>
 
             <br><br> <br><br>
-            <button type="button" class="btn btn-primary rounded-pill" id="backBtn" onclick="prevFunction()"><i
-                        class="bi bi-arrow-left-circle"></i>
-                    Prev
-                </button>
-                <button type="button" class="btn btn-primary rounded-pill" id="nextBtn" onclick="nextFunction()">Next <i
-                        class="bi bi-arrow-right-circle"></i></button>
+            <button type="button" class="btn btn-outline-dark" id="backBtn" onclick="prevFunction()"><i
+                    class="bi bi-arrow-left-circle"></i>
+                Prev
+            </button>
+            <button type="button" class="btn btn-outline-dark" id="nextBtn" onclick="nextFunction()">Next <i
+                    class="bi bi-arrow-right-circle"></i></button>
 
             <div class="text-end">
                 <br> <br> <br>
@@ -212,7 +233,7 @@ input[type='radio'] {
             <br>
 
             <p style="line-height: 0.9;"><small class="text-danger">
-                *Save at least one answer to save or end test.
+                *Save at least one answer to save or skip to the next section.
             </small></p>
 
 
@@ -220,21 +241,12 @@ input[type='radio'] {
 
 
     </div>
-
-            <div class="d-flex justify-content-around my-5">
-            <div id="calculatorx" style="width: 750px; height: 500px;"> </div>
-        </div>
-        <div class="float-right pb-5">
-            <button type="button" class="btn btn-outline-dark float-end" onclick='topFunction()'>
-                <i class="bi bi-arrow-up  "></i>
-            </button>
-        </div>
 </div>
 
 
 <script>
 
- var timeLeft = 2100000
+ var timeLeft = 3610000
 
  if (localStorage.getItem('mathTwoApiTime') !== null) {
     console.log(`mathTwoApiTime exists`);
@@ -303,20 +315,8 @@ input[type='radio'] {
 
 </script>
 
-    <script>
-            function viewCal() {
-                const element = document.getElementById("calculatorx");
-                element.scrollIntoView();
-            }
-
-            function topFunction() {
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-            }
-    </script>
-
 <script>
-var subjectiveAnswers = [20, 21, 22]
+var subjectiveAnswers = [1, 2]
     var obj = {}
 
     const user_id = JSON.parse(document.getElementById('user_id').textContent);
@@ -341,7 +341,7 @@ var subjectiveAnswers = [20, 21, 22]
 
 
 
-        var qCount = 23;
+        var qCount = 53;
         var qArray = [];
         for (let i = 1; i < qCount; i++) {
             qArray.push({ [i]: '' })
@@ -702,7 +702,7 @@ if(ls != null){
   elapsed += 60000;
   console.log(elapsed);
 
-  if (elapsed > 2100000) {
+  if (elapsed > 3600000) {
     clearInterval();
     doneAnswers()
   }
@@ -750,16 +750,145 @@ if(ls != null){
 
 
 </script>
-
-<script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 <script>
-  var elt = document.getElementById('calculatorx');
-  var calculator = Desmos.GraphingCalculator(elt);
-  calculator.setExpression({ id: 'graph1', latex: 'y=x^2' });
+    class Calculator {
+  constructor(previousOperandTextElement, currentOperandTextElement) {
+    this.previousOperandTextElement = previousOperandTextElement;
+    this.currentOperandTextElement = currentOperandTextElement;
+    this.clear();
+  }
 
+  clear() {
+    this.currentOperand = "";
+    this.previousOperand = "";
+    this.operation = undefined;
+  }
+
+  delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1);
+  }
+
+  appendNumber(number) {
+    if (number === "." && this.currentOperand.includes(".")) return;
+    this.currentOperand = this.currentOperand.toString() + number.toString();
+  }
+
+  chooseOperation(operation) {
+    if (this.currentOperand === "") return;
+    if (this.previousOperand !== "") {
+      this.compute();
+    }
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = "";
+  }
+
+  compute() {
+    let computation;
+    const prev = parseFloat(this.previousOperand);
+    const current = parseFloat(this.currentOperand);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operation) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      case "*":
+        computation = prev * current;
+        break;
+      case "÷":
+        computation = prev / current;
+        break;
+      default:
+        return;
+    }
+    this.currentOperand = computation;
+    this.operation = undefined;
+    this.previousOperand = "";
+  }
+
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]);
+    const decimalDigits = stringNumber.split(".")[1];
+    let integerDisplay;
+    if (isNaN(integerDigits)) {
+      integerDisplay = "";
+    } else {
+      integerDisplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0,
+      });
+    }
+    if (decimalDigits != null) {
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
+  }
+
+  updateDisplay() {
+    this.currentOperandTextElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
+    if (this.operation != null) {
+      this.previousOperandTextElement.innerText = `${this.getDisplayNumber(
+        this.previousOperand
+      )} ${this.operation}`;
+    } else {
+      this.previousOperandTextElement.innerText = "";
+    }
+  }
+}
+
+const numberButtons = document.querySelectorAll("[data-number]");
+const operationButtons = document.querySelectorAll("[data-operation]");
+const equalsButton = document.querySelector("[data-equals]");
+const deleteButton = document.querySelector("[data-delete]");
+const allClearButton = document.querySelector("[data-all-clear]");
+const previousOperandTextElement = document.querySelector(
+  "[data-previous-operand]"
+);
+const currentOperandTextElement = document.querySelector(
+  "[data-current-operand]"
+);
+
+const calculator = new Calculator(
+  previousOperandTextElement,
+  currentOperandTextElement
+);
+
+numberButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.appendNumber(button.innerText);
+    calculator.updateDisplay();
+  });
+});
+
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
+  });
+});
+
+equalsButton.addEventListener("click", (button) => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
+
+allClearButton.addEventListener("click", (button) => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+
+deleteButton.addEventListener("click", (button) => {
+  calculator.delete();
+  calculator.updateDisplay();
+});
 
 </script>
-
 </body>
 
 </html>
