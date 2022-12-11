@@ -21,9 +21,11 @@ class testSpec(models.Model):
 
     answerKeyMathOne = JSONField(null=True, default={})
     questionTypeMathOne = JSONField(null=True, default={})
+    studentResponseOne = models.TextField(null=True, blank=True, default="12")
 
     answerKeyMathTwo = JSONField(null=True, default={})
     questionTypeMathTwo = JSONField(null=True, default={})
+    studentResponseTwo = models.TextField(null=True, blank=True, default="12")
 
     pdfLink = models.URLField(max_length=250, null=True, blank=True,
                               default="https://drive.google.com/file/d/14xUAfhLiG2AQR-jdNcjwT9ZYlA0ZaHZr/preview")
