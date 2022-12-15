@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .forms import *
 
 from datetime import datetime, timedelta
 
@@ -149,16 +150,20 @@ def loginpage(request):
         userx = authenticate(request, username=username, password=password)
 
         if userx is not None:
-            login(request, userx)
-            current_user = request.user
-            if current_user == request.user.is_superuser:
-                return redirect('index')
+            uName = User.objects.get(username=username).id
+            try:
+                status = accountprofile.objects.get(userAccount=uName).status
+            except:
+                messages.info(request, "No Account Profile")
+                return redirect('loginpage')
 
+            if status == True:
+                login(request, userx)
+                current_user = request.user
+                return redirect('index')
             else:
-                try:
-                    return redirect('index')
-                except:
-                    return redirect('index')
+                messages.info(request, "Account not active.")
+                return redirect('loginpage')
         else:
             messages.info(request, "USERNAME and/or PASSWORD is incorrect.")
 
@@ -739,3 +744,26 @@ def rawscale(request):
     foo = zip(topscore, topverbal, topmath)
 
     return render(request, 'cbtsystem/rawscale.html', {'moo': moo, 'foo': foo})
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        refcode = request.POST.get("code", "")
+        refcode = refcode.strip()
+        # print(groupType)
+        if form.is_valid():
+            user = form.save()
+            accountprofile.objects.create(userAccount=user, school=refcode)
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account Created: {username}')
+
+            return redirect('loginpage')
+
+    else:
+        form = UserRegisterForm()
+
+    return render(request, 'cbtsystem/register.html', {'form': form})

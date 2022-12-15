@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/sxXLWRys/logo-plativ2.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Sign Up</title>
+
+
+    <style>
+        .filtered {display:none !important;}
+
+        .empty {border: 2px solid red;}
+
+        #dumbo {  padding: 5px;}
+
+        body {
+        background-color: gray ;
+<!--        background-color: #4b5f6f ;-->
+
+        }
+
+        #inputrecord {
+        width: 720px;
+        margin: 0 auto;
+        }
+
+        .linkbox a {
+        display: inline-block !important;
+        height: 50px;
+        }
+
+
+#jumbo {
+  padding: 15px;
+}
+
+
+
+        .loguser {
+        font-size: 15px;
+        color: #5bc0de;
+        margin-right: 15px;
+        }
+
+               #points {
+        font-size: 15px;
+        color: #5cb85c;
+        margin-right: 15px;
+        }
+;
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <section id="register" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+                        <div class="card-header text-dark text-center" style="background-color: rgba(55,53,53,255)">
+                            <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="50" height='auto'>
+
+                        </div>
+                        <div class="card-body">
+                            <!-- Alerts -->
+                            <form method="POST" action="">
+                                {% csrf_token %}
+
+                                {{form|crispy}}
+
+                                <!--                                <script src='https://www.google.com/recaptcha/api.js'></script>-->
+                                <!--                                <div class="g-recaptcha d-flex justify-content-center"-->
+                                <!--                                     data-sitekey="6LfFpUkbAAAAAIspZaYOZlsrFv22Requclovsfw9" data-theme="light"></div>-->
+                                <!--                                <br>-->
+                                <label for="formGroupExampleInput">School Name </label>
+                                <input type="text" class="form-control" name="code" id="formGroupExampleInput"
+                                       placeholder="Korea High School">
+                                <br>
+
+
+                                <input type="submit" value="Register" class="btn btn-warning btn-block" id="submitBtn"
+                                        >
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<br>
+
+<div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info"> {{message}}</div>
+    {% endfor %}
+    {% endif %}
+
+
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>
+
+
+
+

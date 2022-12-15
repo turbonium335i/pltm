@@ -24,6 +24,7 @@ urlpatterns = [
     path('rawscale', views.rawscale, name='rawscale'),
     path('directionsm1', views.directionsm1, name='directionsm1'),
     path('directionsm2', views.directionsm2, name='directionsm2'),
+    path('register', views.register, name='register'),
 
 
 

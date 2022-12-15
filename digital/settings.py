@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cbtsystem.apps.CbtsystemConfig',
     'rest_framework',
+    'crispy_forms',
     'loginas',
 ]
 
@@ -116,6 +117,8 @@ TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
 
 USE_TZ = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Static files (CSS, JavaScript, Images)

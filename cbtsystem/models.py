@@ -139,4 +139,23 @@ class testDate(models.Model):
     def __str__(self):
         return 'id: {0} - {1} '.format(self.id, self.next_test)
 
+S_TYPE = (
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+)
+
+class accountprofile(models.Model):
+    userAccount = models.OneToOneField(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    signupdate = models.DateTimeField(default=datetime.now, blank=True)
+    school = models.CharField(max_length=100, null=True, default='School Name')
+    age = models.PositiveIntegerField(null=True, blank=True, default=15)
+    sex = models.CharField(max_length=100, null=True, choices=S_TYPE, blank=True)
+
+    comment = models.TextField(null=True, blank=True,
+                             default="Write comments here.")
+
+    def __str__(self):
+        return '{0} / {1}, {2} / School: {3} / STATUS: {4}'.format(self.userAccount, self.userAccount.first_name, self.userAccount.last_name, self.school, self.status)
+
 

@@ -62,7 +62,10 @@
         {% for message in messages %}
         <p class="small" id="messages" style="color:red;">{{message}}</p>
         {% endfor %}
-        <h1 class="h5 mb-3 fw-normal text-light">Digital SAT&#174; Simulator</h1>
+        <h1 class="h5 mb-3 fw-normal text-light">Digital SAT&#174;
+            <a href="{% url 'register' %}" class="text-decoration-none text-light">Simulator</a>
+
+        </h1>
 
 
         <div class="form-floating mb-1">
@@ -86,6 +89,8 @@
                                                   style="text-decoration: none;" class="text-muted">Platinum Academy
             2022</a></p>
     </form>
+    <small>
+     <a href="{% url 'register' %}" class="text-decoration-none text-light ">No account? Sign Up Here.</a></small>
 
     <p style="line-height: 0.9;"><small class="text-danger">
         This site is optimized for chromium based browsers such as Google Chrome, Brave, and Edge. If on macOS or iOS use Safari browser. Use of deprecated browsers may lead to errors.

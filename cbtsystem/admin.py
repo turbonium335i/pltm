@@ -22,6 +22,7 @@ admin.site.register(groupTest)
 admin.site.register(LoggedInUser)
 admin.site.register(QtypeNote)
 admin.site.register(testDate)
+admin.site.register(accountprofile)
 
 
 #custom search functions
