@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import collections
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 from .serializers import *
 from rest_framework.decorators import api_view
@@ -15,6 +16,7 @@ from rest_framework.response import Response
 from .forms import *
 
 from datetime import datetime, timedelta
+
 
 # fix origin django 4.0 csrf error
 
@@ -57,7 +59,6 @@ def index(request):
 
     nextTest = testDate.objects.all().first()
     # print(nextTest.next_test.strftime("new Date(%Y, %m, %d)"))
-
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
@@ -238,8 +239,42 @@ def results(request):
 
     zipRecordW = zip(qNo, qMarked, qAnswer, qType)
 
+    qNo = []
+    qMarked = []
+    qAnswer = []
+    qType = []
+
+    for n, a in record.studentAnswersMathOne.items():
+        qNo.append(n)
+        qMarked.append(a)
+    for n, a in testQuery.answerKeyMathOne.items():
+        qAnswer.append(a)
+    for n, a in testQuery.questionTypeMathOne.items():
+        qType.append(a)
+
+    zipRecordM1 = zip(qNo, qMarked, qAnswer, qType)
+
+    qNo = []
+    qMarked = []
+    qAnswer = []
+    qType = []
+
+    for n, a in record.studentAnswersMathTwo.items():
+        qNo.append(n)
+        qMarked.append(a)
+    for n, a in testQuery.answerKeyMathTwo.items():
+        qAnswer.append(a)
+    for n, a in testQuery.questionTypeMathTwo.items():
+        qType.append(a)
+
+    zipRecordM2 = zip(qNo, qMarked, qAnswer, qType)
+
     return render(request, 'cbtsystem/results.html',
-                  {"zipRecord": zipRecord, "zipRecordW": zipRecordW, "record": record})
+                  {"zipRecord": zipRecord, "zipRecordW": zipRecordW,
+                   "record": record,
+                   "zipRecordM1": zipRecordM1,
+                   "zipRecordM2": zipRecordM2,
+                   })
 
 
 @login_required(login_url='loginpage')
@@ -258,7 +293,7 @@ def results_pk(request, pk):
 
         record = testRecord.objects.get(id=pk)
 
-        if request.user.username == record.studentUsername:
+        if request.user.username == record.studentUsername or request.user.is_superuser:
 
             testQuery = testSpec.objects.get(id=record.testId)
 
@@ -378,17 +413,148 @@ def history(request):
     return render(request, 'cbtsystem/history.html', {'record': record})
 
 
+@login_required(login_url='loginpage')
+def update(request):
+    record = testRecord.objects.all().order_by('-id')
+
+    # rawVerbal = verbalKeyLen - (int(numberInCorrectR) + int(numberInCorrectW))
+    # rawMath = mathKeyLen - (int(numberInCorrectM1) + int(numberInCorrectM2))
+    #
+    # readingscore = newraw[rawVerbal][0]
+    # mathscore = newraw[rawMath][1]
+
+    for i in record:
+        testQuery = testSpec.objects.get(id=i.testId)
+        verbalKeyLen = len(testQuery.answerKeyReading) + len(testQuery.answerKeyWriting)
+        mathKeyLen = len(testQuery.answerKeyMathOne) + len(testQuery.answerKeyMathTwo)
+
+        rawVerbal = (int(i.numberInCorrectR) + int(i.numberInCorrectW))
+        rawMath = (int(i.numberInCorrectM1) + int(i.numberInCorrectM2))
+
+        print(i.scoreReading, i.scoreMath, rawVerbal, rawMath)
+
+        if i.scoreReading == "200":
+
+            try:
+                readingscore = newraw[rawVerbal][0]
+                mathscore = newraw[rawMath][1]
+
+                i.scoreReading = newraw[rawVerbal][0]
+                i.scoreMath = newraw[rawMath][1]
+                i.save()
+                print(readingscore, mathscore)
+            except:
+                pass
+
+    return render(request, 'cbtsystem/update.html', {'record': record})
+
+
+@staff_member_required(login_url='loginpage')
+def staff(request):
+    username = request.user.username
+    record = testRecord.objects.all().order_by('-id')
+
+    queryList = []
+    qs = '1, 2, 3, 4, 5'
+    v1 = {}
+    v2 = {}
+    m1 = {}
+    m2 = {}
+    q_test = ''
+
+    if request.method == 'POST':
+        qs = request.POST.get("queryids")
+        try:
+            qs = [int(x.strip()) for x in qs.split(',')]
+            for q in qs:
+                try:
+                    queryList.append(testRecord.objects.get(id=q))
+                except:
+                    messages.warning(request, f"ID:{q} invalid!")
+        except:
+            messages.warning(request, "Form Error")
+
+        statsv1 = {}
+        statsv2 = {}
+        statsm1 = {}
+        statsm2 = {}
+
+        if len(queryList) > 0:
+            try:
+                q_test = testSpec.objects.get(id=queryList[0].testId)
+            except:
+                messages.warning(request, "Queried Test Invaild")
+
+            for n in range(1, (len(queryList[0].studentAnswersReading) + 1)):
+                statsv1[str(n)] = []
+            for q in queryList:
+                x = q.studentAnswersReading
+                for k, v in x.items():
+                    statsv1[str(k)].append(v)
+
+            for n in range(1, (len(queryList[0].studentAnswersWriting) + 1)):
+                statsv2[str(n)] = []
+            for q in queryList:
+                x = q.studentAnswersWriting
+                for k, v in x.items():
+                    statsv2[str(k)].append(v)
+
+            for n in range(1, (len(queryList[0].studentAnswersMathOne) + 1)):
+                statsm1[str(n)] = []
+            for q in queryList:
+                x = q.studentAnswersMathOne
+                for k, v in x.items():
+                    statsm1[str(k)].append(v)
+
+            for n in range(1, (len(queryList[0].studentAnswersMathTwo) + 1)):
+                statsm2[str(n)] = []
+            for q in queryList:
+                x = q.studentAnswersMathTwo
+                for k, v in x.items():
+                    statsm2[str(k)].append(v)
+
+        try:
+            qDict = q_test.answerKeyReading
+            for k, v in statsv1.items():
+                v1[k] = [dict(collections.Counter(v)), qDict[k]]
+                # v1[k] = dict(collections.Counter(v))
+            qDict = q_test.answerKeyWriting
+            for k, v in statsv2.items():
+                v2[k] = [dict(collections.Counter(v)), qDict[k]]
+
+            qDict = q_test.answerKeyMathOne
+            for k, v in statsm1.items():
+                m1[k] = [dict(collections.Counter(v)), qDict[k]]
+
+            qDict = q_test.answerKeyMathTwo
+            for k, v in statsm2.items():
+                m2[k] = [dict(collections.Counter(v)), qDict[k]]
+        except:
+            return render(request, 'cbtsystem/staff.html', {'record': record,
+                                                            'queryList': queryList,
+                                                            'v1': v1,
+                                                            'v2': v2,
+                                                            'm1': m1,
+                                                            'm2': m2,
+                                                            'q_test': q_test,
+                                                            'qs': qs})
+
+    return render(request, 'cbtsystem/staff.html', {'record': record,
+                                                    'queryList': queryList,
+                                                    'v1': v1,
+                                                    'v2': v2,
+                                                    'm1': m1,
+                                                    'm2': m2,
+                                                    'q_test': q_test,
+                                                    'qs': qs})
+
+
 @csrf_exempt
 def endsection(request):
-
-
-
-
     data = json.loads(request.body)
     print(data['ls'], data['timeLeft'], data['section'],
           data['section'], data['user_id'], data['selectedTestId'],
           data['selectedTest'], data['testStatus'])
-
 
     try:
         data = json.loads(request.body)
@@ -398,8 +564,6 @@ def endsection(request):
 
         progressRecord, created = testInProgress.objects.get_or_create(studentId=request.user.id)
 
-        print(progressRecord)
-
         rAnswers = json.loads(data['ls'])
 
         if data['section'] == 'reading':
@@ -407,6 +571,11 @@ def endsection(request):
             rTimeLeft = json.loads(data['timeLeft'])
             progressRecord.studentAnswersReading = rAnswers
             progressRecord.timeLeftReading = rTimeLeft
+
+            if data['selectedTestId'] != progressRecord.testId:
+                progressRecord.studentAnswersMathOne = {}
+                progressRecord.studentAnswersWriting = {}
+                progressRecord.studentAnswersMathTwo = {}
 
         elif data['section'] == 'math1':
 
@@ -454,17 +623,41 @@ def endsection(request):
         return JsonResponse('data incomplete', safe=False)
 
 
+newraw = {66: [200, 200], 65: [200, 200], 64: [200, 200], 63: [200, 200], 62: [200, 200], 61: [200, 200],
+          60: [200, 200],
+          59: [200, 200], 58: [200, 200], 57: [200, 200], 56: [200, 200], 55: [200, 200], 54: [200, 200],
+          53: [210, 200],
+          52: [220, 200], 51: [230, 200], 50: [240, 200], 49: [250, 200], 48: [260, 200], 47: [270, 200],
+          46: [280, 200],
+          45: [290, 200], 44: [300, 200], 43: [310, 220], 42: [330, 230], 41: [340, 240], 40: [350, 250],
+          39: [360, 280],
+          38: [380, 300], 37: [390, 320], 36: [400, 340], 35: [410, 350], 34: [430, 360], 33: [440, 380],
+          32: [460, 390],
+          31: [470, 400], 30: [490, 410], 29: [500, 430], 28: [510, 440], 27: [520, 450], 26: [530, 460],
+          25: [540, 480],
+          24: [550, 490], 23: [560, 500], 22: [570, 510], 21: [580, 520], 20: [590, 530], 19: [600, 540],
+          18: [610, 550],
+          17: [620, 560], 16: [630, 570], 15: [640, 580], 14: [650, 590], 13: [660, 600], 12: [670, 610],
+          11: [680, 620],
+          10: [690, 630], 9: [700, 650], 8: [710, 660], 7: [720, 680], 6: [730, 690], 5: [740, 700], 4: [750, 720],
+          3: [760, 750], 2: [770, 770], 1: [790, 790], 0: [800, 800]}
+
+
 @login_required(login_url='loginpage')
 def processtest(request):
     username = request.user
 
-    # try:
-    testData = testInProgress.objects.get(studentId=username.id)
-    testQuery = testSpec.objects.get(id=testData.testId)
+    try:
+        testData = testInProgress.objects.get(studentId=username.id)
+        testQuery = testSpec.objects.get(id=testData.testId)
+        print(testData.testName, testData.testId)
+        print('test status: ', testData.statusReading, testData.statusWriting,
+              testData.studentAnswersReading, testData.studentAnswersWriting
+              )
 
-    print('test status: ', testData.statusReading, testData.statusWriting,
-          testData.studentAnswersReading, testData.studentAnswersWriting
-          )
+    except:
+        messages.warning(request, "VIOLATION OF TESTING PROCESS AND/OR CONDITIONS!")
+        return redirect('index')
 
     if (testData.statusReading == 'YES' and testData.statusWriting == 'YES'
         and testData.statusMathOne == 'YES') and testData.statusMathTwo == 'YES':
@@ -503,6 +696,7 @@ def processtest(request):
         for k, v in mathM1QT.items():
             qTypeTotalM1.append(v)
         qTypeTotalM1 = dict(collections.Counter(qTypeTotalM1))
+        print("qTypeTotalM1", qTypeTotalM1)
 
         qTypeTotalM2 = []
         for k, v in mathM2QT.items():
@@ -582,9 +776,16 @@ def processtest(request):
         inCorrect = []
         wrongQtype = []
 
+        # for x, y in studentAnswersM1.items():
+        #     # print(x, y, testQuery.answerKeyReading[x])
+        #     if y != mathOneAnswerKey[x]:
+        #         inCorrect.append(x)
+        #         wrongQtype.append(testQuery.questionTypeMathOne[x])
+
         for x, y in studentAnswersM1.items():
-            # print(x, y, testQuery.answerKeyReading[x])
-            if y != mathOneAnswerKey[x]:
+            if y in mathOneAnswerKey[x]:
+                pass
+            else:
                 inCorrect.append(x)
                 wrongQtype.append(testQuery.questionTypeMathOne[x])
 
@@ -592,13 +793,15 @@ def processtest(request):
         wrongSortM1 = dict(sorted(wrongQ.items(), key=lambda item: item[1], reverse=True))
         numberInCorrectM1 = str(len(inCorrect))
         print("Math Section 1: -" + numberInCorrectM1 + ",", wrongSortM1)
+        print(wrongQ, wrongSortM1)
 
         inCorrect = []
         wrongQtype = []
 
         for x, y in studentAnswersM2.items():
-            # print(x, y, testQuery.answerKeyReading[x])
-            if y != mathTwoAnswerKey[x]:
+            if y in mathTwoAnswerKey[x]:
+                pass
+            else:
                 inCorrect.append(x)
                 wrongQtype.append(testQuery.questionTypeMathTwo[x])
 
@@ -627,10 +830,12 @@ def processtest(request):
 
         qTypePercentM1 = {}
         for x, y in qTypeTotalM1.items():
+            print(x, y)
             try:
                 qTypePercentM1[x] = round(100 * ((int(qTypeTotalM1[x]) - int(wrongSortM1[x])) / int(qTypeTotalM1[x])))
+                print(round(100 * ((int(qTypeTotalM1[x]) - int(wrongSortM1[x])) / int(qTypeTotalM1[x]))))
             except:
-                wrongSortM1[x] = 100
+                qTypePercentM1[x] = 100
         jsonQtypePerM1 = dict(sorted(qTypePercentM1.items(), key=lambda item: item[1], reverse=True))
         print('m1 % correct: ', jsonQtypePerM1)
 
@@ -639,9 +844,27 @@ def processtest(request):
             try:
                 qTypePercentM2[x] = round(100 * ((int(qTypeTotalM2[x]) - int(wrongSortM2[x])) / int(qTypeTotalM2[x])))
             except:
-                wrongSortM2[x] = 100
+                qTypePercentM2[x] = 100
         jsonQtypePerM2 = dict(sorted(qTypePercentM2.items(), key=lambda item: item[1], reverse=True))
         print('m2 % correct: ', jsonQtypePerM2)
+
+        # save for correct number of questions conversion
+        # rawVerbal = 66 - (int(numberInCorrectR) + int(numberInCorrectW))
+        # rawMath = 54 - (int(numberInCorrectM1) + int(numberInCorrectM2))
+
+        # verbalKeyLen = len(testQuery.answerKeyReading) + len(testQuery.answerKeyWriting)
+        # mathKeyLen = len(testQuery.answerKeyMathOne) + len(testQuery.answerKeyMathTwo)
+        #
+        # rawVerbal = verbalKeyLen - (int(numberInCorrectR) + int(numberInCorrectW))
+        # rawMath = mathKeyLen - (int(numberInCorrectM1) + int(numberInCorrectM2))
+
+        rawVerbal = (int(numberInCorrectR) + int(numberInCorrectW))
+        rawMath = (int(numberInCorrectM1) + int(numberInCorrectM2))
+
+        readingscore = newraw[rawVerbal][0]
+        mathscore = newraw[rawMath][1]
+
+        print(rawVerbal, rawMath, readingscore, mathscore)
 
         r = testRecord.objects.create(studentUsername=username.username,
                                       studentName=username.first_name,
@@ -662,16 +885,17 @@ def processtest(request):
                                       jsonQtypePerR=jsonQtypePerR,
                                       jsonQtypePerW=jsonQtypePerW,
                                       jsonQtypePerMathOne=jsonQtypePerM1,
-                                      jsonQtypePerMathTwo=jsonQtypePerM2
-
+                                      jsonQtypePerMathTwo=jsonQtypePerM2,
+                                      scoreReading=readingscore,
+                                      scoreMath=mathscore
                                       )
 
-        print('record saved: ', r)
+        # print('record saved: ', r)
 
         # testData.delete()
 
         # return render(request, 'cbtsystem/processTest.html', {"testData": testData, "testQuery": testQuery})
-        return render(request, 'cbtsystem/processTestClaw.html')
+        return redirect('index')
     else:
         return redirect('index')
 
@@ -699,22 +923,65 @@ def rawscale(request):
     reading = []
     writing = []
     score = []
-    ptest = {58: ['None0', 'None0', 800], 57: ['None0', 'None0', 790], 56: ['None0', 'None0', 780],
-             55: ['None0', 'None0', 770], 54: ['None0', 'None0', 750], 53: ['None0', 'None0', 740],
-             52: ['400', 'None0', 730], 51: ['390', 'None0', 710], 50: ['380', 'None0', 710], 49: ['370', 'None0', 700],
-             48: ['370', 'None0', 690], 47: ['360', 'None0', 680], 46: ['360', 'None0', 670], 45: ['350', 'None0', 660],
-             44: ['340', '400', 660], 43: ['330', '390', 640], 42: ['330', '380', 640], 41: ['320', '370', 630],
-             40: ['320', '360', 620], 39: ['310', '350', 610], 38: ['310', '340', 600], 37: ['300', '330', 600],
-             36: ['300', '330', 590], 35: ['290', '320', 580], 34: ['290', '320', 570], 33: ['280', '310', 560],
-             32: ['280', '300', 550], 31: ['270', '290', 540], 30: ['270', '290', 540], 29: ['260', '280', 530],
-             28: ['260', '280', 520], 27: ['250', '270', 520], 26: ['250', '260', 510], 25: ['240', '260', 500],
-             24: ['240', '250', 490], 23: ['230', '250', 480], 22: ['230', '240', 470], 21: ['220', '230', 460],
-             20: ['220', '220', 450], 19: ['210', '220', 440], 18: ['210', '210', 430], 17: ['200', '210', 420],
-             16: ['190', '200', 410], 15: ['190', '190', 400], 14: ['180', '190', 380], 13: ['180', '180', 370],
-             12: ['170', '170', 360], 11: ['170', '170', 350], 10: ['160', '160', 330], 9: ['150', '150', 320],
-             8: ['150', '140', 310], 7: ['140', '140', 290], 6: ['130', '130', 280], 5: ['120', '120', 260],
-             4: ['110', '110', 250], 3: ['100', '100', 230], 2: ['100', '100', 210], 1: ['100', '100', 200],
-             0: ['100', '100', 200]}
+
+    ptest = {
+        0: [200, 200],
+        1: [210, 220],
+        2: [220, 230],
+        3: [230, 240],
+        4: [240, 250],
+        5: [250, 280],
+        6: [260, 300],
+        7: [270, 320],
+        8: [280, 340],
+        9: [290, 350],
+        10: [300, 360],
+        11: [310, 380],
+        12: [330, 390],
+        13: [340, 400],
+        14: [350, 410],
+        15: [360, 430],
+        16: [380, 440],
+        17: [390, 450],
+        18: [400, 460],
+        19: [410, 480],
+        20: [430, 490],
+        21: [440, 500],
+        22: [460, 510],
+        23: [470, 520],
+        24: [490, 530],
+        25: [500, 540],
+        26: [510, 550],
+        27: [520, 560],
+        28: [530, 570],
+        29: [540, 580],
+        30: [550, 590],
+        31: [560, 600],
+        32: [570, 610],
+        33: [580, 620],
+        34: [590, 630],
+        35: [600, 650],
+        36: [610, 660],
+        37: [620, 680],
+        38: [630, 690],
+        39: [640, 700],
+        40: [650, 720],
+        41: [660, 750],
+        42: [670, 770],
+        43: [680, 790],
+        44: [690, 800],
+        45: [700, "None0"],
+        46: [710, "None0"],
+        47: [720, "None0"],
+        48: [730, "None0"],
+        49: [740, "None0"],
+        50: [750, "None0"],
+        51: [760, "None0"],
+        52: [770, "None0"],
+        53: [790, "None0"],
+        54: [800, "None0"]
+    }
+
     topper = {800: ['99+', 99], 790: ['99+', 99], 780: ['99+', 98], 770: ['99', 97], 760: ['99', 96], 750: ['98', 96],
               740: ['98', 95], 730: ['97', 94], 720: ['96', 93], 710: ['95', 92], 700: ['94', 91], 690: ['93', 90],
               680: ['91', 89], 670: ['90', 87], 660: ['88', 86], 650: ['86', 84], 640: ['83', 82], 630: ['81', 81],
@@ -729,12 +996,12 @@ def rawscale(request):
     topverbal = []
     topmath = []
 
-    for k, v in ptest.items():
+    for k, v in newraw.items():
         raw.append(k)
         reading.append(v[0])
         writing.append(v[1])
-        score.append(v[2])
-    moo = zip(raw, reading, writing, score)
+
+    moo = zip(raw, reading, writing)
 
     for k, v in topper.items():
         topscore.append(k)

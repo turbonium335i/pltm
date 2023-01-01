@@ -70,7 +70,7 @@
 
         <div class="text-secondary text-end mb-0 mt-0" id="userInfo">
 
-            {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i
+            {% if request.user.is_superuser %}<a href="{% url 'staff' %}" class="text-decoration-none text-muted"><i class="bi bi-clipboard-data"></i></a>  <a href="http://127.0.0.1:8000/admin"><i
                 class="bi bi-shield-check text-success"></i></a>{% else %} * {% endif %}
             <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
             {{request.user.id|json_script:"user_id" }}
@@ -78,9 +78,24 @@
 
     </div>
 </nav>
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "warning" %}
+<div class="alert alert-danger alert-dismissible fade show rounded-0" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="alert alert-success alert-dismissible fade show rounded-0" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
 <div class="text-secondary text-end mb-0 mt-0" id="userInfo2">
 
-    {% if request.user.is_superuser %}<a href="http://127.0.0.1:8000/admin"><i
+    {% if request.user.is_superuser %}<a href="{% url 'staff' %}" class="text-decoration-none text-muted"><i class="bi bi-boxes"></i></a>  <a href="http://127.0.0.1:8000/admin"><i
         class="bi bi-shield-check text-success"></i></a>
     {% else %} * {% endif %}
     <i class="bi bi-person-circle"></i> {{request.user}} : {{request.user.id}}
@@ -151,7 +166,7 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
         <div class="card text-white bg-light border-0">
 
             <div class="card-body  ">
-                <h5 class="card-title text-dark">Test Trend <i class="bi bi-graph-up"></i></h5>
+                <h5 class="card-title text-dark">Test Trend <a href="{% url 'rawscale' %}"><i class="bi bi-graph-up"></i></a></h5>
 
                 <canvas id="myChart"></canvas>
                 <br>
@@ -222,10 +237,9 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
         <tr>
             <th scope="col">#</th>
             <th scope="col">Test</th>
-            <th scope="col">V1</th>
-            <th scope="col">V2</th>
-            <th scope="col">M1</th>
-            <th scope="col">M2</th>
+            <th scope="col">Score</th>
+            <th scope="col">Verbal</th>
+            <th scope="col">Math</th>
             <th scope="col">Date</th>
         </tr>
         </thead>
@@ -238,10 +252,11 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
             <td> {{forloop.counter}}</td>
             <td><a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">{{r.testName}} &#8226;
                 {{r.testId}}</a></td>
-            <td>-{{r.numberInCorrectR}}</td>
-            <td>-{{r.numberInCorrectW}}</td>
-            <td>-{{r.numberInCorrectM1}}</td>
-            <td>-{{r.numberInCorrectM2}}</td>
+                   <td class="fw-bold">{{r.scoreReading|add:r.scoreMath}}</td>
+
+            <td>{{r.scoreReading}}</td>
+
+            <td>{{r.scoreMath}}</td>
             <td> {{r.date_finished|date:"Y-m-d D"}}</td>
         </tr>
 
@@ -263,29 +278,8 @@ const myChart = new Chart(ctx, {
     data: {
         labels: ['7','6','5', '4', '3', '2', '1' ],
         datasets: [{
-            label: 'Verbal 1',
-            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectR}}', {% endfor %}],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }, {
-            label: 'Verbal 2',
-            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectW}}', {% endfor %}],
-<!--             data: ['-20', '-12', '-8', '-18', '-15', '-18', '-12'],-->
+            label: 'Verbal',
+            data: [{% for r in record|slice:":7" reversed %}  '{{r.scoreReading}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -305,28 +299,8 @@ const myChart = new Chart(ctx, {
             borderWidth: 1
         },
         {
-            label: 'Math 1',
-            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectM1}}', {% endfor %}],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }, {
-            label: 'Math 2',
-            data: [{% for r in record|slice:":7" reversed %}  '-{{r.numberInCorrectM2}}', {% endfor %}],
+            label: 'Math',
+            data: [{% for r in record|slice:":7" reversed %}  '{{r.scoreMath}}', {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -347,26 +321,20 @@ const myChart = new Chart(ctx, {
         },
 
 
-
         ],
     },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
+           options: {
+                    scales: {
+                        y: {
+                            suggestedMin: 0,
+                            suggestedMax: 800
+                        },
+
+                    }
+
+
+                }
 });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -376,6 +344,10 @@ const myChart = new Chart(ctx, {
 
 
 <script>
+
+localStorage.clear();
+localStorage.setItem("lastpage", "index");
+
 function showDetails(clicked) {
   var testName = clicked.getAttribute("data-test");
   localStorage.setItem("selectedTest", testName);

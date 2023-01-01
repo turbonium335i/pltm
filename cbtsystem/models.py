@@ -51,10 +51,10 @@ class testInProgress(models.Model):
     studentAnswersWriting = JSONField(null=True, default={})
     studentAnswersMathOne = JSONField(null=True, default={})
     studentAnswersMathTwo = JSONField(null=True, default={})
-    studentFlagReading = JSONField(null=True, default={})
-    studentFlagWriting = JSONField(null=True, default={})
-    studentFlagMathOne = JSONField(null=True, default={})
-    studentFlagMathTwo = JSONField(null=True, default={})
+    studentFlagReading = JSONField(null=True, blank=True, default={})
+    studentFlagWriting = JSONField(null=True, blank=True, default={})
+    studentFlagMathOne = JSONField(null=True, blank=True, default={})
+    studentFlagMathTwo = JSONField(null=True, blank=True, default={})
     statusReading = models.CharField(max_length=3, null=True, blank=True, default='NO')
     statusWriting = models.CharField(max_length=3, null=True, blank=True, default='NO')
     statusMathOne = models.CharField(max_length=3, null=True, blank=True, default='NO')
@@ -95,11 +95,15 @@ class testRecord(models.Model):
     jsonQtypePerMathOne = JSONField(null=True, default={})
     jsonQtypePerMathTwo = JSONField(null=True, default={})
 
+    def total(self):
+        return int(self.scoreReading) + int(self.scoreMath)
+
     def __str__(self):
-        return '{0} {1} {2} {3} {4} R:-{5} W:-{6}'.format(self.id, self.testName,
+        return '{0} {1} {2} {3} {4} V1:-{5} V2:-{6} M1:-{7} M2:-{8}, [ R{9}, M{10} ]'.format(self.id, self.testName,
                                                           self.date_finished.strftime("%m/%d/%Y %H:%M:%S"),
                                                           self.studentUsername, self.studentName, self.numberInCorrectR,
-                                                          self.numberInCorrectW)
+                                                          self.numberInCorrectW, self.numberInCorrectM1, self.numberInCorrectM2,
+                                                          self.scoreReading, self.scoreMath)
 
 
 class groupTest(models.Model):

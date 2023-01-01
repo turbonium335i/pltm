@@ -116,7 +116,7 @@ input[type='radio'] {
                         <div class="bg-dark text-light px-1" span id="questionNo"> </div>
 
                     </div>
-            <form action="/action_page.php" class="d-inline" id="multiBox">
+            <form action="/action_page.php" class="d-inline" id="multiBox" >
 
                   <input type="radio" id="A" name="fav_language" value="A">
                   <label for="A">A</label><br>
@@ -128,7 +128,7 @@ input[type='radio'] {
                   <label for="D">D</label>
                 <br>
             </form>
-            <form class="d-none" id="inputBox">
+            <form class="d-none" id="inputBox" onsubmit="return false;">
                 <label for="fname" class="fw-bold">Answer:</label>
                 <br>
                 <input type="text" id="fname" name="fname" autofocus maxlength="12"
@@ -764,6 +764,23 @@ if(ls != null){
 
 
 </script>
+
+            <script>
+
+var lastpage = localStorage.getItem("lastpage");
+
+<!--if (lastpage != "mathdirections2"){-->
+<!--window.location.href = '{% url 'index' %}';-->
+<!--}-->
+
+if (performance.navigation.type === 1) {
+  // page was just refreshed:
+  window.location.href = '{% url 'index' %}';
+} else {
+
+   localStorage.setItem("lastpage", "math2");
+}
+    </script>
 
 </body>
 

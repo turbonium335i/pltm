@@ -25,10 +25,8 @@ urlpatterns = [
     path('directionsm1', views.directionsm1, name='directionsm1'),
     path('directionsm2', views.directionsm2, name='directionsm2'),
     path('register', views.register, name='register'),
-
-
-
-
+    path('staff', views.staff, name='staff'),
+    path('update', views.update, name='update'),
 
 ]
 

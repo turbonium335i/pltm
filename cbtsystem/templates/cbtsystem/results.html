@@ -7,14 +7,21 @@
 
     <div class="d-flex bd-highlight">
         <div class="p-2 flex-grow-1 bd-highlight">
-            <h3 class="text-dark">{{record.studentUsername}} / <span class="text-primary"> {{record.testName}}</span>
+
+            <h3 class="text-dark">Student: {{record.studentUsername}} / Test: <span class=" "> {{record.testName}}</span> / Score:
+                <span class="fw-bold"> {{record.scoreReading|add:record.scoreMath}} </span>
             </h3>
+
+
+            <span>Verbal: {{record.scoreReading}} /</span>
+            <span>Math: {{record.scoreMath}} /</span>
+   {{record.date_finished}} <br>
 
             Module 1: <span class="text-danger"> -{{record.numberInCorrectR}}</span> / Module 2:
             <span class="text-danger"> -{{record.numberInCorrectW}}</span> / Module 3: <span class="text-danger"> -{{record.numberInCorrectM1}}</span> / Module 4:
             <span class="text-danger"> -{{record.numberInCorrectM2}}</span><br>
             <!--            {{record.jsonWrongQtypeR}} / {{record.jsonWrongQtypeW}} <br>-->
-            {{record.date_finished}}
+
 
         </div>
 
@@ -159,7 +166,7 @@
                     </thead>
                     <tbody id="mathOneHead">
                     {% for x, y, z, t, q in zipRecordM1 %}
-                    {% if y == z %}
+                    {% if y in z %}
                     <tr>
                         <td>
                             {{x}}
@@ -214,7 +221,7 @@
                         </thead>
                         <tbody id="mathTwoHead">
                         {% for x, y, z, t, q in zipRecordM2 %}
-                        {% if y == z %}
+                        {% if y in z %}
                         <tr>
                             <td>
                                 {{x}}

@@ -3,13 +3,16 @@
 {% block content %}
 
 <div class="container  px-3">
-    Student Test Record History / Admin Access
-    <br>
+
+    <h2 class="text-dark">  {{record|length}} Student Test Records  <a href="{% url 'index' %}" type="button" class="ms-5 btn btn-outline-dark">
+            <i class="bi bi-arrow-90deg-left"></i></a>  </h2>
+
+
     <ul>
-        {% for r in record|slice:":20" %}
-        <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">
-            <li> {{r}}</li>
-        </a>
+        {% for r in record %}
+      <li>    <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">
+           {{r}}
+        </a></li>
         {% endfor %}
     </ul>
 </div>

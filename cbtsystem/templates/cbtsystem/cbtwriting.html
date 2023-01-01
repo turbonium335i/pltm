@@ -697,6 +697,23 @@ if(ls != null){
 
 
 </script>
+
+    <script>
+
+var lastpage = localStorage.getItem("lastpage");
+
+if (lastpage != "directions2"){
+window.location.href = '{% url 'index' %}';
+}
+
+if (performance.navigation.type === 1) {
+  // page was just refreshed:
+  window.location.href = '{% url 'index' %}';
+} else {
+
+   localStorage.setItem("lastpage", "reading2");
+}
+    </script>
 </body>
 
 </html>

@@ -124,4 +124,21 @@
 
 
 </script>
+
+    <script>
+
+var lastpage = localStorage.getItem("lastpage");
+
+if (lastpage != "reading2"){
+window.location.href = '{% url 'index' %}';
+}
+
+if (performance.navigation.type === 1) {
+  // page was just refreshed:
+  window.location.href = '{% url 'index' %}';
+} else {
+
+   localStorage.setItem("lastpage", "break");
+}
+    </script>
 {% endblock %}

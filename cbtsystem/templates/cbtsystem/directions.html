@@ -47,6 +47,9 @@
         <li>Unacceptable calculators that have QWERTY (computer-like) keypads, use paper tape, make noise, or use a
             power cord
         </li>
+
+                <li class="text-danger">THE TEST AUTO-SAVES EVERY 30 SECONDS AND AT THE END OF EACH SECTION.
+        </li>
     </div>
 
     <div class="text-center py-5" id="linkDiv">
@@ -213,13 +216,24 @@ progressPercentage = 100
 getPending();
 
 
-
-
-
-
-
     </script>
+    <script>
 
+var lastpage = localStorage.getItem("lastpage");
+console.log(lastpage)
+
+if (lastpage != "index"){
+window.location.href = '{% url 'index' %}';
+}
+
+if (performance.navigation.type === 1) {
+  // page was just refreshed:
+  window.location.href = '{% url 'index' %}';
+} else {
+
+   localStorage.setItem("lastpage", "directions1");
+}
+    </script>
 
 </div>
 

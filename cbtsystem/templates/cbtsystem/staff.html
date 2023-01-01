@@ -1,0 +1,155 @@
+{% extends 'cbtsystem/index.html' %}
+
+{% block content %}
+
+<div class="container  px-3">
+    <a href="{% url 'staff' %}">Test Record History</a> / Admin Access / <a href="{% url 'rawscale' %}">Scale</a>
+
+    <form class="my-3" action="{% url 'staff' %}" method="POST" >
+        {% csrf_token %}
+        <div class="d-flex justify-content-start">
+            <input class="form-control " type="search" placeholder="{{qs}}" name="queryids" autofocus id="myform" onInput="checkform()">
+            <button class="btn btn-outline-success" type="submit" id="searchBtn" disabled>Search</button>
+        </div>
+    </form>
+
+    <div class="fw-bold">Module 1</div>
+    <div class="row">
+        {% for x, y in v1.items %}
+        <div class="col-3 border border-dark ps-0"><span class="fw-bold border bg-warning ms-0"><span
+                class="border border-dark bg-light px-1 text-primary">{{y.1}}</span>  {{x}}.&nbsp;</span>
+
+            {% for a, b in y.0.items %}
+
+                {% if a != y.1 %}<span class="bg-danger">{{b}}, {{a}} &nbsp;&nbsp;</span>
+
+            {% else %}
+            <span class="">{{b}}, {{a}} &nbsp;&nbsp;</span>
+            {% endif %}
+
+                {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+    <hr class="bg-danger">
+    <div class="fw-bold">Module 2</div>
+    <div class="row">
+            {% for x, y in v2.items %}
+        <div class="col-3 border border-dark ps-0"><span class="fw-bold border bg-warning ms-0"><span
+                class="border border-dark bg-light px-1 text-primary">{{y.1}}</span>  {{x}}.&nbsp;</span>
+
+            {% for a, b in y.0.items %}
+
+                {% if a != y.1 %}<span class="bg-danger">{{b}}, {{a}} &nbsp;&nbsp;</span>
+
+            {% else %}
+            <span class="">{{b}}, {{a}} &nbsp;&nbsp;</span>
+            {% endif %}
+
+                {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+    <hr class="bg-danger">
+    <div class="fw-bold">Module 3</div>
+    <div class="row">
+           {% for x, y in m1.items %}
+        <div class="col-3 border border-dark ps-0"><span class="fw-bold border bg-warning ms-0"><span
+                class="border border-dark bg-light px-1 text-primary">{{y.1}}</span>  {{x}}.&nbsp;</span>
+
+            {% for a, b in y.0.items %}
+
+                {% if a != y.1 %}<span class="bg-danger">{{b}}, {{a}} &nbsp;&nbsp;</span>
+
+            {% else %}
+            <span class="">{{b}}, {{a}} &nbsp;&nbsp;</span>
+            {% endif %}
+
+                {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+    <hr class="bg-danger">
+    <div class="fw-bold">Module 4</div>
+    <div class="row">
+           {% for x, y in m2.items %}
+        <div class="col-3 border border-dark ps-0"><span class="fw-bold border bg-warning ms-0"><span
+                class="border border-dark bg-light px-1 text-primary">{{y.1}}</span>  {{x}}.&nbsp;</span>
+
+            {% for a, b in y.0.items %}
+
+                {% if a != y.1 %}<span class="bg-danger">{{b}}, {{a}} &nbsp;&nbsp;</span>
+
+            {% else %}
+            <span class="">{{b}}, {{a}} &nbsp;&nbsp;</span>
+            {% endif %}
+
+                {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+
+    <ul>
+        {% for r in queryList|slice:":100" %}
+
+        <li><a href="{% url 'results_pk' r.id %}" class="text-success" style="text-decoration:none;">{{r}} </a></li>
+
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <ul>
+        {% for r in record|slice:":100" %}
+
+        <li>
+            <span data-clickid="{{r.id}}" onclick="showDetails(this)"><i class="bi bi-bookmark-plus-fill text-success"></i> </span>
+
+            <a href="{% url 'results_pk' r.id %}" style="text-decoration:none;">{{r}} <span class="fw-bold">{{r.total}} </span></a></li>
+
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+
+var formlist = []
+var myform = document.getElementById('myform');
+
+
+
+
+
+function checkform() {
+
+var myformVal = document.getElementById("myform").value;
+console.log(myformVal)
+
+ if(  myformVal.length > 0 ){
+  document.getElementById("searchBtn").disabled = false;
+  }else {
+  document.getElementById("searchBtn").disabled = true;
+  }
+
+
+}
+
+    function showDetails(animal) {
+  var animalType = animal.getAttribute("data-clickid");
+  console.log(animalType)
+  if ( !formlist.includes(animalType)){
+  formlist.push(animalType)}
+
+  myform.value = formlist
+  checkform()
+
+}
+
+</script>
+
+
+{% endblock %}

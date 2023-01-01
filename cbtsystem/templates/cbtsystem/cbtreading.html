@@ -186,6 +186,9 @@ input[type='radio'] {
             <p style="line-height: 0.9;"><small class="text-danger">
                 *Save at least one answer to skip to the next section.
             </small></p>
+            <p style="line-height: 0.9;" class="" id="progressCheck"><small class="text-success">
+                Status <i class="bi bi-check"></i>
+            </small></p>
 
         </div>
 
@@ -231,6 +234,7 @@ input[type='radio'] {
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("demo").innerHTML = "TIME UP";
+                window.location.href = '{% url 'index' %}'
             }
 
                         timeLeft -= 1000
@@ -290,7 +294,7 @@ input[type='radio'] {
 
 
 
-        var qCount = 28;
+        var qCount = 34;
         var qArray = [];
         for (let i = 1; i < qCount; i++) {
             qArray.push({ [i]: '' })
@@ -611,6 +615,11 @@ var selectedTestId = localStorage.getItem("selectedTestId");
       console.log("response: ", data);
       if (data === "progress saved") {
         console.log("data saved");
+         $("#progressCheck")
+      .fadeOut(100)
+      .fadeIn(200)
+      .fadeOut(100)
+      .fadeIn(100);
       }
     });
 }
@@ -630,7 +639,7 @@ if(ls != null){
   elapsed += 60000;
   console.log(elapsed);
 
-  if (elapsed > 1920000) {
+  if (elapsed > 7200000) {
     clearInterval();
     doneAnswers()
   }
@@ -676,6 +685,23 @@ if(ls != null){
 
 
 </script>
+    <script>
+
+var lastpage = localStorage.getItem("lastpage");
+
+if (lastpage != "directions1"){
+window.location.href = '{% url 'index' %}';
+}
+
+if (performance.navigation.type === 1) {
+  // page was just refreshed:
+  window.location.href = '{% url 'index' %}';
+} else {
+
+   localStorage.setItem("lastpage", "reading1");
+}
+    </script>
+
 </body>
 
 </html>
