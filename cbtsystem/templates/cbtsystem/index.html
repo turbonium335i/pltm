@@ -152,6 +152,24 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
                     {% endif %}
                 </div>
                 {% endfor %}
+                                {% for t in allowedTest|slice:":3" %}
+                <div class="d-grid gap-2">
+                    {% if t.id == inProgressTest %}
+                    <button class="btn btn-outline-warning btn-lg mb-1 " onclick="showDetails(this)"
+                            data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
+
+                    </button>
+
+                    {% else %}
+
+                    <button class="btn btn-outline-primary btn-lg  mb-1   " onclick="showDetails(this)"
+                            data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
+
+                    </button>
+
+                    {% endif %}
+                </div>
+                {% endfor %}
 
                 <br> <br>
 
@@ -230,7 +248,8 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
 
     <br>
 
-    <p class="text-secondary">Student Test History:</p>
+
+    <a href="{% url 'history' %}" class="text-decoration-none"><p class="">Student Test History:</p></a>
 
     <table class="table   table-striped table-hover table-sm">
         <thead>

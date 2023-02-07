@@ -153,8 +153,9 @@ class accountprofile(models.Model):
     status = models.BooleanField(default=False)
     signupdate = models.DateTimeField(default=datetime.now, blank=True)
     school = models.CharField(max_length=100, null=True, default='School Name')
-    age = models.PositiveIntegerField(null=True, blank=True, default=15)
+    age = models.PositiveIntegerField(null=True, blank=True, default=16)
     sex = models.CharField(max_length=100, null=True, choices=S_TYPE, blank=True)
+    allowed = models.ManyToManyField(testSpec, blank=True)
 
     comment = models.TextField(null=True, blank=True,
                              default="Write comments here.")

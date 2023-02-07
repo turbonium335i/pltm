@@ -31,6 +31,11 @@ def index(request):
     testQ = groupTest.objects.all()
     # query manytomany relationship
 
+    uName = User.objects.get(username=username).id
+    allowedTest = accountprofile.objects.get(userAccount=uName).allowed.all()
+    print(allowedTest)
+    # testQ = accountprofile.objects.all()
+
     try:
         testGroup = testQ[0].showTest.all()
 
@@ -69,6 +74,7 @@ def index(request):
                                                     "percentMA1": percentMA1,
                                                     "percentMA2": percentMA2,
                                                     "nextTest": nextTest,
+                                                    'allowedTest': allowedTest,
                                                     })
 
 
