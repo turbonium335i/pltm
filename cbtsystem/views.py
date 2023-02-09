@@ -94,9 +94,15 @@ def cbtreading(request, pk):
         return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF})
 
     except:
-        logout(request)
-        messages.info(request, "Authentication Error")
-        return redirect('loginpage')
+
+        try:
+            testPDF = accountprofile.objects.get(request.user.id).allowed.all()[0]
+
+            return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF})
+        except:
+            # logout(request)
+            messages.info(request, "Authentication Error")
+            return redirect('loginpage')
 
 
 @login_required(login_url='loginpage')
