@@ -31,9 +31,7 @@ def index(request):
     testQ = groupTest.objects.all()
     # query manytomany relationship
 
-    uName = User.objects.get(username=username).id
-    allowedTest = accountprofile.objects.get(userAccount=uName).allowed.all()
-    print(allowedTest)
+
     # testQ = accountprofile.objects.all()
 
     try:
@@ -64,6 +62,12 @@ def index(request):
 
     nextTest = testDate.objects.all().first()
     # print(nextTest.next_test.strftime("new Date(%Y, %m, %d)"))
+    # accountprofile.objects.get(id=request.user.id).allowed.all()[0]
+
+    uName = User.objects.get(username=username).id
+    allowedTest = accountprofile.objects.get(userAccount=uName).allowed.all()
+    # print(allowedTest)
+    # print("request print: ", accountprofile.objects.get(userAccount=request.user.id).allowed.all())
 
     return render(request, 'cbtsystem/index.html', {"inProgress": inProgress,
                                                     "testGroup": testGroup,
@@ -96,11 +100,11 @@ def cbtreading(request, pk):
     except:
 
         try:
-            testPDF = accountprofile.objects.get(request.user.id).allowed.all()[0]
+            testPDF = accountprofile.objects.get(userAccount=request.user.id).allowed.all()[0]
 
             return render(request, 'cbtsystem/cbtreading.html', {'testPDF': testPDF})
         except:
-            # logout(request)
+            logout(request)
             messages.info(request, "Authentication Error")
             return redirect('loginpage')
 
@@ -116,9 +120,15 @@ def cbtwriting(request, pk):
         return render(request, 'cbtsystem/cbtwriting.html', {'testPDF': testPDF})
 
     except:
-        logout(request)
-        messages.info(request, "Authentication Error")
-        return redirect('loginpage')
+
+        try:
+            testPDF = accountprofile.objects.get(userAccount=request.user.id).allowed.all()[0]
+
+            return render(request, 'cbtsystem/cbtwriting.html', {'testPDF': testPDF})
+        except:
+            logout(request)
+            messages.info(request, "Authentication Error")
+            return redirect('loginpage')
 
 
 @login_required(login_url='loginpage')
@@ -132,9 +142,14 @@ def cbtmathone(request, pk):
         return render(request, 'cbtsystem/cbtmathone.html', {'testPDF': testPDF})
 
     except:
-        logout(request)
-        messages.info(request, "Authentication Error")
-        return redirect('loginpage')
+        try:
+            testPDF = accountprofile.objects.get(userAccount=request.user.id).allowed.all()[0]
+
+            return render(request, 'cbtsystem/cbtmathone.html', {'testPDF': testPDF})
+        except:
+            logout(request)
+            messages.info(request, "Authentication Error")
+            return redirect('loginpage')
 
 
 @login_required(login_url='loginpage')
@@ -148,9 +163,14 @@ def cbtmathtwo(request, pk):
         return render(request, 'cbtsystem/cbtmathtwo.html', {'testPDF': testPDF})
 
     except:
-        logout(request)
-        messages.info(request, "Authentication Error")
-        return redirect('loginpage')
+        try:
+            testPDF = accountprofile.objects.get(userAccount=request.user.id).allowed.all()[0]
+
+            return render(request, 'cbtsystem/cbtmathtwo.html', {'testPDF': testPDF})
+        except:
+            logout(request)
+            messages.info(request, "Authentication Error")
+            return redirect('loginpage')
 
 
 def loginpage(request):
@@ -186,6 +206,7 @@ def loginpage(request):
 def logoutpage(request):
     logout(request)
     messages.info(request, "Logged Out")
+
     return redirect('loginpage')
 
 
@@ -1036,7 +1057,9 @@ def register(request):
         # print(groupType)
         if form.is_valid():
             user = form.save()
-            accountprofile.objects.create(userAccount=user, school=refcode)
+            fullname = user.get_full_name()
+            accountusername = user.get_username()
+            accountprofile.objects.create(userAccount=user, school=refcode, apifullname=fullname, apiusername=accountusername)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account Created: {username}')
 
@@ -1046,3 +1069,31 @@ def register(request):
         form = UserRegisterForm()
 
     return render(request, 'cbtsystem/register.html', {'form': form})
+
+
+@login_required(login_url='loginpage')
+def beta_one(request):
+    return render(request, 'cbtsystem/beta_one.html')
+
+@login_required(login_url='loginpage')
+def beta_two(request):
+    return render(request, 'cbtsystem/beta_two.html')
+
+def beta_three(request):
+
+
+    userq = User.objects.all()
+
+    for q in userq:
+        try:
+            print(q.accountprofile)
+            fullname = q.get_full_name()
+            accountusername = q.get_username()
+            q.accountprofile.apifullname = fullname
+            q.accountprofile.apiusername = accountusername
+            q.accountprofile.save()
+
+        except:
+            pass
+
+    return render(request, 'cbtsystem/loginpage.html')

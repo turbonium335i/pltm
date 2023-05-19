@@ -48,14 +48,6 @@
 
         }
 
-
-
-
-
-
-
-
-
     </style>
 
 
@@ -155,7 +147,7 @@ Next Test: {{nextTest.next_test|date:"F d, Y"}} / <span id="demo" class="text-da
                                 {% for t in allowedTest|slice:":3" %}
                 <div class="d-grid gap-2">
                     {% if t.id == inProgressTest %}
-                    <button class="btn btn-outline-warning btn-lg mb-1 " onclick="showDetails(this)"
+                    <button class="btn btn-warning btn-lg mb-1 " onclick="showDetails(this)"
                             data-testId="{{t.id}}" data-test="{{t.name}}"> {{t.id}} {{t.name}}
 
                     </button>

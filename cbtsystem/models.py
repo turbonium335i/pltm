@@ -150,6 +150,8 @@ S_TYPE = (
 
 class accountprofile(models.Model):
     userAccount = models.OneToOneField(User, on_delete=models.CASCADE)
+    apiusername = models.CharField(max_length=255, null=True, blank=True, default='api username')
+    apifullname = models.CharField(max_length=255, null=True, blank=True, default='fullname')
     status = models.BooleanField(default=False)
     signupdate = models.DateTimeField(default=datetime.now, blank=True)
     school = models.CharField(max_length=100, null=True, default='School Name')
@@ -161,6 +163,7 @@ class accountprofile(models.Model):
                              default="Write comments here.")
 
     def __str__(self):
-        return '{0} / {1}, {2} / School: {3} / STATUS: {4}'.format(self.userAccount, self.userAccount.first_name, self.userAccount.last_name, self.school, self.status)
+        return '{6}. {0}, {1} {2}, {3} - STATUS: {4} - {5}'.format(self.userAccount, self.userAccount.first_name, self.userAccount.last_name,
+        self.school, self.status, (self.signupdate).strftime("%m %d %Y"), self.id)
 
 

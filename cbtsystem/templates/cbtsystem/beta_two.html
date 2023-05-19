@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Digital SAT</title>
+
+    <!--    <link rel="shortcut icon" type="image/png"-->
+    <!--          href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K">-->
+    <!--    -->
+
+    <!-- Bootstrap icons-->
+
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/sxXLWRys/logo-plativ2.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <style>
+        .choice {
+            color: black;
+        }
+
+        .highlighter {
+            background: gold;
+        }
+
+        .progresscolor {
+            background-color: #0f5dac
+        }
+
+        .crossout {
+            text-decoration: line-through;
+            cursor: pointer;
+            color: #a9a9a9;
+        }
+
+        @media (min-width: 768px) {
+            #endborder {
+                border-right-style: inset;
+                border-color: #f5f5f5;
+                border-width: 1px;
+            }
+        }
+
+        .dottedBox {
+            border-style: dotted;
+            border-color: silver;
+            border-width: 2px;
+        }
+
+        .navbar2 {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            background-color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 0px;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+                 <a class="navbar-brand text-light" href="{% url 'index' %}">
+            <img src="https://i.postimg.cc/sxXLWRys/logo-plativ2.png" alt="" width="30" height='auto'>
+            Platinum Academy SAT
+        </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Beta Mode</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container my-0 p-0">
+
+    </div>
+
+    <div class="container ">
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <div class="container">
+
+            <br>
+            <h3 class=" float-start"> <span> Student Analysis</span>
+            </h3>
+            <h5 class="  float-end">
+
+
+
+                <a class=" " href="/index.html" style="text-decoration:none;">
+                    Last: 2023-02-02</a>
+
+
+            </h5><br><br>
+
+            <hr class="bg-danger">
+
+        </div>
+
+
+
+        <div class="container text-center py-1 mb-2">
+            <div class="row">
+                <div class="col ">
+
+                    <h5>Reading:<span class="text-primary"> 360 </span></h5>
+                    <h6>Highest: 360</h6>
+                </div>
+                <div class="col ">
+
+                    <h5>Writing:<span class="text-primary"> 370 </span></h5>
+                    <h6>Highest: 370</h6>
+                </div>
+                <div class="col ">
+
+                    <h5>Verbal:<span class="text-primary"> 730 </span></h5>
+                    <h6>SuperScore: 730</h6>
+                </div>
+                <div class="col ">
+                    <a href="/scoreraw">
+                        <h5>Percentile:<span class="text-primary"> 97%</span></h5>
+                    </a>
+                    <h6>45,273/1,509,133*</h6>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="col">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+            <hr class="bg-danger">
+        </div>
+
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-sm">
+                    Reading
+                    <table class="table  table-borderless  table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-3">Passage</th>
+
+
+                                <th class="col-8"></th>
+                                <th class="col-1">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+
+                                <td>Literature</td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Social Science</td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 81%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>81%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Natural Science</td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 81%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>81%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td>History</td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <hr class="bg-info">
+                    <table class="table  table-borderless text-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-3">Q-Types</th>
+
+
+                                <th class="col-8"></th>
+                                <th class="col-1">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Words in Context" data-bs-content="<p>Words in context questions will ask you to define a word as used in the context of a passage. Rather than knowing a wide-range of difficult vocabulary words, these questions require understanding the nuance of common words.<br>For example:</p>
+
+<p>As used in line 67, &quot;cover&quot; most nearly means</p>
+
+<p>Which choice best expresses the different meanings of &quot;strong&quot; as it is used in line 50 and line 65,</p>"
+                                    style="cursor: pointer;"> Words in Context </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 77%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>77%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Little Picture (Minor Detail)"
+                                    data-bs-content="<p>Little picture/detail questions will ask about a specific small detail in a passage. These questions might ask you to find, summarize, or explain a particular detail in the passage.  Some questions will not give specific lines or places to look.  <br>For example: </p>
+
+<p>The narrator indicates that he experienced guilt during a family breakfast because he had<br>According to the passage, Paul shows pride in his father partly by</p>
+
+<p>Some questions will give you a word or a phrase in a specific line and ask what it is referring to.  <br>For example:</p>
+
+<p>The phrase “horrible immensities” (line 54) primarily indicates</p>
+
+<p>Based on the passage, what sentence other than &quot;The girl pushes the boy&quot; (line 41) would most likely have been used in the study?</p>
+
+<p>In the sixth paragraph (lines 49-71), the narrator suggests that Virginia recognizes a need to change her attitude toward the cello from one of</p>" style="cursor: pointer;">
+                                    Little Picture (Minor Detail) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 91%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>91%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Evidence Support"
+                                    data-bs-content="<p>Evidence Support questions are basically cite evidence questions.  One type, the paired type, will usually follow after little detail or inference questions and ask you to cite evidence to support your answer to the previous question.<br>For example:</p>
+
+<p>Which choice provides the best evidence for the answer to the previous question?</p>
+
+<p>The other type will pose an idea and ask you to find supporting evidence for it.</p>
+
+<p>Which choice best supports the idea that Anna&#x27;s ability to speak Cantonese does not help her communicate with the people she meets in China?</p>"
+                                    style="cursor: pointer;"> Evidence Support </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>90%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Function/Purpose" data-bs-content="<p>Function questions ask what a word, phrase, sentence, or paragraph does in the context of the passage.  The question will either ask you to figure out what the purpose of a particular text, or ask you to explain the effect a particular text has on the passage.<br>For example:</p>
+
+<p>        	In the last paragraph, the &#x27;injection&quot; metaphor primarily serves to</p>
+
+<p>        	What is the main effect of the phrase &quot;plain old binoculars&quot; (line 52)?</p>"
+                                    style="cursor: pointer;"> Function/Purpose </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Big Picture" data-bs-content="<p>Big Picture questions test your reading comprehension skills across the text’s entirety, so you will need to understand the majority of the passage to answer the big picture questions. <br>The first type of Big Picture question focuses on the central issue or the main scene of the passage and may look something like this:</p>
+
+<p>A central idea in the passage is that successful sectors of the modern economy</p>
+
+<p>Over the course of the passage, the main focus shifts from a discussion of a</p>
+
+<p>Which choice best describes what happens in the passage?</p>
+
+<p>Which choice best states the central claim of the passage?</p>
+
+<p>The second type deals with the author’s point of view.  These questions will ask you to display an understanding of the author’s point of view, perspective, or how his attitude and thoughts affect the whole passage. <br>For example:</p>
+
+<p>Lutuli&#x27;s point of view in the passage as a whole can best be described as that of a</p>
+
+<p>In the passage, the author most directly characterizes himself and his research team as</p>
+
+<p>Based on the passage, which statement best describes the author&#x27;s attitude toward Chyi&#x27;s research?<br>Which choice best expresses the perspective of the author of Passage 1 regarding the discovery of RNA ribozymes?</p>
+
+<p>The third type of question asks about rhetorical strategies or writing style.  These questions ask how something happens/happened in the passage(s) rather than asking why something happens. Also, these questions often deal with how two paired passages interact. <br>For example:</p>
+
+<p>Which best describes the overall relationship between Passage 1 and Passage 2?</p>
+
+<p>Which choice identifies a central tension between the two passages?</p>
+
+<p>Which choice best describes the relationship between the two passages?</p>
+
+<p>Which statement best describes the structure of the passage?</p>
+
+<p>Which choice states a main difference in the approaches of the two passages</p>" style="cursor: pointer;"> Big
+                                    Picture </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Inference/Implied"
+                                    data-bs-content="<p>Inference questions will ask you to make a logical assumption based on details in the passage.  Deduction questions are very similar to detail questions, except that you must make a logical deduction, rather than relying only on information in the passage.  <br>For example:</p>
+
+<p>The passage most strongly suggests that the effects of high levels of lactate in the body<br>        	<br>The narrator implies that Bim differs from her siblings in that she</p>
+
+<p>It can reasonably be inferred from the passage that the majority of the &quot;business professionals&quot; in line 16 believed that</p>" style="cursor: pointer;">
+                                    Inference/Implied </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>66%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Data Reasoning (Graph and Charts)" data-bs-content="<p>Data Reasoning questions will ask you to interpret data in figures (charts, graphs, tables, and maps) and place it in the context of the overall passage.  One type of question tests you on whether you can read the information that’s presented and understand it. <br>For example: </p>
+
+<p>According to the graph, the greatest number of artifacts per liter of soil was found at approximately how many meters below the surface?</p>
+
+<p>Another type will ask you to draw a conclusion or support a statement based on the data.</p>
+
+<p>Which statement is best supported by the data in figure 1?</p>
+
+<p>The data shown in figure 2 are consistent with which inference about the Aleutian Islands&#x27; great whales?</p>
+
+<p>The last type requires you to understand the data and the passage.  In essence, you have to decide if the information in figures supports information in the passage and vice versa.</p>
+
+<p>The data presented in figure 1 best support which statement about the mean June yield of sweet vema-grass in the plots Snaydon studied?</p>
+
+<p>The data in figure 1 illustrate a specific instance of the generalization made in which lines of the passage?</p>"
+                                    style="cursor: pointer;"> Data Reasoning (Graph and Charts) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>80%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="External Context" data-bs-content="<p>External Context questions will ask you to make a comparison between a condition or relationship described in the passage and a condition or relationship that is not mentioned in the passage. Basically, you have to detect the underlying similarity between something in the passage and a separate situation that is external.<br>For example:</p>
+
+<p>Based on the passage, which situation is most similar to that described in lines 10-13 (&quot;Much ... environment&quot;)?</p>
+
+<p>Which of the following, if true, would cast doubt on the hypothesis of predator satiation?</p>
+
+<p>A researcher suggests that brass, which is created by blending copper with zinc, should be used in parts for nuclear reactors since it is harder than copper. Based on the passage, which question would need to be answered to determine whether the researcher&#x27;s suggestion is viable</p>
+
+<p>The author of this passage would most likely agree with which of the following statements?</p>"
+                                    style="cursor: pointer;"> External Context </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    Writing
+                    <table class="table  table-borderless text-dark table-hover">
+                        <thead>
+                            <tr>
+
+                                <th class="col-4">Q-Types</th>
+                                <th class="col-7"></th>
+                                <th class="col-1">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Standard English Conventions (Grammar)"
+                                    data-bs-content="<p>Standard English Conventions (Grammar) questions will ask you to fix errors in sentences and clauses. You might edit, but not exclusively, for errors in verb form, subject-verb agreement, number agreement, pronoun use, parallel construction, commas, dashes, colon, semi-colon, parentheses, or apostrophes.</p>"
+                                    style="cursor: pointer;"> Standard English Conventions (Grammar) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 84%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>84%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Structure"
+                                    data-bs-content="<p>Structural — The Structural question type asks you to improve the way a passage sets up or presents its main idea, information, paragraph, or conclusion.  <br>For example:</p>
+
+<p>	Which choice most effectively sets up the main claim of the passage?</p>
+
+<p>	Which choice most effectively sets up the information that follows?</p>
+
+<p>	Which choice most effectively introduces the paragraph?</p>
+
+<p>The writer wants to conclude the paragraph effectively while also reinforcing the point that skepticism toward driverless cars exists. Which choice best accomplishes this goal?</p>"
+                                    style="cursor: pointer;"> Structure </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Development (Proposition)"
+                                    data-bs-content="<p>Development — These questions come in two types (Proposition and Support) and these will ask you to focus on revising text in relation to rhetorical purpose.  The Proposition type, specifically, asks you to alter, add, or delete a section of a passage and give a reason for the change.  <br>For example:</p>
+
+<p>At this point, the writer is considering adding the following sentence.  The work features a painter turned away from her self-portrait in progress.  Should the writer make this addition here? </p>
+
+<p>The writer is considering revising the underlined portion to the following. respect, yielding nutrient-rich foods that would otherwise be difficult for residents to obtain.  Should the writer make this revision? </p>
+
+<p>The writer is considering deleting the underlined portion, adjusting the punctuation as needed.  Should the underlined portion be kept or deleted?</p>"
+                                    style="cursor: pointer;"> Development (Proposition) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover"
+                                    title="Effective Language Use (Precision, Word Choice, Diction, Idioms)"
+                                    data-bs-content="<p>Effective Language Use— These question types ask you to think about how words or structural changes improve the author’s point and help their sentences and paragraphs work together.  These questions will ask you to revise text as needed to improve the exactness or content appropriateness of word choice.  </p>
+
+<p>Precision questions, which include Preciseness, Word Choice, Diction, and Idioms, will ask you to change a word or phrase to better focus the author’s point or intent.</p>"
+                                    style="cursor: pointer;"> Effective Language Use (Precision, Word Choice, Diction,
+                                    Idioms) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Organization (Transitions)"
+                                    data-bs-content="<p>The Transition question type will ask you to revise text as needed to improve the beginning or ending of a text or paragraph to ensure that transition words, phrases, or sentences are used effectively to connect information and ideas.  <br>For example:</p>
+
+<p>Which choice provides the most effective transition between the discussion of the committee&#x27;s investigation and the next event in the narrative? </p>
+
+<p>Which choice provides the most effective transition from the previous sentence to the information that follows in the paragraph?</p>" style="cursor: pointer;"> Organization
+                                    (Transitions) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Effective Language Use (Concision Redundancy)"
+                                    data-bs-content="<p>Concision Redundancy questions will ask you to revise text as needed to eliminate wordiness and redundancy.</p>"
+                                    style="cursor: pointer;"> Effective Language Use (Concision Redundancy) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Effective Language Use (Syntax)"
+                                    data-bs-content="<p>Syntax questions will ask you to use various sentence structures to accomplish needed rhetorical purposes.</p>"
+                                    style="cursor: pointer;"> Effective Language Use (Syntax) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Organization (Logical Sequence)" data-bs-content="<p>Organization — These questions focus on revision of text to improve the logic and cohesion of text at the sentence, paragraph, and whole-text levels.  The Logical Sequence question type will ask you to revise text as needed to ensure that information and ideas are presented in the most logical order. <br>For example:</p>
+
+<p>The writer wants to add the following sentence to this paragraph.  They began by placing Echinophyllia that expressed a red-fluorescent protein and nonfluorescent Echinophyllia into an aquarium that was exposed to blue light.  The best placement for the sentence is </p>
+
+<p>To make this paragraph most logical, sentence 5 should be placed</p>" style="cursor: pointer;"> Organization
+                                    (Logical Sequence) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Development (Support)" data-bs-content="<p>Development — These questions come in two types (Proposition and Support) and these will ask you to focus on revising text in relation to rhetorical purpose.<br>The Support Question type asks you to add or alter information and ideas (e.g., details, facts, statistics) intended to support claims or points in a text.  <br>For example:</p>
+
+<p>	Which choice best supports the idea in the previous sentence?</p>
+
+<p>Which choice provides the most effective explanation for the action described in the sentence?</p>
+
+<p>Which quotation from a 1912 book by James Weldon Johnson best supports the claim made earlier in the sentence?</p>"
+                                    style="cursor: pointer;"> Development (Support) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Data Interpretation"
+                                    data-bs-content="<p>Data Interpretation questions will ask you to relate information presented quantitatively in such forms as graphs, charts, and tables to information presented in text.</p>"
+                                    style="cursor: pointer;"> Data Interpretation </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-bs-toggle="popover" title="Effective Language Use (Style and Tone)"
+                                    data-bs-content="<p>Style and Tone questions will ask you to revise text as necessary to ensure consistency of style and tone within a text or to improve the match of style and tone to purpose.</p>"
+                                    style="cursor: pointer;"> Effective Language Use (Style and Tone) </td>
+
+                                <td class="align-middle">
+                                    <div class="progress bg-danger" style="height: 3px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr>
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <canvas id="myChart3"></canvas>
+                </div>
+                <div class="col">
+                    <canvas id="myChart4"></canvas>
+                </div>
+            </div>
+
+
+            <hr class="bg-danger">
+
+
+            <div class="container">
+
+                <h6 class="text-dark">Tests Attempted: 3% -- Total: 3</h6>
+
+
+
+
+                <div class="progress bg-secondary mt-2" style="height: 5px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 3%" aria-valuenow="15"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <br>
+
+
+                <div class="row text-center ">
+
+
+                    <div class="col-2 border border-secondary">1999 MAY ASIA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 March Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 March US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 May INT </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 May US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 June NA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 OCT US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 NOV US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 Dec US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 Jan Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 Jan US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 March US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 May ASIA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 May US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 August US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 OCT NA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 Nov NA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 DEC Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 DEC NA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 March US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 May INT </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 May US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 JUNE US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 Oct US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 Nov Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 Nov US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 Dec US </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 1 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 2 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 4 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 5 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 6 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 7 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 8 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 9 </div>
+
+
+
+                    <div class="col-2 border border-secondary">Practice Test 10 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2016 Oct Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 OCT Asia </div>
+
+
+
+                    <div class="col-2 border border-info  text-primary ">2021 APRIL School Day <i
+                            class="bi bi-check-lg text-success"></i> </div>
+
+
+
+
+                    <div class="col-2 border border-secondary">2021 MARCH INT </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 MAY US </div>
+
+
+
+                    <div class="col-2 border border-info  text-primary ">2021 May INT <i
+                            class="bi bi-check-lg text-success"></i> </div>
+
+
+
+
+                    <div class="col-2 border border-secondary">2021 August INT </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 August US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 OCT US (2) </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 DEC ASIA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2021 DEC US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 August Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Sept Int </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 OCT Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Sept NA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 March Asia </div>
+
+
+
+                    <div class="col-2 border border-info  text-primary ">2020 March US <i
+                            class="bi bi-check-lg text-success"></i> </div>
+
+
+
+
+                    <div class="col-2 border border-secondary">2020 OCT Write what you know </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Oct 14 School Day 1 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Dec US 1 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Dec Int </div>
+
+
+
+                    <div class="col-2 border border-secondary">2020 Nov US (1) </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 Mar 29 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 MAR 09 US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 April 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 May US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 MAY INT 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 June US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 Aug US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 OCT Asia 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 OCT US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 Nov US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 DEC US 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 Oct Asia 3 </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 DEC ASIA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2018 OCT ASIA </div>
+
+
+
+                    <div class="col-2 border border-secondary">2019 MAR Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2017 Sept MU </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 March Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 March US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 May Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 APRIL School Day </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 MAY US </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 August Asia </div>
+
+
+
+                    <div class="col-2 border border-secondary">2022 OCT 3 Even No </div>
+
+
+                </div>
+
+
+
+                <hr class="bg-danger">
+
+
+                <li><a class="text-secondary" href="/index.html">id: 529 name: BELLA reftest:2011pm score:360
+                        type:Reading</a> <span>1001, 360</span></li>
+
+
+                <li><a class="text-secondary" href="/index.html">id: 524 name: BELLA reftest:1030pm score:360
+                        type:Reading</a> <span>1001, 360</span></li>
+
+
+                <li><a class="text-secondary" href="/index.html">id: 519 name: BELLA reftest:1020pm score:330
+                        type:Reading</a> <span>1001, 330</span></li>
+
+
+                <li><a class="text-secondary" href="/index.html">id: 514 name: BELLA reftest:1116am score:300
+                        type:Reading</a> <span>1001, 300</span></li>
+
+
+
+
+
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <script>
+            Chart.defaults.color = 'black';
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: ["11-26", "11-26", "11-26", "11-26",],
+                    datasets: [{
+                        label: 'Verbal Score',
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+
+
+                        borderColor: 'rgba(255, 159, 64, 1)',
+
+
+                        data: [580, 640, 730, 730,]
+                    }]
+                },
+
+                // Configuration options go here
+                options: {
+                    scales: {
+                        y: {
+                            suggestedMin: 400,
+                            suggestedMax: 800
+                        },
+
+                    }
+
+
+                }
+            });
+        </script>
+        <script>
+            Chart.defaults.color = 'gray';
+            var ctx = document.getElementById('myChart2');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["11-26", "11-26", "11-26", "11-26",],
+                    datasets: [{
+                        label: 'Reading',
+                        data: [300, 330, 360, 360,],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }, {
+                        label: 'Writing',
+                        data: [280, 310, 370, 370,],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            suggestedMin: 200,
+                            suggestedMax: 400
+                        },
+
+                    }
+                }
+            });
+        </script>
+
+        <script>
+            Chart.defaults.color = 'red';
+            var ctx = document.getElementById('myChart3').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'polarArea',
+
+                // The data for our dataset
+                data: {
+                    labels: ["Words in Context", "Little Picture (Minor Detail)", "Evidence Support", "Function/Purpose", "Big Picture", "Inference/Implied", "Data Reasoning (Graph and Charts)", "External Context",],
+                    datasets: [{
+                        label: 'Question Types',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        data: [77, 91, 90, 100, 100, 66, 80, 100,]
+                    }]
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+        </script>
+
+        <script>
+            Chart.defaults.color = 'red';
+            var ctx = document.getElementById('myChart4').getContext('2d');
+
+
+
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'polarArea',
+
+                // The data for our dataset
+                data: {
+                    labels: ["Literature", "Social Science", "Natural Science", "History",],
+                    datasets: [{
+                        label: 'Passage Types % Correct',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        data: [100, 81, 81, 100,],
+
+                    }]
+                },
+                options: {
+
+
+
+                }
+            });
+
+
+
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script>
+
+
+            $("#graphblink").fadeOut(500).fadeIn(500).fadeOut(500).fadeIn(500)
+
+        </script>
+
+
+
+
+        <br>
+        <br>
+
+
+        <br>
+    </div>
+
+
+
+    <footer class="mt-auto py-1 bg-light text-center">
+        <div class="container">
+            <p class="text-secondary">Managed by <a href="https://www.evolution3w.com"
+                    class="text-secondary">www.evolution3w.com</a> 2022 | <span class="text-secondary m-0 p-0 ">Next
+                    Test </span>| <span class="text-danger m-0 p-0" id="demo"></span></p>
+
+        </div>
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl, { html: true })
+        })
+    </script>
+
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jan 1, 2023 00:00:00").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
+
+
+
+
+</body>
+
+</html>

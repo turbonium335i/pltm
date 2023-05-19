@@ -8,17 +8,19 @@
     <div class="d-flex bd-highlight">
         <div class="p-2 flex-grow-1 bd-highlight">
 
-            <h3 class="text-dark">Student: {{record.studentUsername}} / Test: <span class=" "> {{record.testName}}</span> / Score:
+            <h3 class="text-dark">Student: {{record.studentUsername}} / Test: <span
+                    class=" "> {{record.testName}}</span> / Score:
                 <span class="fw-bold"> {{record.scoreReading|add:record.scoreMath}} </span>
             </h3>
 
 
             <span>Verbal: {{record.scoreReading}} /</span>
             <span>Math: {{record.scoreMath}} /</span>
-   {{record.date_finished}} <br>
+            {{record.date_finished}} <br>
 
             Module 1: <span class="text-danger"> -{{record.numberInCorrectR}}</span> / Module 2:
-            <span class="text-danger"> -{{record.numberInCorrectW}}</span> / Module 3: <span class="text-danger"> -{{record.numberInCorrectM1}}</span> / Module 4:
+            <span class="text-danger"> -{{record.numberInCorrectW}}</span> / Module 3: <span class="text-danger"> -{{record.numberInCorrectM1}}</span>
+            / Module 4:
             <span class="text-danger"> -{{record.numberInCorrectM2}}</span><br>
             <!--            {{record.jsonWrongQtypeR}} / {{record.jsonWrongQtypeW}} <br>-->
 
@@ -62,7 +64,8 @@
                         <td>
                             &#9898;
                         </td>
-                        <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                        <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                            data-bs-content="{{q|linebreaks}}"
                             style="cursor: pointer;">
                             {{t}}
                         </td>
@@ -79,7 +82,8 @@
                         <td>
                             &#10060;
                         </td>
-                        <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                        <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                            data-bs-content="{{q|linebreaks}}"
                             style="cursor: pointer;">
                             {{t}}
                         </td>
@@ -117,7 +121,8 @@
                             <td>
                                 &#9898;
                             </td>
-                            <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                                data-bs-content="{{q|linebreaks}}"
                                 style="cursor: pointer;">
                                 {{t}}
                             </td>
@@ -134,7 +139,8 @@
                             <td>
                                 &#10060;
                             </td>
-                            <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                                data-bs-content="{{q|linebreaks}}"
                                 style="cursor: pointer;">
                                 {{t}}
                             </td>
@@ -149,7 +155,7 @@
         </div>
     </div>
 
-        <div class="container text-center">
+    <div class="container text-center">
         <div class="row">
             <div class="col">
                 <h5 class="text-dark">Module 3</h5>
@@ -178,7 +184,8 @@
                         <td>
                             &#9898;
                         </td>
-                        <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                        <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                            data-bs-content="{{q|linebreaks}}"
                             style="cursor: pointer;">
                             {{t}}
                         </td>
@@ -195,7 +202,8 @@
                         <td>
                             &#10060;
                         </td>
-                        <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                        <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                            data-bs-content="{{q|linebreaks}}"
                             style="cursor: pointer;">
                             {{t}}
                         </td>
@@ -233,7 +241,8 @@
                             <td>
                                 &#9898;
                             </td>
-                            <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                                data-bs-content="{{q|linebreaks}}"
                                 style="cursor: pointer;">
                                 {{t}}
                             </td>
@@ -250,7 +259,8 @@
                             <td>
                                 &#10060;
                             </td>
-                            <td data-bs-toggle="popover"  data-bs-placement="bottom" title="{{t}}" data-bs-content="{{q|linebreaks}}"
+                            <td data-bs-toggle="popover" data-bs-placement="bottom" title="{{t}}"
+                                data-bs-content="{{q|linebreaks}}"
                                 style="cursor: pointer;">
                                 {{t}}
                             </td>
@@ -336,6 +346,7 @@ options: {
 });
 
 
+
 </script>
 
 <script>
@@ -370,6 +381,7 @@ options: {
     }
     }
 });
+
 
 
 </script>
@@ -408,6 +420,7 @@ options: {
 });
 
 
+
 </script>
 
 <script>
@@ -444,8 +457,8 @@ options: {
 });
 
 
-</script>
 
+</script>
 
 
 {% endblock %}
